@@ -1,0 +1,25 @@
+{
+    "name": "novaway/feature-flag-bundle",
+    "description": "Very KISS bundle to manage features flag",
+    "type": "symfony-bundle",
+    "keywords": ["symfony", "feature", "flag"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jérémy DECOOL",
+            "email": "jeremy@novaway.fr"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "~2.3|~3.0",
+        "symfony/yaml": "~2.3|~3.0"
+    },
+    "require-dev": {
+        "atoum/atoum": "^2.8",
+        "atoum/stubs": "^2.5"
+    },
+    "autoload": {
+        "psr-4": {"Novaway\\Bundle\\FeatureFlagBundle\\": ""},
+        "exclude-from-classmap": ["Tests/"]
+    }
+}
