@@ -8,7 +8,7 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
-class TemplateKernel extends Kernel
+class AppKernel extends Kernel
 {
     public function registerBundles()
     {
@@ -16,6 +16,8 @@ class TemplateKernel extends Kernel
             new FrameworkBundle(),
             new TwigBundle(),
             new NovawayFeatureFlagBundle(),
+            new TestBundle\TestBundle(),
+            new \atoum\AtoumBundle\AtoumAtoumBundle(),
         ];
     }
 
@@ -23,13 +25,23 @@ class TemplateKernel extends Kernel
     {
         $loader->load(function ($container) {
             $container->loadFromExtension('framework', [
+                'router' => ['resource' => '%kernel.root_dir%/config/routing.yml'],
                 'secret' => '$ecret',
+                'test'   => true,
             ]);
 
             $container->loadFromExtension('novaway_feature_flag', [
                 'features' => [
                     'foo' => true,
                     'bar' => false,
+                ],
+            ]);
+
+            $container->loadFromExtension('atoum', [
+                'bundles' => [
+                    'TestBundle' => [
+                        'directories' => ['Tests/Functional'],
+                    ],
                 ],
             ]);
         });
@@ -47,6 +59,6 @@ class TemplateKernel extends Kernel
 
     public function getBasePath()
     {
-        return sprintf('%s/%s/TemplateKernel', sys_get_temp_dir(), Kernel::VERSION);
+        return sprintf('%s/%s/AppKernel', sys_get_temp_dir(), Kernel::VERSION);
     }
 }

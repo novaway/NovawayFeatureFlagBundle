@@ -3,14 +3,14 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functionals\Fixtures;
 
 use atoum;
-use Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TemplateKernel as TestedClass;
+use Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\AppKernel as TestedClass;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * @namespace Functionals
  * @engine inline
  */
-class TemplateKernel extends atoum
+class AppKernel extends atoum
 {
     private $kernel;
 

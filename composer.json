@@ -15,7 +15,8 @@
     },
     "require-dev": {
         "atoum/atoum": "^2.8",
-        "atoum/stubs": "^2.5"
+        "atoum/stubs": "^2.5",
+        "atoum/atoum-bundle": "^1.4"
     },
     "autoload": {
         "psr-4": {"Novaway\\Bundle\\FeatureFlagBundle\\": ""},

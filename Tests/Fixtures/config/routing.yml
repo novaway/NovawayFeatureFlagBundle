@@ -1,0 +1,5 @@
+features:
+    path:         /features
+    defaults:     { _controller: TestBundle:Default:features }
+    requirements: { _method': GET }
+
