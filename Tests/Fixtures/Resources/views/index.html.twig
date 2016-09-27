@@ -1,0 +1,15 @@
+{% if isFeatureEnabled('foo') %}
+    Foo is activated
+{% endif %}
+
+{% if isFeatureDisabled('foo') %}
+    Foo is disabled
+{% endif %}
+
+{% if isFeatureEnabled('bar') %}
+    Bar is activated
+{% endif %}
+
+{% if isFeatureDisabled('bar') %}
+    Bar is disabled
+{% endif %}
