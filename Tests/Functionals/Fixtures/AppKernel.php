@@ -37,8 +37,8 @@ class AppKernel extends atoum
             ->if($this->kernel)
             ->then
                 ->string($this->kernel->getContainer()->get('twig')->render('index.html.twig'))
-                    ->contains('Foo is activate')
-                    ->notContains('Bar is activate')
+                    ->contains('Foo is activated')
+                    ->notContains('Bar is activated')
         ;
     }
 
@@ -48,8 +48,8 @@ class AppKernel extends atoum
             ->if($this->kernel)
             ->then
                 ->string($this->kernel->getContainer()->get('twig')->render('index.html.twig'))
-                    ->contains('Bar is disable')
-                    ->notContains('Foo is disable')
+                    ->contains('Bar is disabled')
+                    ->notContains('Foo is disabled')
         ;
     }
 }

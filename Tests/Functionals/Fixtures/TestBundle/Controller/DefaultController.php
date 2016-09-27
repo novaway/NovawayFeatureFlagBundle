@@ -14,9 +14,9 @@ class DefaultController extends WebTestCase
                 ->given($crawler = $client->request('GET', '/features'))
                 ->boolean($client->getResponse()->isSuccessful())
                     ->isTrue()
-                ->integer($crawler->filter('html:contains("Foo feature is enable from controller")')->count())
+                ->integer($crawler->filter('html:contains("Foo feature is enabled from controller")')->count())
                     ->isGreaterThan(0)
-                ->integer($crawler->filter('html:contains("Bar feature is enable from controller")')->count())
+                ->integer($crawler->filter('html:contains("Bar feature is enabled from controller")')->count())
                     ->isEqualTo(0)
         ;
     }
@@ -29,9 +29,9 @@ class DefaultController extends WebTestCase
                ->given($crawler = $client->request('GET', '/features'))
                 ->boolean($client->getResponse()->isSuccessful())
                     ->isTrue()
-                ->integer($crawler->filter('html:contains("Foo feature is disable from controller")')->count())
+                ->integer($crawler->filter('html:contains("Foo feature is disabled from controller")')->count())
                     ->isEqualTo(0)
-                ->integer($crawler->filter('html:contains("Bar feature is disable from controller")')->count())
+                ->integer($crawler->filter('html:contains("Bar feature is disabled from controller")')->count())
                     ->isGreaterThan(0)
         ;
     }
