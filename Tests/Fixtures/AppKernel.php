@@ -25,9 +25,12 @@ class AppKernel extends Kernel
     {
         $loader->load(function ($container) {
             $container->loadFromExtension('framework', [
-                'router' => ['resource' => '%kernel.root_dir%/config/routing.yml'],
-                'secret' => '$ecret',
-                'test'   => true,
+                'router'     => ['resource' => '%kernel.root_dir%/config/routing.yml'],
+                'secret'     => '$ecret',
+                'test'       => true,
+                'templating' => [
+                    'engines' => ['twig'],
+                ],
             ]);
 
             $container->loadFromExtension('novaway_feature_flag', [
