@@ -1,0 +1,14 @@
+checks:
+    php:
+        excluded_dependencies:
+            - atoum/atoum
+            - atoum/atoum-bundle
+            - atoum/stubs
+
+filter:
+    paths:
+        - "*"
+
+    excluded_paths:
+        - "Tests/*"
+        - "vendor/*"
