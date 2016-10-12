@@ -1,5 +1,9 @@
 # FeatureFlagBundle
 
+[![Build Status](https://travis-ci.org/novaway/NovawayFeatureFlagBundle.svg?branch=master)](https://travis-ci.org/novaway/NovawayFeatureFlagBundle?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/novaway/NovawayFeatureFlagBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/novaway/NovawayFeatureFlagBundle/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/novaway/feature-flag-bundle/v/stable.png)](https://packagist.org/packages/novaway/feature-flag-bundle)
+
 The FeatureFlagBundle is a very KISS bundle to manage features flags in your Symfony
 applications.
 
