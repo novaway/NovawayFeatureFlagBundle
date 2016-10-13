@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('storage')->defaultValue('novaway_feature_flag.storage.default')->end()
                 ->arrayNode('features')
                     ->prototype('enum')->values([true, false])->end()
                 ->end()

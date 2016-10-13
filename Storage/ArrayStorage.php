@@ -1,8 +1,8 @@
 <?php
 
-namespace Novaway\Bundle\FeatureFlagBundle\Manager;
+namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
-class FeatureFlagManager
+class ArrayStorage implements StorageInterface
 {
     /** @var array */
     private $features;
@@ -18,10 +18,15 @@ class FeatureFlagManager
     }
 
     /**
-     * Check if feature is enabled
-     *
-     * @param string $feature
-     * @return bool
+     * {@inheritdoc}
+     */
+    public function all()
+    {
+        return $this->features;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function isEnabled($feature)
     {
@@ -33,10 +38,7 @@ class FeatureFlagManager
     }
 
     /**
-     * Check if feature is disabled
-     *
-     * @param string $feature
-     * @return bool
+     * {@inheritdoc}
      */
     public function isDisabled($feature)
     {

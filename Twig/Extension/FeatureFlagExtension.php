@@ -2,21 +2,21 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Twig\Extension;
 
-use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureFlagManager;
+use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 
 class FeatureFlagExtension extends \Twig_Extension
 {
-    /** @var FeatureFlagManager */
-    private $featureFlagManager;
+    /** @var StorageInterface */
+    private $storage;
 
     /**
      * Constructor
      *
-     * @param FeatureFlagManager $flagManager
+     * @param StorageInterface $storage
      */
-    public function __construct(FeatureFlagManager $flagManager)
+    public function __construct(StorageInterface $storage)
     {
-        $this->featureFlagManager = $flagManager;
+        $this->storage = $storage;
     }
 
     /**
@@ -25,8 +25,8 @@ class FeatureFlagExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('isFeatureEnabled', [$this->featureFlagManager, 'isEnabled']),
-            new \Twig_SimpleFunction('isFeatureDisabled', [$this->featureFlagManager, 'isDisabled']),
+            new \Twig_SimpleFunction('isFeatureEnabled', [$this->storage, 'isEnabled']),
+            new \Twig_SimpleFunction('isFeatureDisabled', [$this->storage, 'isDisabled']),
         ];
     }
 
