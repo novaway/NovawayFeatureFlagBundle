@@ -1,6 +1,6 @@
 services:
-    novaway_feature_flag.manager.feature:
-        class: Novaway\Bundle\FeatureFlagBundle\Manager\FeatureFlagManager
+    novaway_feature_flag.storage.default:
+        class: Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage
         arguments:
             - "%novaway_feature_flag.features%"
 

@@ -34,9 +34,15 @@ class FeatureFlagExtension extends atoum
 
     private function createManagerMock()
     {
-        $manager = new \mock\Novaway\Bundle\FeatureFlagBundle\Manager\FeatureFlagManager();
-        $manager->getMockController()->isEnabled = function($feature) {
+        $manager = new \mock\Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface();
+        $manager->getMockController()->all = function ($feature) {
+            return ['foo'];
+        };
+        $manager->getMockController()->isEnabled = function ($feature) {
             return 'foo' === $feature;
+        };
+        $manager->getMockController()->isDisabled = function ($feature) {
+            return 'foo' !== $feature;
         };
 
         return $manager;

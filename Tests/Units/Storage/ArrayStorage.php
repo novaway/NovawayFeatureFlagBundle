@@ -1,10 +1,10 @@
 <?php
 
-namespace Novaway\Bundle\FeatureFlagBundle\Tests\Units\Manager;
+namespace Novaway\Bundle\FeatureFlagBundle\Tests\Units\Storage;
 
 use atoum;
 
-class FeatureFlagManager extends atoum
+class ArrayStorage extends atoum
 {
     public function testIsEnabled()
     {
