@@ -98,6 +98,11 @@ You can also check a flag in your templates:
 {% endif %}
 ```
 
+### Implement your own storage provider
+
+1. First your need to create your storage provider class which implement the `Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface` interface
+2. Declare your storage provider as a service
+
 ## License
 
 This library is published under [MIT license](LICENSE)
