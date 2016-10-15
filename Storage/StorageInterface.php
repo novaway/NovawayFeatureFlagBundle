@@ -2,12 +2,14 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
+use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
+
 interface StorageInterface
 {
     /**
      * Return all features
      *
-     * @return array
+     * @return FeatureInterface[]
      */
     public function all();
 

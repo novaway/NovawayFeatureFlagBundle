@@ -27,10 +27,15 @@
         </tr>
         </thead>
 
-        {% for feature, flag in collector.features %}
+        {% for feature in collector.features %}
             <tr>
-                <th>{{ feature }}</th>
-                <td>{{ flag ? 'On' : 'Off' }}</td>
+                <th>{{ feature.key }}
+                    {% if feature.description is not empty %}
+                        <br>
+                        <span style="font-style: italic">{{ feature.description }}</span>
+                    {% endif %}
+                </th>
+                <td>{{ feature.enabled ? 'On' : 'Off' }}</td>
             </tr>
         {% else %}
             <tr>
