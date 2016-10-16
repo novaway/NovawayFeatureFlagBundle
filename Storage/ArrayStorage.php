@@ -2,19 +2,30 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
+use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
+
 class ArrayStorage implements StorageInterface
 {
-    /** @var array */
+    /** @var FeatureInterface[] */
     private $features;
 
     /**
      * Constructor
      *
-     * @param array $features
+     * @param FeatureInterface[] $features
      */
     public function __construct(array $features = [])
     {
-        $this->features = $features;
+        $this->features = [];
+        foreach ($features as $key => $feature) {
+            $obj = new Feature($key, $feature['enabled']);
+            if (isset($feature['description'])) {
+                $obj->setDescription($feature['description']);
+            }
+
+            $this->features[$key] = $obj;
+        }
     }
 
     /**
@@ -34,7 +45,7 @@ class ArrayStorage implements StorageInterface
             return false;
         }
 
-        return (bool) $this->features[$feature];
+        return $this->features[$feature]->isEnabled();
     }
 
     /**

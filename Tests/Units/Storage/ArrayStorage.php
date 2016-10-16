@@ -13,7 +13,10 @@ class ArrayStorage extends atoum
             ->then
                 ->boolean($this->testedInstance->isEnabled('foo'))->isFalse()
 
-            ->if($this->newTestedInstance(['foo' => false, 'bar' => true]))
+            ->if($this->newTestedInstance([
+                'foo' => ['enabled' => false],
+                'bar' => ['enabled' => true, 'description' => 'Feature bar description'],
+            ]))
             ->then
                 ->boolean($this->testedInstance->isEnabled('foo'))->isFalse()
                 ->boolean($this->testedInstance->isEnabled('bar'))->isTrue()
@@ -28,7 +31,10 @@ class ArrayStorage extends atoum
             ->then
                 ->boolean($this->testedInstance->isDisabled('foo'))->isTrue()
 
-            ->if($this->newTestedInstance(['foo' => false, 'bar' => true]))
+            ->if($this->newTestedInstance([
+                'foo' => ['enabled' => false],
+                'bar' => ['enabled' => true, 'description' => 'Feature bar description'],
+            ]))
             ->then
                 ->boolean($this->testedInstance->isDisabled('foo'))->isTrue()
                 ->boolean($this->testedInstance->isDisabled('bar'))->isFalse()
