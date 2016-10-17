@@ -36,7 +36,10 @@ class AppKernel extends Kernel
             $container->loadFromExtension('novaway_feature_flag', [
                 'features' => [
                     'foo' => true,
-                    'bar' => false,
+                    'bar' => [
+                        'enabled' => false,
+                        'description' => 'Bar feature description',
+                    ],
                 ],
             ]);
 
