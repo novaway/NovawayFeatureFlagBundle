@@ -19,3 +19,11 @@ request_configuration_disabled:
             -
                 feature: foo
                 enabled: false
+
+annotation_configuration_enabled:
+    path:     /annotation/enabled
+    defaults: { _controller: TestBundle:Default:annotationFooEnabled }
+
+annotation_configuration_disabled:
+    path:     /annotation/disabled
+    defaults: { _controller: TestBundle:Default:annotationFooDisabled }

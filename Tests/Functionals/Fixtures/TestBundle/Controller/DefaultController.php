@@ -63,6 +63,32 @@ class DefaultController extends WebTestCase
                     ->isEqualTo(404)
         ;
     }
+
+    public function testAnnotationFooEnabledAction()
+    {
+        $this
+            ->if($client = $this->createClient())
+            ->then
+                ->given($crawler = $client->request('GET', '/annotation/enabled'))
                 ->boolean($client->getResponse()->isSuccessful())
                     ->isTrue()
+                ->integer($crawler->filter('html:contains("DefaultController::annotationFooEnabledAction")')->count())
+                    ->isGreaterThan(0)
+                ->integer($client->getResponse()->getStatusCode())
+                    ->isEqualTo(200)
+        ;
+    }
+
+    public function testAnnotationFooDisabledAction()
+    {
+        $this
+            ->if($client = $this->createClient())
+            ->then
+                ->given($crawler = $client->request('GET', '/annotation/disabled'))
+                ->boolean($client->getResponse()->isSuccessful())
+                    ->isFalse()
+                ->integer($client->getResponse()->getStatusCode())
+                    ->isEqualTo(404)
+        ;
+    }
 }
