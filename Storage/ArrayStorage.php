@@ -5,7 +5,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
 
-class ArrayStorage implements StorageInterface
+class ArrayStorage extends AbstractStorage
 {
     /** @var FeatureInterface[] */
     private $features;
@@ -39,20 +39,12 @@ class ArrayStorage implements StorageInterface
     /**
      * {@inheritdoc}
      */
-    public function isEnabled($feature)
+    public function check($feature)
     {
         if (!isset($this->features[$feature])) {
             return false;
         }
 
         return $this->features[$feature]->isEnabled();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isDisabled($feature)
-    {
-        return false === $this->isEnabled($feature);
     }
 }

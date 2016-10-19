@@ -27,6 +27,24 @@ class ArrayStorage extends atoum
         ;
     }
 
+    public function testCheck()
+    {
+        $this
+            ->if($this->newTestedInstance())
+            ->then
+                ->boolean($this->testedInstance->check('foo'))->isFalse()
+
+            ->if($this->newTestedInstance([
+                'foo' => ['enabled' => false],
+                'bar' => ['enabled' => true, 'description' => 'Feature bar description'],
+            ]))
+            ->then
+                ->boolean($this->testedInstance->check('foo'))->isFalse()
+                ->boolean($this->testedInstance->check('bar'))->isTrue()
+                ->boolean($this->testedInstance->check('unknow'))->isFalse()
+        ;
+    }
+
     public function testIsEnabled()
     {
         $this
