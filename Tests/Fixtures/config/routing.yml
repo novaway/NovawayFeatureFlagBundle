@@ -1,5 +1,21 @@
 features:
     path:         /features
     defaults:     { _controller: TestBundle:Default:features }
-    requirements: { _method': GET }
 
+request_configuration_enabled:
+    path: /request/enabled
+    defaults:
+        _controller: TestBundle:Default:requestFooEnabled
+        _features:
+            -
+                feature: foo
+                enabled: true
+
+request_configuration_disabled:
+    path: /request/disabled
+    defaults:
+        _controller: TestBundle:Default:requestFooDisabled
+        _features:
+            -
+                feature: foo
+                enabled: false
