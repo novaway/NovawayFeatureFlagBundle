@@ -98,6 +98,61 @@ You can also check a flag in your templates:
 {% endif %}
 ```
 
+#### In the routing configuration
+
+The package allow you to restrict a controller access by adding some configuration in your routing definition.
+
+```yaml
+# app/config/routing.yml
+my_first_route:
+    path: /my/first/route
+    defaults:
+        _controller: AppBundle:Default:index
+        _features:
+            - { feature: my_feature_key, enabled: false } # The action is accessible if "my_feature_key" is disabled
+            
+my_second_route:
+    path: /my/second-route
+    defaults:
+        _controller: AppBundle:Default:second
+        _features:
+            - { feature: foo } # The action is accessible if "foo" is enabled ...
+            - { feature: bar, enabled: true } # ... and "bar" feature is also enabled
+```
+
+#### As a controller annotation
+
+You can also restrict a controller access with annotations :
+
+```php
+class MyController extends Controller
+{
+    /**
+     * @Feature("foo")
+     */
+    public function annotationFooEnabledAction()
+    {
+        return new Response('MyController::annotationFooEnabledAction');
+    }
+    
+    /**
+     * @Feature("foo", enabled=true)
+     */
+    public function annotationFooEnabledBisAction()
+    {
+        return new Response('MyController::annotationFooEnabledAction');
+    }
+
+    /**
+     * @Feature("foo", enabled=false)
+     */
+    public function annotationFooDisabledAction()
+    {
+        return new Response('MyController::annotationFooDisabledAction');
+    }
+}
+```
+
 ### Implement your own storage provider
 
 1. First your need to create your storage provider class which implement the `Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface` interface
