@@ -26,13 +26,69 @@ class DefaultController extends WebTestCase
         $this
             ->if($client = $this->createClient())
             ->then
-               ->given($crawler = $client->request('GET', '/features'))
+                ->given($crawler = $client->request('GET', '/features'))
                 ->boolean($client->getResponse()->isSuccessful())
                     ->isTrue()
                 ->integer($crawler->filter('html:contains("Foo feature is disabled from controller")')->count())
                     ->isEqualTo(0)
                 ->integer($crawler->filter('html:contains("Bar feature is disabled from controller")')->count())
                     ->isGreaterThan(0)
+        ;
+    }
+
+    public function testRequestFooEnabled()
+    {
+        $this
+            ->if($client = $this->createClient())
+            ->then
+                ->given($crawler = $client->request('GET', '/request/enabled'))
+                ->boolean($client->getResponse()->isSuccessful())
+                    ->isTrue()
+                ->integer($crawler->filter('html:contains("DefaultController::requestFooEnabledAction")')->count())
+                    ->isGreaterThan(0)
+                ->integer($client->getResponse()->getStatusCode())
+                    ->isEqualTo(200)
+        ;
+    }
+
+    public function testRequestFooDisabled()
+    {
+        $this
+            ->if($client = $this->createClient())
+            ->then
+                ->given($crawler = $client->request('GET', '/request/disabled'))
+                ->boolean($client->getResponse()->isSuccessful())
+                    ->isFalse()
+                ->integer($client->getResponse()->getStatusCode())
+                    ->isEqualTo(404)
+        ;
+    }
+
+    public function testAnnotationFooEnabledAction()
+    {
+        $this
+            ->if($client = $this->createClient())
+            ->then
+                ->given($crawler = $client->request('GET', '/annotation/enabled'))
+                ->boolean($client->getResponse()->isSuccessful())
+                    ->isTrue()
+                ->integer($crawler->filter('html:contains("DefaultController::annotationFooEnabledAction")')->count())
+                    ->isGreaterThan(0)
+                ->integer($client->getResponse()->getStatusCode())
+                    ->isEqualTo(200)
+        ;
+    }
+
+    public function testAnnotationFooDisabledAction()
+    {
+        $this
+            ->if($client = $this->createClient())
+            ->then
+                ->given($crawler = $client->request('GET', '/annotation/disabled'))
+                ->boolean($client->getResponse()->isSuccessful())
+                    ->isFalse()
+                ->integer($client->getResponse()->getStatusCode())
+                    ->isEqualTo(404)
         ;
     }
 }

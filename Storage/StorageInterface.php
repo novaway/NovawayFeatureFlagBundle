@@ -14,6 +14,14 @@ interface StorageInterface
     public function all();
 
     /**
+     * Check if feature is enabled or not
+     *
+     * @param string $feature
+     * @return bool
+     */
+    public function check($feature);
+
+    /**
      * Check if feature is enabled
      *
      * @param string $feature

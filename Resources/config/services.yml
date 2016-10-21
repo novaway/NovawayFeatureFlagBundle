@@ -1,4 +1,18 @@
 services:
+    novaway_feature_flag.listener.controller:
+        class: Novaway\Bundle\FeatureFlagBundle\EventListener\ControllerListener
+        arguments:
+            - "@annotation_reader"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    novaway_feature_flag.listener.feature:
+        class: Novaway\Bundle\FeatureFlagBundle\EventListener\FeatureListener
+        arguments:
+            - "@novaway_feature_flag.manager.feature"
+        tags:
+            - { name: kernel.event_subscriber }
+
     novaway_feature_flag.storage.default:
         class: Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage
         arguments:

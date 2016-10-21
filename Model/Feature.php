@@ -18,11 +18,13 @@ class Feature implements FeatureInterface
      *
      * @param string $key
      * @param bool   $enabled
+     * @param string $description
      */
-    public function __construct($key, $enabled)
+    public function __construct($key, $enabled, $description = null)
     {
         $this->key = $key;
         $this->enabled = (bool) $enabled;
+        $this->description = $description;
     }
 
     /**
