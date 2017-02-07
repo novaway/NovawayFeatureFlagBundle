@@ -1,10 +1,12 @@
 language: php
 
 php:
+    - 7.1
     - 7.0
     - 5.6
     - 5.5
     - 5.4
+    - nightly
 
 matrix:
     fast_finish: true
@@ -20,14 +22,15 @@ matrix:
         - php: 5.6
           env: SYMFONY_VERSION=3.1.*
         - php: 5.6
-          env: SYMFONY_VERSION=3.2.*@dev
+          env: SYMFONY_VERSION=3.2.*
     allow_failures:
-        - env: SYMFONY_VERSION=3.2.*@dev
+        - php: nightly
 
 before_install:
     - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     - composer self-update
     - if [ "$SYMFONY_VERSION" != "" ]; then composer require "symfony/symfony:${SYMFONY_VERSION}" --no-update; fi;
+    - if [ "$TRAVIS_PHP_VERSION" == "7.1" ]; then composer require "atoum/atoum-bundle:dev-master" --no-update; fi;
 
 install: composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
 
