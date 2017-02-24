@@ -16,7 +16,7 @@
         "twig/twig": "^1.12|^2.0"
     },
     "require-dev": {
-        "atoum/atoum": "^2.8|^3.0@dev",
+        "atoum/atoum": "^2.8|^3.0",
         "atoum/stubs": "^2.5",
         "atoum/atoum-bundle": "^1.4"
     },
