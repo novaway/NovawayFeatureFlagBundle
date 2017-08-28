@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('storage')->defaultValue('novaway_feature_flag.storage.default')->end()
                 ->arrayNode('features')
+                    ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->beforeNormalization()
                             ->ifTrue(function($v) { return !is_array($v); })

@@ -2,6 +2,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures;
 
+use atoum\AtoumBundle\AtoumAtoumBundle;
 use Novaway\Bundle\FeatureFlagBundle\NovawayFeatureFlagBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -17,7 +18,7 @@ class AppKernel extends Kernel
             new TwigBundle(),
             new NovawayFeatureFlagBundle(),
             new TestBundle\TestBundle(),
-            new \atoum\AtoumBundle\AtoumAtoumBundle(),
+            new AtoumAtoumBundle(),
         ];
     }
 
@@ -35,11 +36,19 @@ class AppKernel extends Kernel
 
             $container->loadFromExtension('novaway_feature_flag', [
                 'features' => [
+                    'override' => true,
                     'foo' => true,
                     'bar' => [
                         'enabled' => false,
                         'description' => 'Bar feature description',
                     ],
+                ],
+            ]);
+
+            // override some previous features
+            $container->loadFromExtension('novaway_feature_flag', [
+                'features' => [
+                    'override' => false,
                 ],
             ]);
 
