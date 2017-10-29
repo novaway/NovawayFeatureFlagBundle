@@ -49,4 +49,12 @@ class FeatureCollector extends DataCollector
     {
         return 'novaway_feature_flag.feature_collector';
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reset()
+    {
+        $this->data = [];
+    }
 }
