@@ -12,13 +12,19 @@
     ],
     "require": {
         "php": ">=5.6",
-        "symfony/symfony": "~2.3|~3.0|~4.0",
+        "doctrine/annotations": "^1.3",
+        "symfony/framework-bundle": "~2.3|~3.0|~4.0",
+        "symfony/yaml": "~2.3|~3.0|~4.0",
         "twig/twig": "^1.12|^2.0"
     },
     "require-dev": {
         "atoum/atoum": "^2.8|^3.0",
+        "atoum/atoum-bundle": "^1.4",
         "atoum/stubs": "^2.5",
-        "atoum/atoum-bundle": "^1.4"
+        "symfony/asset": "~2.3|~3.0|~4.0",
+        "symfony/browser-kit": "~2.3|~3.0|~4.0",
+        "symfony/templating": "~2.3|~3.0|~4.0",
+        "symfony/twig-bundle": "~2.3|~3.0|~4.0"
     },
     "autoload": {
         "psr-4": {"Novaway\\Bundle\\FeatureFlagBundle\\": ""},
