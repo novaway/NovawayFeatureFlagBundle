@@ -25,7 +25,10 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(function ($container) {
+            $container->register('logger', \Psr\Log\NullLogger::class);
+
             $container->loadFromExtension('framework', [
+                'assets'     => [],
                 'router'     => ['resource' => '%kernel.root_dir%/config/routing.yml'],
                 'secret'     => '$ecret',
                 'test'       => true,
