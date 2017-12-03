@@ -21,15 +21,11 @@ Symfony 2.3+.
 
 Install extension using [composer](https://getcomposer.org):
 
-```json
-{
-    "require": {
-        "novaway/feature-flag-bundle": "dev-master"
-    }
-}
+```bash
+composer require novaway/feature-flag-bundle
 ```
 
-Enable the bundle in your application `AppKernel`:
+If you don't use Flex, enable the bundle in your application `AppKernel`:
 
 ```php
 <?php
