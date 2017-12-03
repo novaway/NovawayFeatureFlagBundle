@@ -1,0 +1,8 @@
+services:
+    novaway_feature_flag.twig.feature_extension:
+        class: Novaway\Bundle\FeatureFlagBundle\Twig\Extension\FeatureFlagExtension
+        public: false
+        arguments:
+            - "@novaway_feature_flag.manager.feature"
+        tags:
+            - { name: twig.extension }
