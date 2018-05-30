@@ -12,7 +12,7 @@ please considerer using an another solution like [Qandidate\Toggle](https://gith
 
 ## Compatibility
 
-This bundle is tested with Symfony 2.7+, but it should be compatible with
+This bundle is tested with all maintained Symfony version, but it should be compatible with
 Symfony 2.3+.
 
 ## Documentation
