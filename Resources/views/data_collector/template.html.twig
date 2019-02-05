@@ -5,6 +5,17 @@
         <span>
             <span class="icon"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA4ZJREFUeNrEV71O3EAQnrXX5+PugCPU+UG5PAFQUQASpxRpInoi3oE09Ei0FEkegNSHUKQU0J8Ez0AV0kRJpCAlkEDs3cyMvcbnW69PJIGV5s7en5lvv5mdHQutNdxlk/QjhJDb29v7SqlncRz/V4O+74Pnee83Nzef42sEKQPjW1tb+rYa2SKbGQPY6rh7fvhw+pFRUouxT6f9N23C88BHYX3I7sMH9yG1VUf5bgAIswDpgV6vR26B1dVViP4SABnf29tjpklfHluegazRxKl2m0dNgN40UGkTrG9yEnSJniEAURTB4tISLybKVIEB6iexNTKQN2KeF5eX+Zl0VwIgg2U79n0PpAw4RoogaA0BjqLf+H8NmvrMyRqJgTK2yaDvB7C7+xb6/b51zsLCAqytraHBK6sxm25pIdIBQMDR0THs7OwwncYIjUkpYWPjJayvvwAix87iSAxoh39xAbrB+DMPgNySjA3Hgku3vN7hKAA0eL7ko0piAtS805iZ5wKQDx9ZOJZOAGRQSo93mw9EMs4MSC8LYjcD4qYu0JhYyLhEiQoAJI+NwkBpDKjUz3YAiUjpQxD4mKZllqYp3VIfjZl5Nj3UpwoD0pVIrAxgtH/5/AkuL+mopQCEB2FY47EqBrQTgNLVMYCRHtTGcCf+AICgVuOxqhggG04GyvJA0q852MabLagFlwOnIKyF6S2qczKso5QBkzzcDGj2d6M5hnQPHsMwDHlMqWoXlB7D2AlAsVCkt8ZbIAOJbkgBoAvq9Xp6ClQqdgAx9wtXDNgdoJTgsSAIkP5Eio3GONKVKL0LKmIgdtz9ya7CMIDe/juIh1Kx5LGEZuVwQVx1DJNgMcVE8aqm6/ji/GLQzzjXE1d4CgLrKTC6zD1RDiCNXAoqWkTK8gUJPd+bnoazs2/WeuBxp8N3fx6AuSeSekFlNuyZME52fnh4yO/dbnegLKMbsNt9CicnJ6y0yE6n8wSNRENV1MHBAf+vrHTZRmUeaE9MDF5ZOSMEotFoWAHYjFNrY00Iqe7KPEAUzs7PZ/VhcQG9NxpNBCAKAHRGf3H+7NxcVp6V5gHPS67YmZlHiZIEUWl1VJasShawLlO4kK1hAEL8ePP6VYsprCrDhSNbu+t0dt3F+XnfzBYJJaKNzzMoUw71/6pRbf4V5ZS+jAwASmtNlNotfBDTzn+h/Mx/nN5Z+yPAAGjHE4/qsmCSAAAAAElFTkSuQmCC" alt="FeatureFlag" width="24" height="28" /></span>
         </span>
+        <span class="sf-toolbar-value">{{ collector.activeFeatureCount }}</span>
+        <span class="sf-toolbar-label">/ {{ collector.featureCount }}</span>
+    {% endset %}
+
+    {% set text %}
+        {% for feature in collector.features %}
+        <div class="sf-toolbar-info-piece">
+            <b>{{ feature.key }}</b>
+            <span class="sf-toolbar-status">{{ feature.enabled ? '✅' : '❌' }}</span>
+        </div>
+        {% endfor %}
     {% endset %}
 
     {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with { 'link': true } %}
