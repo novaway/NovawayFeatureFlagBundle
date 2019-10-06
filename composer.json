@@ -18,7 +18,6 @@
     },
     "require-dev": {
         "atoum/atoum": "^2.8|^3.0",
-        "atoum/atoum-bundle": "^1.4",
         "atoum/stubs": "^2.5",
         "symfony/asset": "~3.0|~4.0",
         "symfony/browser-kit": "~2.7|~3.0|~4.0",
