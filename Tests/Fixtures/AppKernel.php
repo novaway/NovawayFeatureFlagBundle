@@ -18,7 +18,6 @@ class AppKernel extends Kernel
             new TwigBundle(),
             new NovawayFeatureFlagBundle(),
             new TestBundle\TestBundle(),
-            new AtoumAtoumBundle(),
         ];
     }
 
@@ -52,14 +51,6 @@ class AppKernel extends Kernel
             $container->loadFromExtension('novaway_feature_flag', [
                 'features' => [
                     'override' => false,
-                ],
-            ]);
-
-            $container->loadFromExtension('atoum', [
-                'bundles' => [
-                    'TestBundle' => [
-                        'directories' => ['Tests/Functional'],
-                    ],
                 ],
             ]);
         });
