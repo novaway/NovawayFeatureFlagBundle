@@ -17,8 +17,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('novaway_feature_flag');
+        $treeBuilder = new TreeBuilder('novaway_feature_flag');
+        $rootNode = $treeBuilder->getRootNode($treeBuilder, 'novaway_feature_flag');
 
         $rootNode
             ->children()
