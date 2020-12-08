@@ -12,14 +12,23 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    const ROOT_NODE = 'novaway_feature_flag';
+
     /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('novaway_feature_flag');
-        $rootNode = $treeBuilder->getRootNode($treeBuilder, 'novaway_feature_flag');
+        $treeBuilder = new TreeBuilder(static::ROOT_NODE);
 
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            // Symfony 4.2 +
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // Symfony 4.1 and below
+            $rootNode = $treeBuilder->root(static::ROOT_NODE);
+        }
+        
         $rootNode
             ->children()
                 ->scalarNode('storage')->defaultValue('novaway_feature_flag.storage.default')->end()
