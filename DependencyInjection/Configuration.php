@@ -4,6 +4,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -17,8 +18,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('novaway_feature_flag');
+        $treeBuilder = new TreeBuilder('novaway_feature_flag');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()

@@ -4,7 +4,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\EventListener;
 
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -26,9 +26,9 @@ class FeatureListener implements EventSubscriberInterface
     /**
      * Check if a feature requirement is defined
      *
-     * @param FilterControllerEvent $event
+     * @param ControllerEvent $event
      */
-    public function onKernelController(FilterControllerEvent $event)
+    public function onKernelController(ControllerEvent $event)
     {
         $request = $event->getRequest();
         if (!$features = $request->attributes->get('_features')) {

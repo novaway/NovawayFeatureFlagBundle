@@ -2,7 +2,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functionals;
 
-use mageekguy\atoum;
+use atoum\atoum;
 use Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\AppKernel;
 
 abstract class WebTestCase extends atoum\test
