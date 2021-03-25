@@ -2,7 +2,6 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures;
 
-use atoum\AtoumBundle\AtoumAtoumBundle;
 use Novaway\Bundle\FeatureFlagBundle\NovawayFeatureFlagBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
@@ -28,12 +27,15 @@ class AppKernel extends Kernel
 
             $container->loadFromExtension('framework', [
                 'assets'     => [],
-                'router'     => ['resource' => '%kernel.root_dir%/config/routing.yml'],
                 'secret'     => '$ecret',
                 'test'       => true,
-                'templating' => [
-                    'engines' => ['twig'],
-                ],
+                'router' => ['resource' => '%kernel.project_dir%/Tests/Fixtures/config/routing.yml']
+            ]);
+
+            $container->loadFromExtension('twig', [
+                'paths' => [
+                    __DIR__ . '/Resources/views/' => ''
+                ]
             ]);
 
             $container->loadFromExtension('novaway_feature_flag', [
