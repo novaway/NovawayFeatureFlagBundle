@@ -12,7 +12,7 @@ class DefaultController extends AbstractController
     /**
      * @var StorageInterface
      */
-    private StorageInterface $storage;
+    private $storage;
 
     public function __construct(StorageInterface $storage)
     {
