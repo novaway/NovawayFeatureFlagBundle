@@ -1,0 +1,8 @@
+services:
+    Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\DefaultController:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            $storage: '@novaway_feature_flag.manager.feature'
+        tags:
+            - controller.service_arguments
