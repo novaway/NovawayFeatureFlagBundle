@@ -42,4 +42,15 @@ class Feature
     {
         return $this->enabled;
     }
+
+    /**
+     * @return array{feature: string, enabled: bool}
+     */
+    public function toArray(): array
+    {
+        return [
+            'feature' => $this->feature,
+            'enabled' => $this->enabled,
+        ];
+    }
 }
