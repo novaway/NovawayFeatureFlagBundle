@@ -27,3 +27,11 @@ annotation_configuration_enabled:
 annotation_configuration_disabled:
     path:     /annotation/disabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\DefaultController::annotationFooDisabled }
+
+attribute_configuration_enabled:
+    path:     /attribute/enabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\DefaultController::attributeFooEnabled }
+
+attribute_configuration_disabled:
+    path:     /attribute/disabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\DefaultController::attributeFooDisabled }

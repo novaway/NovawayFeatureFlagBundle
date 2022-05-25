@@ -45,6 +45,23 @@ class ControllerListener implements EventSubscriberInterface
         $method    = $object->getMethod($controller[1]);
 
         $features = [];
+
+        if (\PHP_VERSION_ID >= 80000) {
+            foreach ($method->getAttributes(Feature::class) as $attribute) {
+                $feature = $attribute->newInstance();
+
+                $key = $feature->getFeature();
+                if (isset($features[$key])) {
+                    throw new \UnexpectedValueException(sprintf('Feature "%s" is defined more than once for %s::%s', $key, $className, $controller[1]));
+                }
+
+                $features[$key] = [
+                    'feature' => $key,
+                    'enabled' => $feature->getEnabled(),
+                ];
+            }
+        }
+
         foreach ($this->annotationReader->getMethodAnnotations($method) as $annotation) {
             if ($annotation instanceof Feature) {
                 $key = $annotation->getFeature();

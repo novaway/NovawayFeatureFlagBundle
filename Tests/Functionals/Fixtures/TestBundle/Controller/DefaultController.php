@@ -91,4 +91,32 @@ class DefaultController extends WebTestCase
                     ->isEqualTo(404)
         ;
     }
+
+    public function testAttributeFooEnabledAction()
+    {
+        $this
+            ->if($client = $this->createClient())
+            ->then
+                ->given($crawler = $client->request('GET', '/attribute/enabled'))
+                ->boolean($client->getResponse()->isSuccessful())
+                    ->isTrue()
+                ->integer($crawler->filter('html:contains("DefaultController::attributeFooEnabledAction")')->count())
+                    ->isGreaterThan(0)
+                ->integer($client->getResponse()->getStatusCode())
+                    ->isEqualTo(200)
+        ;
+    }
+
+    public function testAttributeFooDisabledAction()
+    {
+        $this
+            ->if($client = $this->createClient())
+            ->then
+            ->given($client->request('GET', '/attribute/disabled'))
+            ->boolean($client->getResponse()->isSuccessful())
+                ->isFalse()
+            ->integer($client->getResponse()->getStatusCode())
+                ->isEqualTo(404)
+        ;
+    }
 }
