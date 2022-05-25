@@ -2,8 +2,11 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
+
 /**
  * @Annotation
+ * @NamedArgumentConstructor()
  */
 class Feature
 {
@@ -15,35 +18,25 @@ class Feature
 
     /**
      * Constructor
-     *
-     * @param array $values
      */
-    public function __construct(array $values)
+    public function __construct(string $name, bool $enabled = true)
     {
-        if (!isset($values['value'])) {
-            throw new \RuntimeException('Feature annotation value is required.');
-        }
-
-        $this->feature = (string) $values['value'];
-        $this->enabled = !isset($values['enabled']) || (bool) $values['enabled'];
+        $this->feature = $name;
+        $this->enabled = $enabled;
     }
 
     /**
      * Get feature name
-     *
-     * @return string
      */
-    public function getFeature()
+    public function getFeature(): string
     {
         return $this->feature;
     }
 
     /**
      * Get if feature should be enabled or not
-     *
-     * @return bool
      */
-    public function getEnabled()
+    public function getEnabled(): bool
     {
         return $this->enabled;
     }
