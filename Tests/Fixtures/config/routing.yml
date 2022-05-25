@@ -20,6 +20,10 @@ request_configuration_disabled:
                 feature: foo
                 enabled: false
 
+annotation_class_disabled:
+    path:     /annotation/class/disabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\AnnotationClassDisabledController }
+
 annotation_configuration_enabled:
     path:     /annotation/enabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\DefaultController::annotationFooEnabled }
@@ -27,6 +31,10 @@ annotation_configuration_enabled:
 annotation_configuration_disabled:
     path:     /annotation/disabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\DefaultController::annotationFooDisabled }
+
+attribute_class_disabled:
+    path:     /attribute/class/disabled
+    defaults: { _controller:  Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\AttributeClassDisabledController }
 
 attribute_configuration_enabled:
     path:     /attribute/enabled

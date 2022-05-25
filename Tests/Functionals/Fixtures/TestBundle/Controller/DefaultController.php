@@ -92,6 +92,9 @@ class DefaultController extends WebTestCase
         ;
     }
 
+    /**
+     * @php 8.0
+     */
     public function testAttributeFooEnabledAction()
     {
         $this
@@ -107,6 +110,9 @@ class DefaultController extends WebTestCase
         ;
     }
 
+    /**
+     * @php 8.0
+     */
     public function testAttributeFooDisabledAction()
     {
         $this

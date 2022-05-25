@@ -36,11 +36,11 @@ class ControllerListener implements EventSubscriberInterface
         }
 
         $className = get_class($controller[0]);
-        $object = new \ReflectionClass($className);
-        $method = $object->getMethod($controller[1]);
+        $class = new \ReflectionClass($className);
+        $method = $class->getMethod($controller[1]);
 
         $features = [];
-        foreach ($this->resolveFeatures($method) as $key => $feature) {
+        foreach ($this->resolveFeatures($class, $method) as $key => $feature) {
             if (isset($features[$key])) {
                 throw new \UnexpectedValueException(sprintf('Feature "%s" is defined more than once in %s::%s', $key, $className, $controller[1]));
             }
@@ -68,20 +68,27 @@ class ControllerListener implements EventSubscriberInterface
     /**
      * @return iterable<array<string, array{feature: string, enabled: bool}>>
      */
-    private function resolveFeatures(\ReflectionMethod $method): iterable
+    private function resolveFeatures(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {
-        yield from $this->featuresFromAttributes($method);
+        yield from $this->featuresFromAttributes($class, $method);
 
-        yield from $this->featuresFromAnnotations($method);
+        yield from $this->featuresFromAnnotations($class, $method);
     }
 
     /**
      * @return iterable<array<string, array{feature: string, enabled: bool}>>
      */
-    private function featuresFromAttributes(\ReflectionMethod $method): iterable
+    private function featuresFromAttributes(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {
         if (\PHP_VERSION_ID < 80000) {
             return [];
+        }
+
+        foreach ($class->getAttributes(Feature::class) as $attribute) {
+            /** @var Feature $feature */
+            $feature = $attribute->newInstance();
+
+            yield $feature->getFeature() => $feature->toArray();
         }
 
         foreach ($method->getAttributes(Feature::class) as $attribute) {
@@ -95,8 +102,16 @@ class ControllerListener implements EventSubscriberInterface
     /**
      * @return iterable<array<string, array{feature: string, enabled: bool}>>
      */
-    private function featuresFromAnnotations(\ReflectionMethod $method): iterable
+    private function featuresFromAnnotations(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {
+        foreach ($this->annotationReader->getClassAnnotations($class) as $annotation) {
+            if (!$annotation instanceof Feature) {
+                continue;
+            }
+
+            yield $annotation->getFeature() => $annotation->toArray();
+        }
+
         foreach ($this->annotationReader->getMethodAnnotations($method) as $annotation) {
             if (!$annotation instanceof Feature) {
                 continue;
