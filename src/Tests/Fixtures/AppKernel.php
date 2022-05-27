@@ -29,7 +29,7 @@ class AppKernel extends Kernel
                 'assets'     => [],
                 'secret'     => '$ecret',
                 'test'       => true,
-                'router' => ['resource' => '%kernel.project_dir%/Tests/Fixtures/config/routing.yml']
+                'router' => ['resource' => '%kernel.project_dir%/src/Tests/Fixtures/config/routing.yml']
             ]);
 
             $container->loadFromExtension('twig', [

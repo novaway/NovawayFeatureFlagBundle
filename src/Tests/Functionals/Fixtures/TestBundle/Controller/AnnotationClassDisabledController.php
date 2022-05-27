@@ -14,6 +14,7 @@ class AnnotationClassDisabledController extends WebTestCase
             ->if($client = $this->createClient())
             ->then
                 ->given($client->request('GET', '/annotation/class/disabled'))
+                ->dump($client->getResponse())
                 ->boolean($client->getResponse()->isSuccessful())
                     ->isFalse()
                 ->integer($client->getResponse()->getStatusCode())

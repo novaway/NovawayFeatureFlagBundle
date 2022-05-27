@@ -1,4 +1,4 @@
 <?php
 
-$runner->addTestsFromDirectory(__DIR__ . '/Tests/Functionals');
-$runner->addTestsFromDirectory(__DIR__ . '/Tests/Units');
+$runner->addTestsFromDirectory(__DIR__ . '/src/Tests/Functionals');
+$runner->addTestsFromDirectory(__DIR__ . '/src/Tests/Units');

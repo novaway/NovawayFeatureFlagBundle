@@ -27,7 +27,7 @@ class NovawayFeatureFlagExtension extends Extension
         $container->setAlias('novaway_feature_flag.manager.feature', $config['storage']);
         $container->getAlias('novaway_feature_flag.manager.feature')->setPublic(true);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
         if (class_exists('Twig_Extension')) {

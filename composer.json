@@ -30,7 +30,10 @@
         "twig/twig": "To check feature in your Twig templates"
     },
     "autoload": {
-        "psr-4": {"Novaway\\Bundle\\FeatureFlagBundle\\": ""},
-        "exclude-from-classmap": ["Tests/"]
+        "psr-4": {"Novaway\\Bundle\\FeatureFlagBundle\\": "src/"},
+        "exclude-from-classmap": ["src/Tests/"]
+    },
+    "autoload-dev": {
+        "psr-4": { "Novaway\\Bundle\\FeatureFlagBundle\\": "src/Tests/" }
     }
 }
