@@ -20,7 +20,7 @@ abstract class WebTestCase extends BaseWebTestCase
         static::initializeClient();
     }
 
-    protected static function getKernelClass()
+    protected static function getKernelClass(): string
     {
         require_once FixturePath::APP_TEST_KERNEL_FILE;
 
