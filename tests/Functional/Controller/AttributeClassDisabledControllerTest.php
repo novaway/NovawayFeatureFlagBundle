@@ -17,13 +17,9 @@ final class AttributeClassDisabledControllerTest extends WebTestCase
         static::$client = static::createClient();
     }
 
-    protected function setUp(): void
-    {
-        $this->skipIfNoAttributeSupport();
-
-        parent::setUp();
-    }
-
+    /**
+     * @requires PHP >= 8.0
+     */
     public function testAttributeFooDisabledAction(): void
     {
         static::$client->request('GET', '/attribute/class/disabled');

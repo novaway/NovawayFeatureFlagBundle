@@ -1,4 +1,0 @@
-novaway_feature_flag:
-    features:
-        foo: true
-        bar: false

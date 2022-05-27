@@ -85,10 +85,11 @@ final class DefaultControllerTest extends WebTestCase
         static::assertSame(404, static::$client->getResponse()->getStatusCode());
     }
 
+    /**
+     * @requires PHP >= 8.0
+     */
     public function testAttributeFooEnabledAction()
     {
-        $this->skipIfNoAttributeSupport();
-
         $crawler = static::$client->request('GET', '/attribute/enabled');
 
         static::assertSame(200, static::$client->getResponse()->getStatusCode());
@@ -98,10 +99,11 @@ final class DefaultControllerTest extends WebTestCase
         );
     }
 
+    /**
+     * @requires PHP >= 8.0
+     */
     public function testAttributeFooDisabledAction()
     {
-        $this->skipIfNoAttributeSupport();
-
         static::$client->request('GET', '/attribute/disabled');
 
         static::assertSame(404, static::$client->getResponse()->getStatusCode());
