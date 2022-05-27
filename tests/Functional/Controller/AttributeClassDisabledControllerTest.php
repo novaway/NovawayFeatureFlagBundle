@@ -8,15 +8,6 @@ use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\WebTestCase;
 
 final class AttributeClassDisabledControllerTest extends WebTestCase
 {
-    private static $client;
-
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
-
-        static::$client = static::createClient();
-    }
-
     /**
      * @requires PHP >= 8.0
      */

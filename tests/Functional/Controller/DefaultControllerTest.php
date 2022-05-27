@@ -8,15 +8,6 @@ use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\WebTestCase;
 
 final class DefaultControllerTest extends WebTestCase
 {
-    private static $client;
-
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
-
-        static::$client = static::createClient();
-    }
-
     public function testFeatureEnabled(): void
     {
         $crawler = static::$client->request('GET', '/features');

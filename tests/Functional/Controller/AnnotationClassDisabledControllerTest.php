@@ -8,15 +8,6 @@ use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\WebTestCase;
 
 final class AnnotationClassDisabledControllerTest extends WebTestCase
 {
-    private static $client;
-
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
-
-        static::$client = static::createClient();
-    }
-
     public function testAnnotationFooDisabledAction(): void
     {
         static::$client->request('GET', '/annotation/class/disabled');
