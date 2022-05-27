@@ -38,5 +38,5 @@ jobs:
               run: composer update --prefer-dist --no-interaction --optimize-autoloader --no-progress $COMPOSER_FLAGS
               env:
                   COMPOSER_FLAGS: ${{ matrix.flags }}
-            - name: Run Atoum
-              run: vendor/bin/atoum
+            - name: Run PHPUnit
+              run: vendor/bin/phpunit
