@@ -6,22 +6,16 @@ interface FeatureInterface
 {
     /**
      * Get key
-     *
-     * @return string
      */
-    public function getKey();
+    public function getKey(): string;
 
     /**
      * Get description
-     *
-     * @return string
      */
-    public function getDescription();
+    public function getDescription(): string;
 
     /**
      * Check if flag is enabled
-     *
-     * @return bool
      */
-    public function isEnabled();
+    public function isEnabled(): bool;
 }

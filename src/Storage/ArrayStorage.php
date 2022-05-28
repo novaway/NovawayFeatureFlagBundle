@@ -13,7 +13,7 @@ class ArrayStorage extends AbstractStorage
     /**
      * Constructor
      *
-     * @param FeatureInterface[] $features
+     * @param array<string, array{enabled: bool, description: ?string}> $features
      */
     public function __construct(array $features = [])
     {
@@ -31,7 +31,7 @@ class ArrayStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function all()
+    public function all(): array
     {
         return $this->features;
     }
@@ -39,7 +39,7 @@ class ArrayStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function check($feature)
+    public function check($feature): bool
     {
         if (!isset($this->features[$feature])) {
             return false;

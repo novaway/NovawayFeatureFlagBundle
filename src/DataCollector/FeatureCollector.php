@@ -3,6 +3,7 @@
 namespace Novaway\Bundle\FeatureFlagBundle\DataCollector;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +16,6 @@ class FeatureCollector extends DataCollector
 
     /**
      * Constructor
-     *
-     * @param StorageInterface $storage
      */
     public function __construct(StorageInterface $storage)
     {
@@ -26,7 +25,7 @@ class FeatureCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Throwable $exception = null)
+    public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         $this->data = [
             'features' => $this->storage->all(),
@@ -36,19 +35,17 @@ class FeatureCollector extends DataCollector
     /**
      * Get collected features
      *
-     * @return array
+     * @return FeatureInterface[]
      */
-    public function getFeatures()
+    public function getFeatures(): array
     {
         return $this->data['features'];
     }
 
     /**
      * Get collected features
-     *
-     * @return array
      */
-    public function getActiveFeatureCount()
+    public function getActiveFeatureCount(): int
     {
         return count(
             array_filter(
@@ -61,10 +58,8 @@ class FeatureCollector extends DataCollector
 
     /**
      * Get collected features
-     *
-     * @return array
      */
-    public function getFeatureCount()
+    public function getFeatureCount(): int
     {
         return count($this->data['features']);
     }
@@ -72,7 +67,7 @@ class FeatureCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'novaway_feature_flag.feature_collector';
     }
@@ -80,7 +75,7 @@ class FeatureCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function reset()
+    public function reset(): void
     {
         $this->data = [];
     }

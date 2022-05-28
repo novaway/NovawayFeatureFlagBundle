@@ -28,10 +28,10 @@ class FeatureListener implements EventSubscriberInterface
      *
      * @param ControllerEvent $event
      */
-    public function onKernelController(ControllerEvent $event)
+    public function onKernelController(ControllerEvent $event): void
     {
         $request = $event->getRequest();
-        if (!$features = $request->attributes->get('_features')) {
+        if (!is_iterable($features = $request->attributes->get('_features'))) {
             return;
         }
 
@@ -45,7 +45,7 @@ class FeatureListener implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::CONTROLLER => 'onKernelController',

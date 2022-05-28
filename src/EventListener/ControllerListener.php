@@ -24,10 +24,10 @@ class ControllerListener implements EventSubscriberInterface
     /**
      * Update the request object to apply annotation configuration
      */
-    public function onKernelController(ControllerEvent $event)
+    public function onKernelController(ControllerEvent $event): void
     {
         $controller = $event->getController();
-        if (!is_array($controller) && method_exists($controller, '__invoke')) {
+        if (is_object($controller) && method_exists($controller, '__invoke')) {
             $controller = [$controller, '__invoke'];
         }
 
@@ -35,6 +35,7 @@ class ControllerListener implements EventSubscriberInterface
             return;
         }
 
+        /** @var class-string $className */
         $className = get_class($controller[0]);
         $class = new \ReflectionClass($className);
         $method = $class->getMethod($controller[1]);
@@ -50,7 +51,7 @@ class ControllerListener implements EventSubscriberInterface
 
         $request = $event->getRequest();
         $request->attributes->set('_features', array_merge(
-            $request->attributes->get('_features', []),
+            (array) $request->attributes->get('_features', []),
             $features
         ));
     }
@@ -58,7 +59,7 @@ class ControllerListener implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::CONTROLLER => 'onKernelController',
@@ -66,7 +67,7 @@ class ControllerListener implements EventSubscriberInterface
     }
 
     /**
-     * @return iterable<array<string, array{feature: string, enabled: bool}>>
+     * @return array<string, array{feature: string, enabled: bool}>
      */
     private function resolveFeatures(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {
@@ -76,7 +77,7 @@ class ControllerListener implements EventSubscriberInterface
     }
 
     /**
-     * @return iterable<array<string, array{feature: string, enabled: bool}>>
+     * @return array<string, array{feature: string, enabled: bool}>
      */
     private function featuresFromAttributes(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {
@@ -100,7 +101,7 @@ class ControllerListener implements EventSubscriberInterface
     }
 
     /**
-     * @return iterable<array<string, array{feature: string, enabled: bool}>>
+     * @return array<string, array{feature: string, enabled: bool}>
      */
     private function featuresFromAnnotations(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {
