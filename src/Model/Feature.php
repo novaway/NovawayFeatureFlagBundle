@@ -2,6 +2,9 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Model;
 
+/**
+ * @immutable
+ */
 class Feature implements FeatureInterface
 {
     /** @var string */
@@ -21,16 +24,6 @@ class Feature implements FeatureInterface
         $this->key = $key;
         $this->enabled = $enabled;
         $this->description = $description ?? '';
-    }
-
-    /**
-     * Set description
-     */
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     /**

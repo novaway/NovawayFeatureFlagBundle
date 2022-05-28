@@ -19,12 +19,7 @@ class ArrayStorage extends AbstractStorage
     {
         $this->features = [];
         foreach ($features as $key => $feature) {
-            $obj = new Feature($key, $feature['enabled']);
-            if (isset($feature['description'])) {
-                $obj->setDescription($feature['description']);
-            }
-
-            $this->features[$key] = $obj;
+            $this->features[$key] = new Feature($key, $feature['enabled'], $feature['description'] ?? '');
         }
     }
 
