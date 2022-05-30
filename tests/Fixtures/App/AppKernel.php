@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the NovawayFeatureFlagBundle package.
+ * (c) Novaway <https://github.com/novaway/NovawayFeatureFlagBundle>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App;
 
 use Novaway\Bundle\FeatureFlagBundle\NovawayFeatureFlagBundle;
@@ -26,16 +33,16 @@ class AppKernel extends Kernel
             $container->register('logger', \Psr\Log\NullLogger::class);
 
             $container->loadFromExtension('framework', [
-                'assets'     => [],
-                'secret'     => '$ecret',
-                'test'       => true,
-                'router' => ['resource' => '%kernel.project_dir%/tests/Fixtures/App/config/routing.yml']
+                'assets' => [],
+                'secret' => '$ecret',
+                'test' => true,
+                'router' => ['resource' => '%kernel.project_dir%/tests/Fixtures/App/config/routing.yml'],
             ]);
 
             $container->loadFromExtension('twig', [
                 'paths' => [
-                    __DIR__ . '/Resources/views/' => ''
-                ]
+                    __DIR__.'/Resources/views/' => '',
+                ],
             ]);
 
             $container->loadFromExtension('novaway_feature_flag', [

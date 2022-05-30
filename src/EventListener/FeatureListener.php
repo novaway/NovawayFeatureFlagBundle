@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the NovawayFeatureFlagBundle package.
+ * (c) Novaway <https://github.com/novaway/NovawayFeatureFlagBundle>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Novaway\Bundle\FeatureFlagBundle\EventListener;
 
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
@@ -15,8 +22,6 @@ class FeatureListener implements EventSubscriberInterface
 
     /**
      * Constructor
-     *
-     * @param StorageInterface $storage
      */
     public function __construct(StorageInterface $storage)
     {
@@ -25,8 +30,6 @@ class FeatureListener implements EventSubscriberInterface
 
     /**
      * Check if a feature requirement is defined
-     *
-     * @param ControllerEvent $event
      */
     public function onKernelController(ControllerEvent $event): void
     {
