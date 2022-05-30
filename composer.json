@@ -25,7 +25,8 @@
         "twig/twig": "^v1.42.3|^2.0",
         "phpunit/phpunit": "^9.5",
         "phpstan/phpstan": "^1.7",
-        "phpstan/extension-installer": "^1.1"
+        "phpstan/extension-installer": "^1.1",
+        "friendsofphp/php-cs-fixer": "^3.0"
     },
     "suggest": {
         "twig/twig": "To check feature in your Twig templates"
