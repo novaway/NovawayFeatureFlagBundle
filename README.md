@@ -4,20 +4,17 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/novaway/NovawayFeatureFlagBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/novaway/NovawayFeatureFlagBundle/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/novaway/feature-flag-bundle/v/stable.png)](https://packagist.org/packages/novaway/feature-flag-bundle)
 
-The FeatureFlagBundle is a very KISS bundle to manage features flags in your Symfony
-applications.
+The FeatureFlagBundle is a very KISS bundle to manage features flags in your Symfony applications.
 
-Just allow to know if a feature is enable or not. If you have more complex needs,
-please considerer using an another solution like [Qandidate\Toggle](https://github.com/qandidate-labs/qandidate-toggle-bundle).
+Just allow to know if a feature is enabled or not. If you have more complex needs, please considers using another solution like [Qandidate\Toggle](https://github.com/qandidate-labs/qandidate-toggle-bundle).
 
 ## Compatibility
 
-This bundle is tested with all maintained Symfony version, but it should be compatible with
-Symfony 2.3+.
+This bundle is tested with all maintained Symfony version.
 
 ## Documentation
 
-### Install it
+###  Install it
 
 Install extension using [composer](https://getcomposer.org):
 
@@ -25,25 +22,18 @@ Install extension using [composer](https://getcomposer.org):
 composer require novaway/feature-flag-bundle
 ```
 
-If you don't use Flex, enable the bundle in your application `AppKernel`:
+If you don't use Flex, enable the bundle in your `config/bundles.php` file:
 
 ```php
 <?php
 
-public function registerBundles()
-{
-    $bundles = [
-        // ...
-        new Novaway\Bundle\FeatureFlagBundle\NovawayFeatureFlagBundle(),
-    ];
-
+return [
     // ...
-
-    return $bundles;
-}
+    Novaway\Bundle\FeatureFlagBundle\NovawayFeatureFlagBundle::class => ['all' => true],
+];
 ```
 
-### Use it
+###  Use it
 
 #### Define your features
 
@@ -59,8 +49,7 @@ novaway_feature_flag:
 
 #### As a service
 
-The bundle add a `novaway_feature_flag.manager.feature` service you can use in your
-PHP classes.
+The bundle adds a `novaway_feature_flag.manager.feature` service you can use in your  PHP classes.
 
 ```php
 class MyController extends Controller
@@ -96,7 +85,7 @@ You can also check a flag in your templates:
 
 #### In the routing configuration
 
-The package allow you to restrict a controller access by adding some configuration in your routing definition.
+The package allows you to restrict a controller access by adding some configuration in your routing definition.
 
 ```yaml
 # app/config/routing.yml
@@ -121,6 +110,9 @@ my_second_route:
 You can also restrict a controller access with annotations :
 
 ```php
+/**
+ * @Feature("foo", enable=true)
+ */
 class MyController extends Controller
 {
     /**
@@ -142,6 +134,34 @@ class MyController extends Controller
     /**
      * @Feature("foo", enabled=false)
      */
+    public function annotationFooDisabledAction()
+    {
+        return new Response('MyController::annotationFooDisabledAction');
+    }
+}
+```
+
+#### As a controller attribute
+
+You can also restrict a controller access with annotations :
+
+```php
+#[Feature(name: "foo", enabled: true)]
+class MyController extends Controller
+{
+    #[Feature(name: "foo")]
+    public function annotationFooEnabledAction()
+    {
+        return new Response('MyController::annotationFooEnabledAction');
+    }
+    
+    #[Feature(name: "foo", enabled: true)]
+    public function annotationFooEnabledBisAction()
+    {
+        return new Response('MyController::annotationFooEnabledAction');
+    }
+
+    #[Feature(name: "foo", enabled: false)]
     public function annotationFooDisabledAction()
     {
         return new Response('MyController::annotationFooDisabledAction');

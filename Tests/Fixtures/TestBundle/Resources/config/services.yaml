@@ -1,8 +1,14 @@
 services:
-    Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\DefaultController:
+    _defaults:
         autowire: true
         autoconfigure: true
-        arguments:
-            $storage: '@novaway_feature_flag.manager.feature'
-        tags:
-            - controller.service_arguments
+
+    _instanceof:
+        Symfony\Bundle\FrameworkBundle\Controller\AbstractController:
+            tags: ['controller.service_arguments']
+
+    Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface: '@novaway_feature_flag.manager.feature'
+
+    Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\AnnotationClassDisabledController: ~
+    Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\AttributeClassDisabledController: ~
+    Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\TestBundle\Controller\DefaultController: ~

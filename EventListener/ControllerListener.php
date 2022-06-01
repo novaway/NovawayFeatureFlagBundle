@@ -3,7 +3,6 @@
 namespace Novaway\Bundle\FeatureFlagBundle\EventListener;
 
 use Doctrine\Common\Annotations\Reader;
-use Doctrine\Common\Util\ClassUtils;
 use Novaway\Bundle\FeatureFlagBundle\Annotation\Feature;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -16,8 +15,6 @@ class ControllerListener implements EventSubscriberInterface
 
     /**
      * Constructor
-     *
-     * @param Reader $reader
      */
     public function __construct(Reader $reader)
     {
@@ -26,8 +23,6 @@ class ControllerListener implements EventSubscriberInterface
 
     /**
      * Update the request object to apply annotation configuration
-     *
-     * @param ControllerEvent $event
      */
     public function onKernelController(ControllerEvent $event)
     {
@@ -40,23 +35,17 @@ class ControllerListener implements EventSubscriberInterface
             return;
         }
 
-        $className = class_exists('Doctrine\Common\Util\ClassUtils') ? ClassUtils::getClass($controller[0]) : get_class($controller[0]);
-        $object    = new \ReflectionClass($className);
-        $method    = $object->getMethod($controller[1]);
+        $className = get_class($controller[0]);
+        $class = new \ReflectionClass($className);
+        $method = $class->getMethod($controller[1]);
 
         $features = [];
-        foreach ($this->annotationReader->getMethodAnnotations($method) as $annotation) {
-            if ($annotation instanceof Feature) {
-                $key = $annotation->getFeature();
-                if (isset($features[$key])) {
-                    throw new \UnexpectedValueException(sprintf('Feature "%s" is defined more than once for %s::%s', $key, $className, $controller[1]));
-                }
-
-                $features[$key] = [
-                    'feature' => $annotation->getFeature(),
-                    'enabled' => $annotation->getEnabled(),
-                ];
+        foreach ($this->resolveFeatures($class, $method) as $key => $feature) {
+            if (isset($features[$key])) {
+                throw new \UnexpectedValueException(sprintf('Feature "%s" is defined more than once in %s::%s', $key, $className, $controller[1]));
             }
+
+            $features[$key] = $feature;
         }
 
         $request = $event->getRequest();
@@ -74,5 +63,61 @@ class ControllerListener implements EventSubscriberInterface
         return [
             KernelEvents::CONTROLLER => 'onKernelController',
         ];
+    }
+
+    /**
+     * @return iterable<array<string, array{feature: string, enabled: bool}>>
+     */
+    private function resolveFeatures(\ReflectionClass $class, \ReflectionMethod $method): iterable
+    {
+        yield from $this->featuresFromAttributes($class, $method);
+
+        yield from $this->featuresFromAnnotations($class, $method);
+    }
+
+    /**
+     * @return iterable<array<string, array{feature: string, enabled: bool}>>
+     */
+    private function featuresFromAttributes(\ReflectionClass $class, \ReflectionMethod $method): iterable
+    {
+        if (\PHP_VERSION_ID < 80000) {
+            return [];
+        }
+
+        foreach ($class->getAttributes(Feature::class) as $attribute) {
+            /** @var Feature $feature */
+            $feature = $attribute->newInstance();
+
+            yield $feature->getFeature() => $feature->toArray();
+        }
+
+        foreach ($method->getAttributes(Feature::class) as $attribute) {
+            /** @var Feature $feature */
+            $feature = $attribute->newInstance();
+
+            yield $feature->getFeature() => $feature->toArray();
+        }
+    }
+
+    /**
+     * @return iterable<array<string, array{feature: string, enabled: bool}>>
+     */
+    private function featuresFromAnnotations(\ReflectionClass $class, \ReflectionMethod $method): iterable
+    {
+        foreach ($this->annotationReader->getClassAnnotations($class) as $annotation) {
+            if (!$annotation instanceof Feature) {
+                continue;
+            }
+
+            yield $annotation->getFeature() => $annotation->toArray();
+        }
+
+        foreach ($this->annotationReader->getMethodAnnotations($method) as $annotation) {
+            if (!$annotation instanceof Feature) {
+                continue;
+            }
+
+            yield $annotation->getFeature() => $annotation->toArray();
+        }
     }
 }
