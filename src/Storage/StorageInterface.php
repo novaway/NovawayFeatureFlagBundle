@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of the NovawayFeatureFlagBundle package.
+ * (c) Novaway <https://github.com/novaway/NovawayFeatureFlagBundle>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
@@ -17,7 +24,6 @@ interface StorageInterface
      * Check if feature is enabled or not
      *
      * @param string $feature
-     * @return bool
      */
     public function check($feature): bool;
 
@@ -25,7 +31,6 @@ interface StorageInterface
      * Check if feature is enabled
      *
      * @param string $feature
-     * @return bool
      */
     public function isEnabled($feature): bool;
 
@@ -33,7 +38,6 @@ interface StorageInterface
      * Check if feature is disabled
      *
      * @param string $feature
-     * @return bool
      */
     public function isDisabled($feature): bool;
 }

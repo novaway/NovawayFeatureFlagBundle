@@ -2,6 +2,31 @@ name: Continuous Integration
 on: [push, pull_request]
 
 jobs:
+    cs:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2
+        - name: Setup PHP
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: 8.1
+            coverage: xdebug
+        - name: Get Composer Cache Directory
+          id: composer-cache
+          run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+        - name: Cache dependencies
+          uses: actions/cache@v2
+          with:
+            path: ${{ steps.composer-cache.outputs.dir }}
+            key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+            restore-keys: ${{ runner.os }}-composer-
+        - name: Install Dependencies
+          run: composer install --prefer-dist --no-interaction --optimize-autoloader
+        - name: Run PHPStan
+          run: vendor/bin/php-cs-fixer fix --dry-run --diff
+
+
     phpstan:
         runs-on: ubuntu-latest
         steps:
