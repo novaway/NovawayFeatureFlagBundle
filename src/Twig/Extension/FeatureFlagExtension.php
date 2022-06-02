@@ -10,8 +10,10 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Twig\Extension;
 
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
-class FeatureFlagExtension extends \Twig_Extension
+class FeatureFlagExtension extends AbstractExtension
 {
     /** @var StorageInterface */
     private $storage;
@@ -30,8 +32,8 @@ class FeatureFlagExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('isFeatureEnabled', [$this->storage, 'isEnabled']),
-            new \Twig_SimpleFunction('isFeatureDisabled', [$this->storage, 'isDisabled']),
+            new TwigFunction('isFeatureEnabled', [$this->storage, 'isEnabled']),
+            new TwigFunction('isFeatureDisabled', [$this->storage, 'isDisabled']),
         ];
     }
 
