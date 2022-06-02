@@ -13,25 +13,20 @@ class ArrayStorage extends AbstractStorage
     /**
      * Constructor
      *
-     * @param FeatureInterface[] $features
+     * @param array<string, array{enabled: bool, description: ?string}> $features
      */
     public function __construct(array $features = [])
     {
         $this->features = [];
         foreach ($features as $key => $feature) {
-            $obj = new Feature($key, $feature['enabled']);
-            if (isset($feature['description'])) {
-                $obj->setDescription($feature['description']);
-            }
-
-            $this->features[$key] = $obj;
+            $this->features[$key] = new Feature($key, $feature['enabled'], $feature['description'] ?? '');
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function all()
+    public function all(): array
     {
         return $this->features;
     }
@@ -39,7 +34,7 @@ class ArrayStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function check($feature)
+    public function check($feature): bool
     {
         if (!isset($this->features[$feature])) {
             return false;

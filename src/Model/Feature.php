@@ -2,6 +2,9 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Model;
 
+/**
+ * @immutable
+ */
 class Feature implements FeatureInterface
 {
     /** @var string */
@@ -15,35 +18,18 @@ class Feature implements FeatureInterface
 
     /**
      * Constructor
-     *
-     * @param string $key
-     * @param bool   $enabled
-     * @param string $description
      */
-    public function __construct($key, $enabled, $description = null)
+    public function __construct(string $key, bool $enabled, string $description = null)
     {
         $this->key = $key;
-        $this->enabled = (bool) $enabled;
-        $this->description = $description;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Feature
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
+        $this->enabled = $enabled;
+        $this->description = $description ?? '';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -51,7 +37,7 @@ class Feature implements FeatureInterface
     /**
      * {@inheritdoc}
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -59,7 +45,7 @@ class Feature implements FeatureInterface
     /**
      * {@inheritdoc}
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }

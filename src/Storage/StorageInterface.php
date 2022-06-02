@@ -11,7 +11,7 @@ interface StorageInterface
      *
      * @return FeatureInterface[]
      */
-    public function all();
+    public function all(): array;
 
     /**
      * Check if feature is enabled or not
@@ -19,7 +19,7 @@ interface StorageInterface
      * @param string $feature
      * @return bool
      */
-    public function check($feature);
+    public function check($feature): bool;
 
     /**
      * Check if feature is enabled
@@ -27,7 +27,7 @@ interface StorageInterface
      * @param string $feature
      * @return bool
      */
-    public function isEnabled($feature);
+    public function isEnabled($feature): bool;
 
     /**
      * Check if feature is disabled
@@ -35,5 +35,5 @@ interface StorageInterface
      * @param string $feature
      * @return bool
      */
-    public function isDisabled($feature);
+    public function isDisabled($feature): bool;
 }

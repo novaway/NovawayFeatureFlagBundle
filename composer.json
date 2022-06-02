@@ -23,7 +23,9 @@
         "symfony/templating": "~4.0|~5.0|~6.0",
         "symfony/twig-bundle": "~4.0|~5.0|~6.0",
         "twig/twig": "^v1.42.3|^2.0",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "phpstan/phpstan": "^1.7",
+        "phpstan/extension-installer": "^1.1"
     },
     "suggest": {
         "twig/twig": "To check feature in your Twig templates"
@@ -36,6 +38,11 @@
         "psr-4": {
             "Novaway\\Bundle\\FeatureFlagBundle\\": "src/Tests/",
             "Novaway\\Bundle\\FeatureFlagBundle\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
         }
     }
 }

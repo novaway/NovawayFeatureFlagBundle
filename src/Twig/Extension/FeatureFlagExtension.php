@@ -33,7 +33,7 @@ class FeatureFlagExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'feature_flag_extension';
     }
