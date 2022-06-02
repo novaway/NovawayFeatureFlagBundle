@@ -20,4 +20,4 @@ return (new PhpCsFixer\Config())
         PhpCsFixer\Finder::create()
             ->in(__DIR__)
     )
-    ;
+;
