@@ -56,11 +56,11 @@ class MyController extends Controller
     public function myAction()
     {
         $featureManager = $this->get('novaway_feature_flag.manager.feature');
-        
+
         if ($featureManager->isEnabled('my_feature_1')) {
             // my_feature_1 is enabled
         }
-        
+
         if ($featureManager->isDisabled('my_feature_2')) {
             // my_feature_2 is not enabled
         }
@@ -94,7 +94,7 @@ my_first_route:
         _controller: AppBundle:Default:index
         _features:
             - { feature: my_feature_key, enabled: false } # The action is accessible if "my_feature_key" is disabled
-            
+
 my_second_route:
     path: /my/second-route
     defaults:
@@ -121,7 +121,7 @@ class MyController extends Controller
     {
         return new Response('MyController::annotationFooEnabledAction');
     }
-    
+
     /**
      * @Feature("foo", enabled=true)
      */
@@ -153,7 +153,7 @@ class MyController extends Controller
     {
         return new Response('MyController::annotationFooEnabledAction');
     }
-    
+
     #[Feature(name: "foo", enabled: true)]
     public function annotationFooEnabledBisAction()
     {
@@ -172,6 +172,11 @@ class MyController extends Controller
 
 1. First your need to create your storage provider class which implement the `Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface` interface
 2. Declare your storage provider as a service
+
+```yaml
+novaway_feature_flag:
+    storage: your.custom.service.name
+```
 
 ## License
 
