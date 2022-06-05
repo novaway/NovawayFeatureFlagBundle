@@ -14,7 +14,7 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * {@inheritdoc}
      */
-    public function isEnabled($feature): bool
+    public function isEnabled(string $feature): bool
     {
         return true === $this->check($feature);
     }
@@ -22,7 +22,7 @@ abstract class AbstractStorage implements StorageInterface
     /**
      * {@inheritdoc}
      */
-    public function isDisabled($feature): bool
+    public function isDisabled(string $feature): bool
     {
         return false === $this->check($feature);
     }

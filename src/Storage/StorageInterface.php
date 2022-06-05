@@ -22,22 +22,16 @@ interface StorageInterface
 
     /**
      * Check if feature is enabled or not
-     *
-     * @param string $feature
      */
-    public function check($feature): bool;
+    public function check(string $feature): bool;
 
     /**
      * Check if feature is enabled
-     *
-     * @param string $feature
      */
-    public function isEnabled($feature): bool;
+    public function isEnabled(string $feature): bool;
 
     /**
      * Check if feature is disabled
-     *
-     * @param string $feature
      */
-    public function isDisabled($feature): bool;
+    public function isDisabled(string $feature): bool;
 }

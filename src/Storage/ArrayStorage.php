@@ -41,7 +41,7 @@ class ArrayStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function check($feature): bool
+    public function check(string $feature): bool
     {
         if (!isset($this->features[$feature])) {
             return false;
