@@ -1,4 +1,17 @@
 services:
+    Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager:
+        arguments: ['@Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage']
+    Novaway\Bundle\FeatureFlagBundle\Manager\LegacyFeatureManager:
+        arguments: ['@Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage']
+    novaway_feature_flag.manager:
+        alias: 'Novaway\Bundle\FeatureFlagBundle\Manager\LegacyFeatureManager'
+
+    Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage:
+        arguments:
+            - "%novaway_feature_flag.features%"
+    novaway_feature_flag.storage.default:
+        alias: 'Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage'
+
     novaway_feature_flag.listener.controller:
         class: Novaway\Bundle\FeatureFlagBundle\EventListener\ControllerListener
         arguments:
@@ -9,11 +22,6 @@ services:
     novaway_feature_flag.listener.feature:
         class: Novaway\Bundle\FeatureFlagBundle\EventListener\FeatureListener
         arguments:
-            - "@novaway_feature_flag.manager.feature"
+            - "@novaway_feature_flag.manager"
         tags:
             - { name: kernel.event_subscriber }
-
-    novaway_feature_flag.storage.default:
-        class: Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage
-        arguments:
-            - "%novaway_feature_flag.features%"

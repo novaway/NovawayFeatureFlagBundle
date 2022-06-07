@@ -9,6 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\DataCollector;
 
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
@@ -18,14 +19,17 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class FeatureCollector extends DataCollector
 {
+    /** @var FeatureManager */
+    private $manager;
     /** @var StorageInterface */
     private $storage;
 
     /**
      * Constructor
      */
-    public function __construct(StorageInterface $storage)
+    public function __construct(FeatureManager $manager, StorageInterface $storage)
     {
+        $this->manager = $manager;
         $this->storage = $storage;
     }
 
@@ -58,7 +62,7 @@ class FeatureCollector extends DataCollector
             array_filter(
                 $this->data['features'],
                 function (Feature $feature) {
-                    return $feature->isEnabled();
+                    return $this->manager->isEnabled($feature->getKey());
                 }
             )
         );

@@ -21,17 +21,31 @@ interface StorageInterface
     public function all(): array;
 
     /**
+     * Return feature flag
+     */
+    public function get(string $feature): FeatureInterface;
+
+    /**
      * Check if feature is enabled or not
+     *
+     * @deprecated This method is deprecated since 2.3.0 and will be removed in the next major release.
+     *             Please use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager instead.
      */
     public function check(string $feature): bool;
 
     /**
      * Check if feature is enabled
+     *
+     * @deprecated This method is deprecated since 2.3.0 and will be removed in the next major release.
+     *             Please use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager instead.
      */
     public function isEnabled(string $feature): bool;
 
     /**
      * Check if feature is disabled
+     *
+     * @deprecated This method is deprecated since 2.3.0 and will be removed in the next major release.
+     *             Please use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager instead.
      */
     public function isDisabled(string $feature): bool;
 }

@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Twig\Extension;
 
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 use Novaway\Bundle\FeatureFlagBundle\Twig\Extension\FeatureFlagExtension;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -57,8 +58,7 @@ final class FeatureFlagExtensionTest extends TestCase
      */
     private function createStorageMock(): MockObject
     {
-        $storage = $this->createMock(StorageInterface::class);
-        $storage->method('all')->willReturn(['foo']);
+        $storage = $this->createMock(FeatureManager::class);
         $storage->method('isEnabled')->willReturnCallback(function (string $feature): bool {
             return 'foo' === $feature;
         });

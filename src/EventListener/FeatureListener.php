@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\EventListener;
 
-use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -17,15 +17,15 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class FeatureListener implements EventSubscriberInterface
 {
-    /** @var StorageInterface */
-    private $storage;
+    /** @var FeatureManager */
+    private $manager;
 
     /**
      * Constructor
      */
-    public function __construct(StorageInterface $storage)
+    public function __construct(FeatureManager $manager)
     {
-        $this->storage = $storage;
+        $this->manager = $manager;
     }
 
     /**
@@ -39,7 +39,7 @@ class FeatureListener implements EventSubscriberInterface
         }
 
         foreach ($features as $featureConfiguration) {
-            if ($featureConfiguration['enabled'] !== $this->storage->check($featureConfiguration['feature'])) {
+            if ($featureConfiguration['enabled'] !== $this->manager->isEnabled($featureConfiguration['feature'])) {
                 throw new NotFoundHttpException();
             }
         }
