@@ -13,7 +13,7 @@
         {% for feature in collector.features %}
         <div class="sf-toolbar-info-piece">
             <b>{{ feature.key }}</b>
-            <span class="sf-toolbar-status">{{ feature.enabled ? '✅' : '❌' }}</span>
+            <span class="sf-toolbar-status">{{ isFeatureEnabled(feature.key) ? '✅' : '❌' }}</span>
         </div>
         {% endfor %}
     {% endset %}
@@ -46,7 +46,7 @@
                         <span style="font-style: italic">{{ feature.description }}</span>
                     {% endif %}
                 </th>
-                <td>{{ feature.enabled ? 'On' : 'Off' }}</td>
+                <td>{{ isFeatureEnabled(feature.key) ? 'On' : 'Off' }}</td>
             </tr>
         {% else %}
             <tr>

@@ -9,19 +9,19 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Twig\Extension;
 
-use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class FeatureFlagExtension extends AbstractExtension
 {
-    /** @var StorageInterface */
+    /** @var FeatureManager */
     private $storage;
 
     /**
      * Constructor
      */
-    public function __construct(StorageInterface $storage)
+    public function __construct(FeatureManager $storage)
     {
         $this->storage = $storage;
     }

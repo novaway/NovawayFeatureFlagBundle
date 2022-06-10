@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\DataCollector;
 
-use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,14 +18,17 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class FeatureCollector extends DataCollector
 {
+    /** @var FeatureManager */
+    private $manager;
     /** @var StorageInterface */
     private $storage;
 
     /**
      * Constructor
      */
-    public function __construct(StorageInterface $storage)
+    public function __construct(FeatureManager $manager, StorageInterface $storage)
     {
+        $this->manager = $manager;
         $this->storage = $storage;
     }
 
@@ -34,8 +37,19 @@ class FeatureCollector extends DataCollector
      */
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
+        $features = $this->storage->all();
+        $activeFeatureCount = count(
+            array_filter(
+                $features,
+                function (FeatureInterface $feature): bool {
+                    return $this->manager->isEnabled($feature->getKey());
+                }
+            )
+        );
+
         $this->data = [
-            'features' => $this->storage->all(),
+            'features' => $features,
+            'activeFeaturesCount' => $activeFeatureCount,
         ];
     }
 
@@ -54,14 +68,7 @@ class FeatureCollector extends DataCollector
      */
     public function getActiveFeatureCount(): int
     {
-        return count(
-            array_filter(
-                $this->data['features'],
-                function (Feature $feature) {
-                    return $feature->isEnabled();
-                }
-            )
-        );
+        return $this->data['activeFeaturesCount'];
     }
 
     /**

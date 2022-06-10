@@ -41,12 +41,12 @@ class ArrayStorage extends AbstractStorage
     /**
      * {@inheritdoc}
      */
-    public function check(string $feature): bool
+    public function get(string $feature): FeatureInterface
     {
         if (!isset($this->features[$feature])) {
-            return false;
+            throw new \RuntimeException("Feature '$feature' not exists.");
         }
 
-        return $this->features[$feature]->isEnabled();
+        return $this->features[$feature];
     }
 }

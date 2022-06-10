@@ -3,6 +3,6 @@ services:
         class: Novaway\Bundle\FeatureFlagBundle\Twig\Extension\FeatureFlagExtension
         public: false
         arguments:
-            - "@novaway_feature_flag.manager.feature"
+            - "@novaway_feature_flag.manager"
         tags:
             - { name: twig.extension }
