@@ -29,6 +29,13 @@ final class TwigTest extends WebTestCase
         static::assertStringNotContainsString('Foo is disabled', $content);
     }
 
+    public function testTwigRenderWithNonExistentFeatureIsConsideredAsDisabled(): void
+    {
+        $content = $this->twigRender('index.html.twig');
+
+        static::assertStringContainsString('Non existent feature is considered as disabled', $content);
+    }
+
     private function twigRender(string $template): string
     {
         return static::getContainer()->get('twig')->render($template);

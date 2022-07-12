@@ -44,7 +44,7 @@ class ArrayStorage extends AbstractStorage
     public function get(string $feature): FeatureInterface
     {
         if (!isset($this->features[$feature])) {
-            throw new \RuntimeException("Feature '$feature' not exists.");
+            throw new FeatureUndefinedException("Feature '$feature' not exists.");
         }
 
         return $this->features[$feature];

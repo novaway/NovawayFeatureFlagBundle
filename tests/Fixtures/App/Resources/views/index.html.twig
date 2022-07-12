@@ -13,3 +13,7 @@
 {% if isFeatureDisabled('bar') %}
     Bar is disabled
 {% endif %}
+
+{% if isFeatureDisabled('my-unknow-feature') %}
+    Non existent feature is considered as disabled
+{% endif %}
