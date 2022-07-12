@@ -77,5 +77,6 @@ final class DefaultFeatureStorageTest extends WebTestCase
         yield 'overrided feature configuration' => ['override', false];
         yield 'feature enabled' => ['foo', true];
         yield 'feature disabled' => ['bar', false];
+        yield 'unknow feature is considered as disabled' => ['my-unknow-feature', false];
     }
 }

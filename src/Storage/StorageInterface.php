@@ -23,7 +23,7 @@ interface StorageInterface
     /**
      * Return feature flag
      *
-     * @throws \RuntimeException If the feature doesn't exist
+     * @throws FeatureUndefinedException If the feature doesn't exist
      */
     public function get(string $feature): FeatureInterface;
 

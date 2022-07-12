@@ -10,6 +10,7 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Manager;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
+use Novaway\Bundle\FeatureFlagBundle\Storage\FeatureUndefinedException;
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 
 class DefaultFeatureManager implements FeatureManager
@@ -32,7 +33,11 @@ class DefaultFeatureManager implements FeatureManager
 
     public function isEnabled(string $feature): bool
     {
-        return $this->storage->get($feature)->isEnabled();
+        try {
+            return $this->storage->get($feature)->isEnabled();
+        } catch (FeatureUndefinedException $e) {
+            return false;
+        }
     }
 
     public function isDisabled(string $feature): bool
