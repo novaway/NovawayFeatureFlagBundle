@@ -57,18 +57,15 @@ final class DefaultFeatureStorageTest extends WebTestCase
     {
         $features = $this->defaultRegisteredStorage->all();
 
-        static::assertCount(3, $features);
+        static::assertCount(4, $features);
         static::assertEquals(
-            new Feature('override', false),
-            $features['override'],
-        );
-        static::assertEquals(
-            new Feature('foo', true),
-            $features['foo'],
-        );
-        static::assertEquals(
-            new Feature('bar', false, 'Bar feature description'),
-            $features['bar'],
+            [
+                'override' => new Feature('override', false),
+                'foo' => new Feature('foo', true),
+                'bar' => new Feature('bar', false, 'Bar feature description'),
+                'env_var' => new Feature('env_var', false),
+            ],
+            $features,
         );
     }
 
@@ -78,5 +75,6 @@ final class DefaultFeatureStorageTest extends WebTestCase
         yield 'feature enabled' => ['foo', true];
         yield 'feature disabled' => ['bar', false];
         yield 'unknow feature is considered as disabled' => ['my-unknow-feature', false];
+        yield 'environment variable flag' => ['env_var', false];
     }
 }

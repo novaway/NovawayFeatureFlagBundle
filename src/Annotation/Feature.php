@@ -14,6 +14,7 @@ use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 
 /**
  * @Annotation
+ *
  * @NamedArgumentConstructor()
  */
 #[Attribute]
