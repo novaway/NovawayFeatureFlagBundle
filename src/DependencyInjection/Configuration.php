@@ -35,7 +35,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->beforeNormalization()
                             ->ifTrue(function ($v) { return !is_array($v); })
-                            ->then(function ($v) { return ['enabled' => (bool) $v]; })
+                            ->then(function ($v) { return ['enabled' => $v]; })
                         ->end()
                         ->children()
                             ->scalarNode('description')->end()

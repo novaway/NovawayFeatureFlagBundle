@@ -13,6 +13,7 @@ use Novaway\Bundle\FeatureFlagBundle\NovawayFeatureFlagBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
@@ -29,8 +30,9 @@ class AppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        $loader->load(function ($container) {
+        $loader->load(function (ContainerBuilder $container) {
             $container->register('logger', \Psr\Log\NullLogger::class);
+            $container->setParameter('env(FEATURE_ENVVAR)', 'false');
 
             $container->loadFromExtension('framework', [
                 'assets' => [],
@@ -53,6 +55,7 @@ class AppKernel extends Kernel
                         'enabled' => false,
                         'description' => 'Bar feature description',
                     ],
+                    'env_var' => '%env(bool:FEATURE_ENVVAR)%',
                 ],
             ]);
 
