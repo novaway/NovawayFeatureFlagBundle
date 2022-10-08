@@ -32,10 +32,7 @@ class NovawayFeatureFlagExtension extends Extension
 
         $container->setParameter('novaway_feature_flag.features', $config['features']);
         $container->setAlias('novaway_feature_flag.storage', $config['storage']);
-
-        $container
-            ->setAlias('novaway_feature_flag.manager.feature', $config['storage'])
-            ->setPublic(true); // ToDo: this service should not be public. Remove it in the next major version
+        $container->setAlias('novaway_feature_flag.manager.feature', $config['storage']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

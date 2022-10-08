@@ -29,30 +29,6 @@ final class DefaultFeatureStorageTest extends WebTestCase
         static::assertInstanceOf(StorageInterface::class, $this->defaultRegisteredStorage);
     }
 
-    /**
-     * @dataProvider features
-     */
-    public function testIsFeatureEnabled(string $feature, bool $isEnabled): void
-    {
-        static::assertSame($isEnabled, $this->defaultRegisteredStorage->isEnabled($feature));
-    }
-
-    /**
-     * @dataProvider features
-     */
-    public function testIsFeatureDisabled(string $feature, bool $isEnabled): void
-    {
-        static::assertNotSame($isEnabled, $this->defaultRegisteredStorage->isDisabled($feature));
-    }
-
-    /**
-     * @dataProvider features
-     */
-    public function testCheckFeatureState(string $feature, bool $isEnabled): void
-    {
-        static::assertSame($isEnabled, $this->defaultRegisteredStorage->check($feature));
-    }
-
     public function testAccessAllRegisteredFeatures(): void
     {
         $features = $this->defaultRegisteredStorage->all();
@@ -67,14 +43,5 @@ final class DefaultFeatureStorageTest extends WebTestCase
             ],
             $features,
         );
-    }
-
-    public function features(): iterable
-    {
-        yield 'overrided feature configuration' => ['override', false];
-        yield 'feature enabled' => ['foo', true];
-        yield 'feature disabled' => ['bar', false];
-        yield 'unknow feature is considered as disabled' => ['my-unknow-feature', false];
-        yield 'environment variable flag' => ['env_var', false];
     }
 }

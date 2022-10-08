@@ -12,7 +12,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
 
-class ArrayStorage extends AbstractStorage
+class ArrayStorage implements StorageInterface
 {
     /** @var FeatureInterface[] */
     private $features;

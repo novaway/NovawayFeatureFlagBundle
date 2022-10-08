@@ -1,10 +1,10 @@
 services:
+    Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager: '@Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager'
     Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager:
         arguments: ['@Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage']
-    Novaway\Bundle\FeatureFlagBundle\Manager\LegacyFeatureManager:
-        arguments: ['@Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage']
+
     novaway_feature_flag.manager:
-        alias: 'Novaway\Bundle\FeatureFlagBundle\Manager\LegacyFeatureManager'
+        alias: 'Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager'
 
     Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage:
         arguments:

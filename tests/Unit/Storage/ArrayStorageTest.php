@@ -43,48 +43,4 @@ final class ArrayStorageTest extends TestCase
             $features['bar'],
         );
     }
-
-    /**
-     * @dataProvider features
-     */
-    public function testCheckMethodReturnFeatureState(array $featuresDefinition, string $feature, bool $isEnabled): void
-    {
-        $storage = new ArrayStorage($featuresDefinition);
-
-        static::assertSame($isEnabled, $storage->check($feature));
-    }
-
-    /**
-     * @dataProvider features
-     */
-    public function testIsEnabledMethodReturnFeatureState(array $featuresDefinition, string $feature, bool $isEnabled): void
-    {
-        $storage = new ArrayStorage($featuresDefinition);
-
-        static::assertSame($isEnabled, $storage->isEnabled($feature));
-    }
-
-    /**
-     * @dataProvider features
-     */
-    public function testIsDisabledMethod(array $featuresDefinition, string $feature, bool $isEnabled): void
-    {
-        $storage = new ArrayStorage($featuresDefinition);
-
-        static::assertNotSame($isEnabled, $storage->isDisabled($feature));
-    }
-
-    public function features(): iterable
-    {
-        yield 'no feature defined' => [[], 'foo', false];
-
-        $featuresDefinition = [
-            'foo' => ['enabled' => false],
-            'bar' => ['enabled' => true, 'description' => 'Feature bar description'],
-        ];
-
-        yield 'enable feature' => [$featuresDefinition, 'foo', false];
-        yield 'disable feature' => [$featuresDefinition, 'bar', true];
-        yield 'unknown feature' => [$featuresDefinition, 'unknown', false];
-    }
 }
