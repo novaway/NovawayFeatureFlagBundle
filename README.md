@@ -44,6 +44,24 @@ novaway_feature_flag:
     features:
         my_feature_1: false
         my_feature_2: true
+        my_feature3: '%env(bool:FEATURE_ENVVAR)%'
+```
+
+You can also define feature flags in an extended way:
+
+```yaml
+# ...
+novaway_feature_flag:
+    features:
+        my_feature_1:
+            enabled: false
+            description: MyFeature1 description text
+        my_feature_2:
+            enabled: true
+            description: MyFeature2 description text
+        my_feature3:
+            enabled: '%env(bool:FEATURE_ENVVAR)%'
+            description: MyFeature3 description text
 ```
 
 #### As a service
