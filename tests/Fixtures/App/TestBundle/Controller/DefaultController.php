@@ -10,6 +10,7 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller;
 
 use Novaway\Bundle\FeatureFlagBundle\Annotation\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,20 +20,20 @@ class DefaultController extends AbstractController
     /**
      * @var StorageInterface
      */
-    private $storage;
+    private $manager;
 
-    public function __construct(StorageInterface $storage)
+    public function __construct(FeatureManager $manager)
     {
-        $this->storage = $storage;
+        $this->manager = $manager;
     }
 
     public function features()
     {
         return $this->render('default/features.html.twig', [
-            'feature_foo_enabled' => $this->storage->isEnabled('foo'),
-            'feature_bar_enabled' => $this->storage->isEnabled('bar'),
-            'feature_foo_disabled' => $this->storage->isDisabled('foo'),
-            'feature_bar_disabled' => $this->storage->isDisabled('bar'),
+            'feature_foo_enabled' => $this->manager->isEnabled('foo'),
+            'feature_bar_enabled' => $this->manager->isEnabled('bar'),
+            'feature_foo_disabled' => $this->manager->isDisabled('foo'),
+            'feature_bar_disabled' => $this->manager->isDisabled('bar'),
         ]);
     }
 
