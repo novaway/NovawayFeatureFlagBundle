@@ -34,15 +34,15 @@ class NovawayFeatureFlagExtension extends Extension
         $container->setAlias('novaway_feature_flag.storage', $config['storage']);
         $container->setAlias('novaway_feature_flag.manager.feature', $config['storage']);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.yml');
+        $loader = new Loader\PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.php');
 
         if (class_exists(Environment::class)) {
-            $loader->load('twig.yml');
+            $loader->load('twig.php');
         }
 
         if ($container->getParameter('kernel.debug')) {
-            $loader->load('debug.yml');
+            $loader->load('debug.php');
         }
     }
 }
