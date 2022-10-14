@@ -1,9 +1,0 @@
-services:
-    novaway_feature_flag.collector.feature:
-        class: Novaway\Bundle\FeatureFlagBundle\DataCollector\FeatureCollector
-        public: false
-        arguments:
-            - "@novaway_feature_flag.manager"
-            - "@novaway_feature_flag.storage"
-        tags:
-            - { name: data_collector, template: "@NovawayFeatureFlag/data_collector/template.html.twig", id: "novaway_feature_flag.feature_collector" }
