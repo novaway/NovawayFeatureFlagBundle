@@ -11,6 +11,7 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR2' => true,
         '@Symfony' => true,
+        'global_namespace_import' => false,
         'header_comment' => ['header' => $header],
         'method_argument_space' => ['on_multiline' => 'ensure_fully_multiline'],
         'phpdoc_summary' => false,
