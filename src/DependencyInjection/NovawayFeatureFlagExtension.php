@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\DependencyInjection;
 
-use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -32,7 +32,7 @@ class NovawayFeatureFlagExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('novaway_feature_flag.features', $config['features']);
-        $container->setAlias(StorageInterface::class, $config['storage']);
+        $container->setAlias(Storage::class, $config['storage']);
 
         $loader = new Loader\PhpFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.php');

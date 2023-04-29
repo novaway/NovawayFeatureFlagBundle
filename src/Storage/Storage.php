@@ -11,7 +11,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
 
-interface StorageInterface
+interface Storage
 {
     /**
      * Return all features

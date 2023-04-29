@@ -26,11 +26,11 @@ class Feature implements FeatureInterface
     /**
      * Constructor
      */
-    public function __construct(string $key, bool $enabled, string $description = null)
+    public function __construct(string $key, bool $enabled, string $description = '')
     {
         $this->key = $key;
         $this->enabled = $enabled;
-        $this->description = $description ?? '';
+        $this->description = $description;
     }
 
     /**

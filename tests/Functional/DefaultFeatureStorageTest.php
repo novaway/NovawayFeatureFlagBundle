@@ -14,11 +14,11 @@ namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional;
 use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
-use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 
 final class DefaultFeatureStorageTest extends WebTestCase
 {
-    /** @var StorageInterface */
+    /** @var Storage */
     private $defaultRegisteredStorage;
 
     protected function setUp(): void

@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Command;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
-use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -25,10 +25,10 @@ final class ListFeatureCommand extends Command
     private const FORMAT_JSON = 'json';
     private const FORMAT_TABLE = 'table';
 
-    /** @var StorageInterface */
+    /** @var Storage */
     private $storage;
 
-    public function __construct(StorageInterface $storage)
+    public function __construct(Storage $storage)
     {
         parent::__construct('novaway:feature-flag:list');
 
