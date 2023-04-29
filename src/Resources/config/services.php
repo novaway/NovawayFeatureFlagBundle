@@ -27,22 +27,17 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->args([service(StorageInterface::class)])
         ->tag('console.command');
 
-    $services->alias(FeatureManager::class, DefaultFeatureManager::class);
-
     $services->set(DefaultFeatureManager::class)
-        ->args([service(ArrayStorage::class)]);
-
-    $services->alias('novaway_feature_flag.manager', DefaultFeatureManager::class);
+        ->args([service(StorageInterface::class)]);
+    $services->alias(FeatureManager::class, DefaultFeatureManager::class);
 
     $services->set(ArrayStorage::class)
         ->args(['%novaway_feature_flag.features%']);
 
-    $services->alias('novaway_feature_flag.storage.default', ArrayStorage::class);
-
-    $services->set('novaway_feature_flag.listener.controller', ControllerListener::class)
+    $services->set(ControllerListener::class)
         ->tag('kernel.event_subscriber');
 
-    $services->set('novaway_feature_flag.listener.feature', FeatureListener::class)
-        ->args([service('novaway_feature_flag.manager')])
+    $services->set(FeatureListener::class)
+        ->args([service(FeatureManager::class)])
         ->tag('kernel.event_subscriber');
 };

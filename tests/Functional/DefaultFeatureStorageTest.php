@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional;
 
+use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 
@@ -21,12 +23,12 @@ final class DefaultFeatureStorageTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->defaultRegisteredStorage = static::getContainer()->get('novaway_feature_flag.manager.feature');
+        $this->defaultRegisteredStorage = static::getContainer()->get(DefaultFeatureManager::class);
     }
 
-    public function testDefaultFeatureManagerIsStorage(): void
+    public function testDefaultFeatureManagerIsFeatureManager(): void
     {
-        static::assertInstanceOf(StorageInterface::class, $this->defaultRegisteredStorage);
+        static::assertInstanceOf(FeatureManager::class, $this->defaultRegisteredStorage);
     }
 
     public function testAccessAllRegisteredFeatures(): void

@@ -7,7 +7,5 @@ services:
         Symfony\Bundle\FrameworkBundle\Controller\AbstractController:
             tags: ['controller.service_arguments']
 
-    Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface: '@novaway_feature_flag.manager.feature'
-
     Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\AttributeClassDisabledController: ~
     Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController: ~

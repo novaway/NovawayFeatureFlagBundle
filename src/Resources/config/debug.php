@@ -10,6 +10,8 @@ declare(strict_types=1);
  */
 
 use Novaway\Bundle\FeatureFlagBundle\DataCollector\FeatureCollector;
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -17,9 +19,8 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
-    $services->set('novaway_feature_flag.collector.feature', FeatureCollector::class)
-        ->private()
-        ->args([service('novaway_feature_flag.manager'), service('novaway_feature_flag.storage')])
+    $services->set(FeatureCollector::class)
+        ->args([service(FeatureManager::class), service(StorageInterface::class)])
         ->tag('data_collector', [
             'template' => '@NovawayFeatureFlag/data_collector/template.html.twig',
             'id' => 'novaway_feature_flag.feature_collector',
