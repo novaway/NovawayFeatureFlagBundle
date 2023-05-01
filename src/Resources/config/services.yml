@@ -1,4 +1,8 @@
 services:
+    Novaway\Bundle\FeatureFlagBundle\Command\ListFeatureCommand:
+        arguments: ['@novaway_feature_flag.storage']
+        tags: ['console.command']
+
     Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager:
         arguments: ['@Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage']
     Novaway\Bundle\FeatureFlagBundle\Manager\LegacyFeatureManager:
