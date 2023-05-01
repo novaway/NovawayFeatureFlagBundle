@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller;
 
-use Novaway\Bundle\FeatureFlagBundle\Annotation\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\Feature;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 

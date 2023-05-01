@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\EventListener;
 
-use Novaway\Bundle\FeatureFlagBundle\Annotation\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\Feature;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;

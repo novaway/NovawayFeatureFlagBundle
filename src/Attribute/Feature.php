@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Novaway\Bundle\FeatureFlagBundle\Annotation;
+namespace Novaway\Bundle\FeatureFlagBundle\Attribute;
 
 use Attribute;
 

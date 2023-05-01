@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller;
 
-use Novaway\Bundle\FeatureFlagBundle\Annotation\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
