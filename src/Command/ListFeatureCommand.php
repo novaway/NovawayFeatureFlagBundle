@@ -59,10 +59,13 @@ final class ListFeatureCommand extends Command
                 break;
 
             default:
-                throw new \InvalidArgumentException('Invalid output format');
+                /* @phpstan-ignore-next-line */
+                $output->writeln("<error>Invalid format: {$input->getOption('format')}</error>");
+
+                return 1;
         }
 
-        return Command::SUCCESS;
+        return 0;
     }
 
     private function renderTable(OutputInterface $output, array $features): void

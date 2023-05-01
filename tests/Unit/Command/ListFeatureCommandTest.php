@@ -98,10 +98,13 @@ CSV,
     public function testAnErrorOccuredIfInvalidFormatIsProvided(): void
     {
         $commandTester = $this->createCommandTester();
-
-        $this->expectException(\InvalidArgumentException::class);
-
         $commandTester->execute(['--format' => 'invalid']);
+
+        static::assertNotSame(0, $commandTester->getStatusCode());
+        static::assertSame(<<<OUTPUT
+Invalid format: invalid
+
+OUTPUT, $commandTester->getDisplay());
     }
 
     /**
@@ -112,12 +115,11 @@ CSV,
         $commandTester = $this->createCommandTester($features);
         $commandTester->execute(['--format' => $outputFormat]);
 
-        $commandTester->assertCommandIsSuccessful();
-
+        static::assertSame(0, $commandTester->getStatusCode());
         static::assertSame($expectedOutput, $commandTester->getDisplay());
     }
 
-    private function featuresProvider(): iterable
+    public function featuresProvider(): iterable
     {
         foreach (self::TEST_DATA as $caseDescription => $testData) {
             foreach ($testData['output'] as $format => $expectedOutput) {
