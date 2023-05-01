@@ -37,6 +37,7 @@ final class ListFeatureCommand extends Command
 
     protected function configure(): void
     {
+        $this->setDescription('List all features with their state');
         $this->addOption('format', 'f', InputOption::VALUE_OPTIONAL, 'Output format', self::FORMAT_TABLE);
     }
 
