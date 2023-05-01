@@ -21,6 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ListFeatureCommand extends Command
 {
+    private const FORMAT_CSV = 'csv';
     private const FORMAT_JSON = 'json';
     private const FORMAT_TABLE = 'table';
 
@@ -44,6 +45,10 @@ final class ListFeatureCommand extends Command
         $features = $this->storage->all();
 
         switch ($input->getOption('format')) {
+            case self::FORMAT_CSV:
+                $this->renderCsv($output, $features);
+                break;
+
             case self::FORMAT_JSON:
                 $this->renderJson($output, $features);
                 break;
@@ -84,5 +89,34 @@ final class ListFeatureCommand extends Command
         );
 
         $output->writeln($json);
+    }
+
+    private function renderCsv(OutputInterface $output, array $features): void
+    {
+        $output->writeln($this->getCsvLine(['Name', 'Enabled', 'Description']));
+
+        foreach ($features as $feature) {
+            $output->writeln($this->getCsvLine($feature->toArray()));
+        }
+    }
+
+    private function getCsvLine(array $columns): string
+    {
+        $fp = fopen('php://temp', 'w+');
+        if (false === $fp) {
+            throw new \RuntimeException('Unable to open temporary file');
+        }
+
+        fputcsv($fp, $columns);
+
+        rewind($fp);
+        $data = fread($fp, 1048576); // 1MB
+        if (false === $data) {
+            throw new \RuntimeException('Unable to read temporary file');
+        }
+
+        fclose($fp);
+
+        return rtrim($data, PHP_EOL);
     }
 }

@@ -44,6 +44,19 @@ final class ListFeatureCommandTest extends TestCase
         static::assertSame($expectedOutput, $commandTester->getDisplay());
     }
 
+    /**
+     * @dataProvider csvListFeatureProvider
+     */
+    public function testConfiguredFeaturesAreDisplayedInCsv(array $features, string $expectedOutput): void
+    {
+        $commandTester = $this->createCommandTester($features);
+        $commandTester->execute(['--format' => 'csv']);
+
+        $commandTester->assertCommandIsSuccessful();
+
+        static::assertSame($expectedOutput, $commandTester->getDisplay());
+    }
+
     public function tableListFeatureProvider(): iterable
     {
         yield 'no feature' => [
@@ -129,6 +142,41 @@ JSON
 }
 
 JSON
+        ];
+    }
+
+    public function csvListFeatureProvider(): iterable
+    {
+        yield 'no feature' => [
+            [],
+            <<<CSV
+Name,Enabled,Description
+
+CSV
+        ];
+
+        yield 'with features' => [
+            [
+                'feature1' => [
+                    'enabled' => true,
+                    'description' => 'Feature 1 description',
+                ],
+                'feature2' => [
+                    'enabled' => false,
+                    'description' => 'Feature 2 description',
+                ],
+                'feature3' => [
+                    'enabled' => true,
+                    'description' => 'Feature 3 description',
+                ],
+            ],
+            <<<CSV
+Name,Enabled,Description
+feature1,1,"Feature 1 description"
+feature2,,"Feature 2 description"
+feature3,1,"Feature 3 description"
+
+CSV
         ];
     }
 
