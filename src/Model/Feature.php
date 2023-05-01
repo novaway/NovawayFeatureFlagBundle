@@ -56,4 +56,13 @@ class Feature implements FeatureInterface
     {
         return $this->enabled;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'key' => $this->key,
+            'enabled' => $this->enabled,
+            'description' => $this->description,
+        ];
+    }
 }

@@ -31,6 +31,19 @@ final class ListFeatureCommandTest extends TestCase
         static::assertSame($expectedOutput, $commandTester->getDisplay());
     }
 
+    /**
+     * @dataProvider jsonListFeatureProvider
+     */
+    public function testConfiguredFeaturesAreDisplayedInJson(array $features, string $expectedOutput): void
+    {
+        $commandTester = $this->createCommandTester($features);
+        $commandTester->execute(['--format' => 'json']);
+
+        $commandTester->assertCommandIsSuccessful();
+
+        static::assertSame($expectedOutput, $commandTester->getDisplay());
+    }
+
     public function tableListFeatureProvider(): iterable
     {
         yield 'no feature' => [
@@ -68,6 +81,54 @@ OUTPUT
 +----------+---------+-----------------------+
 
 OUTPUT
+        ];
+    }
+
+    public function jsonListFeatureProvider(): iterable
+    {
+        yield 'no feature' => [
+            [],
+            <<<JSON
+[]
+
+JSON
+        ];
+
+        yield 'with features' => [
+            [
+                'feature1' => [
+                    'enabled' => true,
+                    'description' => 'Feature 1 description',
+                ],
+                'feature2' => [
+                    'enabled' => false,
+                    'description' => 'Feature 2 description',
+                ],
+                'feature3' => [
+                    'enabled' => true,
+                    'description' => 'Feature 3 description',
+                ],
+            ],
+            <<<JSON
+{
+    "feature1": {
+        "key": "feature1",
+        "enabled": true,
+        "description": "Feature 1 description"
+    },
+    "feature2": {
+        "key": "feature2",
+        "enabled": false,
+        "description": "Feature 2 description"
+    },
+    "feature3": {
+        "key": "feature3",
+        "enabled": true,
+        "description": "Feature 3 description"
+    }
+}
+
+JSON
         ];
     }
 
