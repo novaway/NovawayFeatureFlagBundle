@@ -10,13 +10,7 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Annotation;
 
 use Attribute;
-use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 
-/**
- * @Annotation
- *
- * @NamedArgumentConstructor()
- */
 #[Attribute]
 class Feature
 {

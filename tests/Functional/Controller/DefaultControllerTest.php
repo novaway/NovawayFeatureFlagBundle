@@ -65,24 +65,6 @@ final class DefaultControllerTest extends WebTestCase
         static::assertSame(404, static::$client->getResponse()->getStatusCode());
     }
 
-    public function testAnnotationFooEnabledAction()
-    {
-        $crawler = static::$client->request('GET', '/annotation/enabled');
-
-        static::assertSame(200, static::$client->getResponse()->getStatusCode());
-        static::assertGreaterThan(
-            0,
-            $crawler->filter('html:contains("DefaultController::annotationFooEnabledAction")')->count(),
-        );
-    }
-
-    public function testAnnotationFooDisabledAction()
-    {
-        static::$client->request('GET', '/annotation/disabled');
-
-        static::assertSame(404, static::$client->getResponse()->getStatusCode());
-    }
-
     /**
      * @requires PHP >= 8.0
      */

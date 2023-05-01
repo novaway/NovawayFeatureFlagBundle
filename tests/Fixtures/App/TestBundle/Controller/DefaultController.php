@@ -47,22 +47,6 @@ class DefaultController extends AbstractController
         return new Response('DefaultController::requestFooDisabledAction');
     }
 
-    /**
-     * @Feature("foo")
-     */
-    public function annotationFooEnabled()
-    {
-        return new Response('DefaultController::annotationFooEnabledAction');
-    }
-
-    /**
-     * @Feature("foo", enabled=false)
-     */
-    public function annotationFooDisabled()
-    {
-        return new Response('DefaultController::annotationFooDisabledAction');
-    }
-
     #[Feature(name: 'foo')]
     public function attributeFooEnabled()
     {
