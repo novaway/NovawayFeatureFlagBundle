@@ -22,14 +22,14 @@ final class ConfigurationTest extends TestCase
 {
     public function testFeatureConfigurationIsLoaded(): void
     {
-        $configuration = $this->getConfiguration('config.yml');
+        $configuration = $this->getConfiguration();
 
         static::assertArrayHasKey('features', $configuration);
         static::assertTrue($configuration['features']['foo']);
         static::assertFalse($configuration['features']['bar']);
     }
 
-    private function getConfiguration(string $file): array
+    private function getConfiguration(): array
     {
         $extension = new NovawayFeatureFlagExtension();
 

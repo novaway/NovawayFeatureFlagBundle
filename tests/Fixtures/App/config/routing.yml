@@ -1,6 +1,6 @@
 features:
-    path:         /features
-    defaults:     { _controller: 'Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::features' }
+    path: /features
+    defaults: { _controller: 'Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::features' }
 
 request_configuration_enabled:
     path: /request/enabled
@@ -20,26 +20,14 @@ request_configuration_disabled:
                 feature: foo
                 enabled: false
 
-annotation_class_disabled:
-    path:     /annotation/class/disabled
-    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\AnnotationClassDisabledController }
-
-annotation_configuration_enabled:
-    path:     /annotation/enabled
-    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::annotationFooEnabled }
-
-annotation_configuration_disabled:
-    path:     /annotation/disabled
-    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::annotationFooDisabled }
-
 attribute_class_disabled:
-    path:     /attribute/class/disabled
+    path: /attribute/class/disabled
     defaults: { _controller:  Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\AttributeClassDisabledController }
 
 attribute_configuration_enabled:
-    path:     /attribute/enabled
+    path: /attribute/enabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::attributeFooEnabled }
 
 attribute_configuration_disabled:
-    path:     /attribute/disabled
+    path: /attribute/disabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::attributeFooDisabled }

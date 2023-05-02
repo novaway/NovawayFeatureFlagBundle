@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller;
 
-use Novaway\Bundle\FeatureFlagBundle\Annotation\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,22 +45,6 @@ class DefaultController extends AbstractController
     public function requestFooDisabled()
     {
         return new Response('DefaultController::requestFooDisabledAction');
-    }
-
-    /**
-     * @Feature("foo")
-     */
-    public function annotationFooEnabled()
-    {
-        return new Response('DefaultController::annotationFooEnabledAction');
-    }
-
-    /**
-     * @Feature("foo", enabled=false)
-     */
-    public function annotationFooDisabled()
-    {
-        return new Response('DefaultController::annotationFooDisabledAction');
     }
 
     #[Feature(name: 'foo')]

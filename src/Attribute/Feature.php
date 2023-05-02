@@ -7,16 +7,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Novaway\Bundle\FeatureFlagBundle\Annotation;
+namespace Novaway\Bundle\FeatureFlagBundle\Attribute;
 
 use Attribute;
-use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
 
-/**
- * @Annotation
- *
- * @NamedArgumentConstructor()
- */
 #[Attribute]
 class Feature
 {

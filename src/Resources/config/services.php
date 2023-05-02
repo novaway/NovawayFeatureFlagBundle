@@ -34,7 +34,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias('novaway_feature_flag.storage.default', ArrayStorage::class);
 
     $services->set('novaway_feature_flag.listener.controller', ControllerListener::class)
-        ->args([service('annotation_reader')])
         ->tag('kernel.event_subscriber');
 
     $services->set('novaway_feature_flag.listener.feature', FeatureListener::class)

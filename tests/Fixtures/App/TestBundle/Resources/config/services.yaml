@@ -9,6 +9,5 @@ services:
 
     Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface: '@novaway_feature_flag.manager.feature'
 
-    Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\AnnotationClassDisabledController: ~
     Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\AttributeClassDisabledController: ~
     Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController: ~
