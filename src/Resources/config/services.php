@@ -9,17 +9,23 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+use Novaway\Bundle\FeatureFlagBundle\Command\ListFeatureCommand;
 use Novaway\Bundle\FeatureFlagBundle\EventListener\ControllerListener;
 use Novaway\Bundle\FeatureFlagBundle\EventListener\FeatureListener;
 use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
+use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
+
+    $services->set(ListFeatureCommand::class)
+        ->args([service(StorageInterface::class)])
+        ->tag('console.command');
 
     $services->alias(FeatureManager::class, DefaultFeatureManager::class);
 

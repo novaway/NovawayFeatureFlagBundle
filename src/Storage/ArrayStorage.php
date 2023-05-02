@@ -24,6 +24,8 @@ class ArrayStorage implements StorageInterface
      */
     public function __construct(array $features = [])
     {
+        ksort($features);
+
         $this->features = [];
         foreach ($features as $key => $feature) {
             $this->features[$key] = new Feature($key, $feature['enabled'], $feature['description'] ?? '');
