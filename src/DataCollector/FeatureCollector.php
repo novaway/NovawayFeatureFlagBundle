@@ -11,7 +11,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\DataCollector;
 
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
-use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -20,13 +20,13 @@ class FeatureCollector extends DataCollector
 {
     /** @var FeatureManager */
     private $manager;
-    /** @var StorageInterface */
+    /** @var Storage */
     private $storage;
 
     /**
      * Constructor
      */
-    public function __construct(FeatureManager $manager, StorageInterface $storage)
+    public function __construct(FeatureManager $manager, Storage $storage)
     {
         $this->manager = $manager;
         $this->storage = $storage;

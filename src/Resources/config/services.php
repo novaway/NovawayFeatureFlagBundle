@@ -15,7 +15,7 @@ use Novaway\Bundle\FeatureFlagBundle\EventListener\FeatureListener;
 use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
-use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
@@ -24,11 +24,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(ListFeatureCommand::class)
-        ->args([service(StorageInterface::class)])
+        ->args([service(Storage::class)])
         ->tag('console.command');
 
     $services->set(DefaultFeatureManager::class)
-        ->args([service(StorageInterface::class)]);
+        ->args([service(Storage::class)]);
     $services->alias(FeatureManager::class, DefaultFeatureManager::class);
 
     $services->set(ArrayStorage::class)

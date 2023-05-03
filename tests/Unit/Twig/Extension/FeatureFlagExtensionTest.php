@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Twig\Extension;
 
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Novaway\Bundle\FeatureFlagBundle\Twig\Extension\FeatureFlagExtension;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -54,7 +54,7 @@ final class FeatureFlagExtensionTest extends TestCase
     }
 
     /**
-     * @return MockObject&StorageInterface
+     * @return MockObject&Storage
      */
     private function createStorageMock(): MockObject
     {

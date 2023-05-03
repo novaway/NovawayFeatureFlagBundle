@@ -11,14 +11,14 @@ namespace Novaway\Bundle\FeatureFlagBundle\Manager;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
 use Novaway\Bundle\FeatureFlagBundle\Storage\FeatureUndefinedException;
-use Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface;
+use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 
 class DefaultFeatureManager implements FeatureManager
 {
-    /** @var StorageInterface */
+    /** @var Storage */
     protected $storage;
 
-    public function __construct(StorageInterface $storage)
+    public function __construct(Storage $storage)
     {
         $this->storage = $storage;
     }
