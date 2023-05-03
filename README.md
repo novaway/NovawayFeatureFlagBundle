@@ -66,14 +66,17 @@ novaway_feature_flag:
 
 #### As a service
 
-The bundle adds a `novaway_feature_flag.manager.feature` service you can use in your  PHP classes.
+The bundle adds a `Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager` service you can use in your  PHP classes.
 
 ```php
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
+// ...
+
 class MyController extends Controller
 {
     public function myAction()
     {
-        $featureManager = $this->get('novaway_feature_flag.manager.feature');
+        $featureManager = $this->get(FeatureManager::class);
 
         if ($featureManager->isEnabled('my_feature_1')) {
             // my_feature_1 is enabled

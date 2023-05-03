@@ -9,6 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\DependencyInjection;
 
+use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -29,7 +30,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('storage')->defaultValue('novaway_feature_flag.storage.default')->end()
+                ->scalarNode('storage')->defaultValue(ArrayStorage::class)->end()
                 ->arrayNode('features')
                     ->useAttributeAsKey('name')
                     ->prototype('array')
