@@ -7,7 +7,11 @@
     "authors": [
         {
             "name": "Jérémy DECOOL",
-            "email": "jeremy@novaway.fr"
+            "email": "jeremy@activinnov.fr"
+        },
+        {
+            "name": "Novaway Team",
+            "email": "git@novaway.fr"
         }
     ],
     "require": {
