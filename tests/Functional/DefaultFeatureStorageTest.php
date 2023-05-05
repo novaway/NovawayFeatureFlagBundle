@@ -13,7 +13,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional;
 
 use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 
 final class DefaultFeatureStorageTest extends WebTestCase
@@ -38,10 +38,10 @@ final class DefaultFeatureStorageTest extends WebTestCase
         static::assertCount(4, $features);
         static::assertEquals(
             [
-                'override' => new Feature('override', false),
-                'foo' => new Feature('foo', true),
-                'bar' => new Feature('bar', false, 'Bar feature description'),
-                'env_var' => new Feature('env_var', false),
+                'override' => new FeatureFlag('override', false),
+                'foo' => new FeatureFlag('foo', true),
+                'bar' => new FeatureFlag('bar', false, 'Bar feature description'),
+                'env_var' => new FeatureFlag('env_var', false),
             ],
             $features,
         );

@@ -10,7 +10,7 @@
 namespace Novaway\Bundle\FeatureFlagBundle\DataCollector;
 
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
+use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +33,7 @@ class FeatureCollector extends DataCollector
         $activeFeatureCount = count(
             array_filter(
                 $features,
-                fn (FeatureInterface $feature): bool => $this->manager->isEnabled($feature->getKey())
+                fn (Feature $feature): bool => $this->manager->isEnabled($feature->getKey())
             )
         );
 
@@ -46,7 +46,7 @@ class FeatureCollector extends DataCollector
     /**
      * Get collected features
      *
-     * @return FeatureInterface[]
+     * @return Feature[]
      */
     public function getFeatures(): array
     {

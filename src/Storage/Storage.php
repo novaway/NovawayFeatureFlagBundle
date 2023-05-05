@@ -9,14 +9,14 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
-use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
+use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 
 interface Storage
 {
     /**
      * Return all features
      *
-     * @return FeatureInterface[]
+     * @return Feature[]
      */
     public function all(): array;
 
@@ -25,5 +25,5 @@ interface Storage
      *
      * @throws FeatureUndefinedException If the feature doesn't exist
      */
-    public function get(string $feature): FeatureInterface;
+    public function get(string $feature): Feature;
 }

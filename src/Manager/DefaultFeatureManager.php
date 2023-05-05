@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Manager;
 
-use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
+use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Storage\FeatureUndefinedException;
 use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 
@@ -21,7 +21,7 @@ class DefaultFeatureManager implements FeatureManager
     }
 
     /**
-     * @return FeatureInterface[]
+     * @return Feature[]
      */
     public function all(): array
     {

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Command;
 
-use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -76,7 +76,7 @@ final class ListFeatureCommand extends Command
     private function renderJson(OutputInterface $output, array $features): void
     {
         $json = json_encode(
-            array_map(static fn (Feature $feature): array => $feature->toArray(), $features),
+            array_map(static fn (FeatureFlag $feature): array => $feature->toArray(), $features),
             JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR,
         );
 

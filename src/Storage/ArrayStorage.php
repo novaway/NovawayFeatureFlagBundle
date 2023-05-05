@@ -10,7 +10,7 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
-use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
+use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 
 class ArrayStorage implements Storage
 {
@@ -23,14 +23,14 @@ class ArrayStorage implements Storage
 
         $features = [];
         foreach ($data as $key => $feature) {
-            $features[$key] = new Feature($key, $feature['enabled'], $feature['description'] ?? '');
+            $features[$key] = new FeatureFlag($key, $feature['enabled'], $feature['description'] ?? '');
         }
 
         return new self($features);
     }
 
     /**
-     * @param FeatureInterface[] $features
+     * @param Feature[] $features
      */
     public function __construct(
         private array $features = [],
@@ -48,7 +48,7 @@ class ArrayStorage implements Storage
     /**
      * {@inheritdoc}
      */
-    public function get(string $feature): FeatureInterface
+    public function get(string $feature): Feature
     {
         if (!isset($this->features[$feature])) {
             throw new FeatureUndefinedException("Feature '$feature' not exists.");

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Storage;
 
-use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use PHPUnit\Framework\TestCase;
 
@@ -35,11 +35,11 @@ final class ArrayStorageTest extends TestCase
 
         static::assertCount(2, $features);
         static::assertEquals(
-            new Feature('foo', false),
+            new FeatureFlag('foo', false),
             $features['foo'],
         );
         static::assertEquals(
-            new Feature('bar', true, 'Feature bar description'),
+            new FeatureFlag('bar', true, 'Feature bar description'),
             $features['bar'],
         );
     }
