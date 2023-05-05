@@ -32,6 +32,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->alias(FeatureManager::class, DefaultFeatureManager::class);
 
     $services->set(ArrayStorage::class)
+        ->factory([null, 'fromArray'])
         ->args(['%novaway_feature_flag.features%']);
 
     $services->set(ControllerListener::class)

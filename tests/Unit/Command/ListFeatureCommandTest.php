@@ -130,8 +130,7 @@ OUTPUT, $commandTester->getDisplay());
 
     private function createCommandTester(array $features = []): CommandTester
     {
-        $storage = new ArrayStorage($features);
-        $command = new ListFeatureCommand($storage);
+        $command = new ListFeatureCommand(ArrayStorage::fromArray($features));
 
         return new CommandTester($command);
     }

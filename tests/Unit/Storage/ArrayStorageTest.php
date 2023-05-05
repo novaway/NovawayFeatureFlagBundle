@@ -26,7 +26,7 @@ final class ArrayStorageTest extends TestCase
 
     public function testAllReturnDefinedFeatures(): void
     {
-        $storage = new ArrayStorage([
+        $storage = ArrayStorage::fromArray([
             'foo' => ['enabled' => false],
             'bar' => ['enabled' => true, 'description' => 'Feature bar description'],
         ]);
