@@ -15,18 +15,14 @@ use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
 class ArrayStorage implements Storage
 {
     /** @var FeatureInterface[] */
-    private $features;
+    private array $features = [];
 
     /**
-     * Constructor
-     *
      * @param array<string, array{enabled: bool, description: ?string}> $features
      */
     public function __construct(array $features = [])
     {
         ksort($features);
-
-        $this->features = [];
         foreach ($features as $key => $feature) {
             $this->features[$key] = new Feature($key, $feature['enabled'], $feature['description'] ?? '');
         }

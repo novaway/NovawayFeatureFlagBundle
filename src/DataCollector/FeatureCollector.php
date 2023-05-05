@@ -18,18 +18,10 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
 class FeatureCollector extends DataCollector
 {
-    /** @var FeatureManager */
-    private $manager;
-    /** @var Storage */
-    private $storage;
-
-    /**
-     * Constructor
-     */
-    public function __construct(FeatureManager $manager, Storage $storage)
-    {
-        $this->manager = $manager;
-        $this->storage = $storage;
+    public function __construct(
+        private readonly FeatureManager $manager,
+        private readonly Storage $storage,
+    ) {
     }
 
     /**
@@ -41,9 +33,7 @@ class FeatureCollector extends DataCollector
         $activeFeatureCount = count(
             array_filter(
                 $features,
-                function (FeatureInterface $feature): bool {
-                    return $this->manager->isEnabled($feature->getKey());
-                }
+                fn (FeatureInterface $feature): bool => $this->manager->isEnabled($feature->getKey())
             )
         );
 
@@ -76,7 +66,7 @@ class FeatureCollector extends DataCollector
      */
     public function getFeatureCount(): int
     {
-        return count($this->data['features']);
+        return is_countable($this->data['features']) ? count($this->data['features']) : 0;
     }
 
     /**

@@ -25,14 +25,10 @@ final class ListFeatureCommand extends Command
     private const FORMAT_JSON = 'json';
     private const FORMAT_TABLE = 'table';
 
-    /** @var Storage */
-    private $storage;
-
-    public function __construct(Storage $storage)
-    {
+    public function __construct(
+        private readonly Storage $storage,
+    ) {
         parent::__construct('novaway:feature-flag:list');
-
-        $this->storage = $storage;
     }
 
     protected function configure(): void
@@ -45,27 +41,21 @@ final class ListFeatureCommand extends Command
     {
         $features = $this->storage->all();
 
-        switch ($input->getOption('format')) {
-            case self::FORMAT_CSV:
-                $this->renderCsv($output, $features);
-                break;
-
-            case self::FORMAT_JSON:
-                $this->renderJson($output, $features);
-                break;
-
-            case self::FORMAT_TABLE:
-                $this->renderTable($output, $features);
-                break;
-
-            default:
+        try {
+            match ($input->getOption('format')) {
+                self::FORMAT_CSV => $this->renderCsv($output, $features),
+                self::FORMAT_JSON => $this->renderJson($output, $features),
+                self::FORMAT_TABLE => $this->renderTable($output, $features),
                 /* @phpstan-ignore-next-line */
-                $output->writeln("<error>Invalid format: {$input->getOption('format')}</error>");
+                default => throw new \InvalidArgumentException("Invalid format: {$input->getOption('format')}"),
+            };
+        } catch (\Throwable $e) {
+            $output->writeln("<error>{$e->getMessage()}</error>");
 
-                return 1;
+            return Command::FAILURE;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function renderTable(OutputInterface $output, array $features): void
@@ -86,10 +76,8 @@ final class ListFeatureCommand extends Command
     private function renderJson(OutputInterface $output, array $features): void
     {
         $json = json_encode(
-            array_map(static function (Feature $feature): array {
-                return $feature->toArray();
-            }, $features),
-            JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR
+            array_map(static fn (Feature $feature): array => $feature->toArray(), $features),
+            JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR,
         );
 
         $output->writeln($json);
@@ -106,15 +94,11 @@ final class ListFeatureCommand extends Command
 
     private function getCsvLine(array $columns): string
     {
-        $fp = fopen('php://temp', 'w+');
-        if (false === $fp) {
-            throw new \RuntimeException('Unable to open temporary file');
-        }
-
+        $fp = fopen('php://temp', 'w+') ?: throw new \RuntimeException('Unable to open temporary file');
         fputcsv($fp, $columns);
 
         rewind($fp);
-        $data = fread($fp, 1048576); // 1MB
+        $data = fread($fp, 1_048_576); // 1MB
         if (false === $data) {
             throw new \RuntimeException('Unable to read temporary file');
         }

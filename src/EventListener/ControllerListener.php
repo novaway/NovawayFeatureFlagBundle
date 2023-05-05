@@ -31,7 +31,7 @@ class ControllerListener implements EventSubscriberInterface
         }
 
         /** @var class-string $className */
-        $className = get_class($controller[0]);
+        $className = $controller[0]::class;
         $class = new \ReflectionClass($className);
         $method = $class->getMethod($controller[1]);
 
@@ -66,22 +66,18 @@ class ControllerListener implements EventSubscriberInterface
      */
     private function resolveFeatures(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {
-        if (\PHP_VERSION_ID < 80000) {
-            return [];
-        }
-
         foreach ($class->getAttributes(Feature::class) as $attribute) {
             /** @var Feature $feature */
             $feature = $attribute->newInstance();
 
-            yield $feature->getFeature() => $feature->toArray();
+            yield $feature->name => $feature->toArray();
         }
 
         foreach ($method->getAttributes(Feature::class) as $attribute) {
             /** @var Feature $feature */
             $feature = $attribute->newInstance();
 
-            yield $feature->getFeature() => $feature->toArray();
+            yield $feature->name => $feature->toArray();
         }
     }
 }

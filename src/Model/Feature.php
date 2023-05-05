@@ -14,23 +14,11 @@ namespace Novaway\Bundle\FeatureFlagBundle\Model;
  */
 class Feature implements FeatureInterface
 {
-    /** @var string */
-    private $key;
-
-    /** @var string */
-    private $description;
-
-    /** @var bool */
-    private $enabled;
-
-    /**
-     * Constructor
-     */
-    public function __construct(string $key, bool $enabled, string $description = '')
-    {
-        $this->key = $key;
-        $this->enabled = $enabled;
-        $this->description = $description;
+    public function __construct(
+        private readonly string $key,
+        private readonly bool $enabled,
+        private readonly string $description = ''
+    ) {
     }
 
     /**

@@ -17,15 +17,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class FeatureListener implements EventSubscriberInterface
 {
-    /** @var FeatureManager */
-    private $manager;
-
-    /**
-     * Constructor
-     */
-    public function __construct(FeatureManager $manager)
-    {
-        $this->manager = $manager;
+    public function __construct(
+        private readonly FeatureManager $manager,
+    ) {
     }
 
     /**

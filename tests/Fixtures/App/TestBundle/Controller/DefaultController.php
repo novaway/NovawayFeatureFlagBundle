@@ -11,20 +11,14 @@ namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Control
 
 use Novaway\Bundle\FeatureFlagBundle\Attribute\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends AbstractController
 {
-    /**
-     * @var Storage
-     */
-    private $manager;
-
-    public function __construct(FeatureManager $manager)
-    {
-        $this->manager = $manager;
+    public function __construct(
+        private readonly FeatureManager $manager,
+    ) {
     }
 
     public function features()
