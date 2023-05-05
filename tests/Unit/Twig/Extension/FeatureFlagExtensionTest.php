@@ -14,6 +14,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Twig\Extension;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Novaway\Bundle\FeatureFlagBundle\Twig\Extension\FeatureFlagExtension;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -26,9 +27,7 @@ final class FeatureFlagExtensionTest extends TestCase
         $this->extension = new FeatureFlagExtension($this->createStorageMock());
     }
 
-    /**
-     * @dataProvider features
-     */
+    #[DataProvider('features')]
     public function testIsFeatureEnabledReturnFeatureState(string $feature, bool $isEnabled): void
     {
         $twigFunctionCallable = $this->getTwigFunctionCallable('isFeatureEnabled');
@@ -36,9 +35,7 @@ final class FeatureFlagExtensionTest extends TestCase
         static::assertSame($isEnabled, $twigFunctionCallable($feature));
     }
 
-    /**
-     * @dataProvider features
-     */
+    #[DataProvider('features')]
     public function testIsDisabledMethod(string $feature, bool $isEnabled): void
     {
         $twigFunctionCallable = $this->getTwigFunctionCallable('isFeatureDisabled');
@@ -46,7 +43,7 @@ final class FeatureFlagExtensionTest extends TestCase
         static::assertNotSame($isEnabled, $twigFunctionCallable($feature));
     }
 
-    public function features(): iterable
+    public static function features(): iterable
     {
         yield 'existing feature' => ['foo', true];
         yield 'non existing feature' => ['bar', false];
