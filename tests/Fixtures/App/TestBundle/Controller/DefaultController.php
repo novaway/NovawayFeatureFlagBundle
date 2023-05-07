@@ -10,14 +10,14 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller;
 
 use Novaway\Bundle\FeatureFlagBundle\Attribute\Feature;
-use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends AbstractController
 {
     public function __construct(
-        private readonly FeatureManager $manager,
+        private readonly ChainedFeatureManager $manager,
     ) {
     }
 

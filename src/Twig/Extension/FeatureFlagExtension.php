@@ -9,14 +9,14 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Twig\Extension;
 
-use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class FeatureFlagExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly FeatureManager $storage,
+        private readonly ChainedFeatureManager $storage,
     ) {
     }
 

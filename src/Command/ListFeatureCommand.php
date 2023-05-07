@@ -12,12 +12,12 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Command;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
-use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class ListFeatureCommand extends Command
 {
@@ -26,7 +26,7 @@ final class ListFeatureCommand extends Command
     private const FORMAT_TABLE = 'table';
 
     public function __construct(
-        private readonly Storage $storage,
+        private readonly iterable $storages,
     ) {
         parent::__construct('novaway:feature-flag:list');
     }
@@ -39,13 +39,19 @@ final class ListFeatureCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $features = $this->storage->all();
+        $storagesFeatures = [];
+        foreach ($this->storages as $storage) {
+            $storagesFeatures[$storage::class] = array_map(
+                static fn (FeatureFlag $feature): array => $feature->toArray(),
+                $storage->all(),
+            );
+        }
 
         try {
             match ($input->getOption('format')) {
-                self::FORMAT_CSV => $this->renderCsv($output, $features),
-                self::FORMAT_JSON => $this->renderJson($output, $features),
-                self::FORMAT_TABLE => $this->renderTable($output, $features),
+                self::FORMAT_CSV => $this->renderCsv($output, $storagesFeatures),
+                self::FORMAT_JSON => $this->renderJson($output, $storagesFeatures),
+                self::FORMAT_TABLE => $this->renderTable(new SymfonyStyle($input, $output), $storagesFeatures),
                 /* @phpstan-ignore-next-line */
                 default => throw new \InvalidArgumentException("Invalid format: {$input->getOption('format')}"),
             };
@@ -58,37 +64,40 @@ final class ListFeatureCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function renderTable(OutputInterface $output, array $features): void
+    private function renderTable(SymfonyStyle $output, array $storagesFeatures): void
     {
-        $table = new Table($output);
-        $table->setHeaders(['Name', 'Enabled', 'Description']);
-        foreach ($features as $feature) {
-            $table->addRow([
-                $feature->getKey(),
-                $feature->isEnabled() ? 'Yes' : 'No',
-                $feature->getDescription(),
-            ]);
-        }
+        foreach ($storagesFeatures as $storage => $features) {
+            $output->title($storage);
 
-        $table->render();
+            $table = new Table($output);
+            $table->setHeaders(['Name', 'Enabled', 'Description']);
+            foreach ($features as $feature) {
+                $table->addRow([
+                    $feature['key'],
+                    $feature['enabled'] ? 'Yes' : 'No',
+                    $feature['description'],
+                ]);
+            }
+
+            $table->render();
+        }
     }
 
-    private function renderJson(OutputInterface $output, array $features): void
+    private function renderJson(OutputInterface $output, array $storagesFeatures): void
     {
-        $json = json_encode(
-            array_map(static fn (FeatureFlag $feature): array => $feature->toArray(), $features),
-            JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR,
-        );
+        $json = json_encode($storagesFeatures, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR);
 
         $output->writeln($json);
     }
 
-    private function renderCsv(OutputInterface $output, array $features): void
+    private function renderCsv(OutputInterface $output, array $storagesFeatures): void
     {
-        $output->writeln($this->getCsvLine(['Name', 'Enabled', 'Description']));
+        $output->writeln($this->getCsvLine(['Storage', 'Name', 'Enabled', 'Description']));
 
-        foreach ($features as $feature) {
-            $output->writeln($this->getCsvLine($feature->toArray()));
+        foreach ($storagesFeatures as $storage => $features) {
+            foreach ($features as $feature) {
+                $output->writeln($this->getCsvLine([$storage, ...$feature]));
+            }
         }
     }
 

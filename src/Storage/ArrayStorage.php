@@ -14,8 +14,13 @@ use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 
 class ArrayStorage implements Storage
 {
+    public static function create(array $options): self
+    {
+        return self::fromArray($options['features'] ?? []);
+    }
+
     /**
-     * @param array<string, array{enabled: bool, description: ?string}> $data
+     * @param array<string, bool|array{enabled: bool, description: ?string}> $data
      */
     public static function fromArray(array $data): self
     {
@@ -23,6 +28,13 @@ class ArrayStorage implements Storage
 
         $features = [];
         foreach ($data as $key => $feature) {
+            if (is_bool($feature)) {
+                $feature = [
+                    'enabled' => $feature,
+                    'description' => '',
+                ];
+            }
+
             $features[$key] = new FeatureFlag($key, $feature['enabled'], $feature['description'] ?? '');
         }
 

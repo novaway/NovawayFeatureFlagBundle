@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Twig\Extension\FeatureFlagExtension;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -19,6 +19,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
 
     $services->set(FeatureFlagExtension::class)
-        ->args([service(FeatureManager::class)])
+        ->args([service(ChainedFeatureManager::class)])
         ->tag('twig.extension');
 };

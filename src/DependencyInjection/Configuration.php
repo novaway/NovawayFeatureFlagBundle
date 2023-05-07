@@ -9,7 +9,6 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\DependencyInjection;
 
-use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -25,19 +24,20 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('novaway_feature_flag');
         $rootNode = $treeBuilder->getRootNode();
 
+        /* @phpstan-ignore-next-line */
         $rootNode
             ->children()
-                ->scalarNode('storage')->defaultValue(ArrayStorage::class)->end()
-                ->arrayNode('features')
+                ->scalarNode('default_manager')->defaultValue('default')->end()
+                ->arrayNode('managers')
+                    ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('name')
                     ->prototype('array')
-                        ->beforeNormalization()
-                            ->ifTrue(static fn ($v) => !is_array($v))
-                            ->then(static fn ($v) => ['enabled' => $v])
-                        ->end()
                         ->children()
-                            ->scalarNode('description')->end()
-                            ->booleanNode('enabled')->isRequired()->end()
+                            ->scalarNode('storage')->isRequired()->end()
+                            ->arrayNode('options')
+                                ->useAttributeAsKey('key')
+                                ->prototype('variable')->end()
+                            ->end()
                         ->end()
                     ->end()
                 ->end()

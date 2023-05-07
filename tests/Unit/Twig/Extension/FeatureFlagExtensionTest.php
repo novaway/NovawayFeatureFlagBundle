@@ -11,11 +11,10 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Twig\Extension;
 
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Novaway\Bundle\FeatureFlagBundle\Twig\Extension\FeatureFlagExtension;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class FeatureFlagExtensionTest extends TestCase
@@ -24,7 +23,7 @@ final class FeatureFlagExtensionTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->extension = new FeatureFlagExtension($this->createStorageMock());
+        $this->extension = new FeatureFlagExtension($this->createChainedFeatureManager());
     }
 
     #[DataProvider('features')]
@@ -49,16 +48,13 @@ final class FeatureFlagExtensionTest extends TestCase
         yield 'non existing feature' => ['bar', false];
     }
 
-    /**
-     * @return MockObject&Storage
-     */
-    private function createStorageMock(): MockObject
+    private function createChainedFeatureManager(): ChainedFeatureManager
     {
-        $storage = $this->createMock(FeatureManager::class);
-        $storage->method('isEnabled')->willReturnCallback(fn (string $feature): bool => 'foo' === $feature);
-        $storage->method('isDisabled')->willReturnCallback(fn (string $feature): bool => 'foo' !== $feature);
+        $featureManager = $this->createMock(FeatureManager::class);
+        $featureManager->method('isEnabled')->willReturnCallback(fn (string $feature): bool => 'foo' === $feature);
+        $featureManager->method('isDisabled')->willReturnCallback(fn (string $feature): bool => 'foo' !== $feature);
 
-        return $storage;
+        return new ChainedFeatureManager([$featureManager]);
     }
 
     private function getTwigFunctionCallable(string $functionName): callable

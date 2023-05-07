@@ -13,6 +13,8 @@ use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 
 interface Storage
 {
+    public static function create(array $options): self;
+
     /**
      * Return all features
      *

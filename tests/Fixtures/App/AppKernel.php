@@ -10,6 +10,7 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App;
 
 use Novaway\Bundle\FeatureFlagBundle\NovawayFeatureFlagBundle;
+use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -48,29 +49,42 @@ class AppKernel extends Kernel
             ]);
 
             $container->loadFromExtension('novaway_feature_flag', [
-                'features' => [
-                    'override' => true,
-                    'foo' => true,
-                    'bar' => [
-                        'enabled' => false,
-                        'description' => 'Bar feature description',
+                'default_manager' => 'default',
+                'managers' => [
+                    'default' => [
+                        'storage' => ArrayStorage::class,
+                        'options' => [
+                            'features' => [
+                                'override' => true,
+                                'foo' => true,
+                                'bar' => [
+                                    'enabled' => false,
+                                    'description' => 'Bar feature description',
+                                ],
+                                'env_var' => '%env(bool:FEATURE_ENVVAR)%',
+                            ],
+                        ],
                     ],
-                    'env_var' => '%env(bool:FEATURE_ENVVAR)%',
                 ],
             ]);
 
             // override some previous features
-            $container->loadFromExtension('novaway_feature_flag', [
-                'features' => [
-                    'override' => false,
-                ],
-            ]);
+            //            $container->loadFromExtension('novaway_feature_flag', [
+            //                'managers' => [
+            //                    'default' => [
+            //                        'storage' => ArrayStorage::class,
+            //                        'features' => [
+            //                            'override' => false,
+            //                        ],
+            //                    ],
+            //                ],
+            //            ]);
         });
     }
 
     public function getCacheDir(): string
     {
-        return sprintf('%s/logs/cache/%s', $this->getBasePath(), $this->environment);
+        return sprintf('%s/cache/%s', $this->getBasePath(), $this->environment);
     }
 
     public function getLogDir(): string
