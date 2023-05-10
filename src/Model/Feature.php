@@ -9,60 +9,20 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Model;
 
-/**
- * @immutable
- */
-class Feature implements FeatureInterface
+interface Feature
 {
-    /** @var string */
-    private $key;
-
-    /** @var string */
-    private $description;
-
-    /** @var bool */
-    private $enabled;
+    /**
+     * Get key
+     */
+    public function getKey(): string;
 
     /**
-     * Constructor
+     * Get description
      */
-    public function __construct(string $key, bool $enabled, string $description = '')
-    {
-        $this->key = $key;
-        $this->enabled = $enabled;
-        $this->description = $description;
-    }
+    public function getDescription(): string;
 
     /**
-     * {@inheritdoc}
+     * Check if flag is enabled
      */
-    public function getKey(): string
-    {
-        return $this->key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEnabled(): bool
-    {
-        return $this->enabled;
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'key' => $this->key,
-            'enabled' => $this->enabled,
-            'description' => $this->description,
-        ];
-    }
+    public function isEnabled(): bool;
 }

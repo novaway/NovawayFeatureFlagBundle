@@ -19,8 +19,7 @@ use PHPUnit\Framework\TestCase;
 
 final class FeatureFlagExtensionTest extends TestCase
 {
-    /** @var FeatureFlagExtension */
-    private $extension;
+    private FeatureFlagExtension $extension;
 
     protected function setUp(): void
     {
@@ -59,12 +58,8 @@ final class FeatureFlagExtensionTest extends TestCase
     private function createStorageMock(): MockObject
     {
         $storage = $this->createMock(FeatureManager::class);
-        $storage->method('isEnabled')->willReturnCallback(function (string $feature): bool {
-            return 'foo' === $feature;
-        });
-        $storage->method('isDisabled')->willReturnCallback(function (string $feature): bool {
-            return 'foo' !== $feature;
-        });
+        $storage->method('isEnabled')->willReturnCallback(fn (string $feature): bool => 'foo' === $feature);
+        $storage->method('isDisabled')->willReturnCallback(fn (string $feature): bool => 'foo' !== $feature);
 
         return $storage;
     }

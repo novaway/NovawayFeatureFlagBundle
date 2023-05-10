@@ -15,15 +15,9 @@ use Twig\TwigFunction;
 
 class FeatureFlagExtension extends AbstractExtension
 {
-    /** @var FeatureManager */
-    private $storage;
-
-    /**
-     * Constructor
-     */
-    public function __construct(FeatureManager $storage)
-    {
-        $this->storage = $storage;
+    public function __construct(
+        private readonly FeatureManager $storage,
+    ) {
     }
 
     /**
@@ -32,8 +26,8 @@ class FeatureFlagExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('isFeatureEnabled', [$this->storage, 'isEnabled']),
-            new TwigFunction('isFeatureDisabled', [$this->storage, 'isDisabled']),
+            new TwigFunction('isFeatureEnabled', $this->storage->isEnabled(...)),
+            new TwigFunction('isFeatureDisabled', $this->storage->isDisabled(...)),
         ];
     }
 

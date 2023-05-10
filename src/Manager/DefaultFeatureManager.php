@@ -9,22 +9,19 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Manager;
 
-use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
+use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Storage\FeatureUndefinedException;
 use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 
 class DefaultFeatureManager implements FeatureManager
 {
-    /** @var Storage */
-    protected $storage;
-
-    public function __construct(Storage $storage)
-    {
-        $this->storage = $storage;
+    public function __construct(
+        private readonly Storage $storage,
+    ) {
     }
 
     /**
-     * @return FeatureInterface[]
+     * @return Feature[]
      */
     public function all(): array
     {
@@ -35,7 +32,7 @@ class DefaultFeatureManager implements FeatureManager
     {
         try {
             return $this->storage->get($feature)->isEnabled();
-        } catch (FeatureUndefinedException $e) {
+        } catch (FeatureUndefinedException) {
             return false;
         }
     }

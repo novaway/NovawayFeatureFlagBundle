@@ -10,26 +10,31 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
-use Novaway\Bundle\FeatureFlagBundle\Model\FeatureInterface;
+use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 
 class ArrayStorage implements Storage
 {
-    /** @var FeatureInterface[] */
-    private $features;
+    /**
+     * @param array<string, array{enabled: bool, description: ?string}> $data
+     */
+    public static function fromArray(array $data): self
+    {
+        ksort($data);
+
+        $features = [];
+        foreach ($data as $key => $feature) {
+            $features[$key] = new FeatureFlag($key, $feature['enabled'], $feature['description'] ?? '');
+        }
+
+        return new self($features);
+    }
 
     /**
-     * Constructor
-     *
-     * @param array<string, array{enabled: bool, description: ?string}> $features
+     * @param Feature[] $features
      */
-    public function __construct(array $features = [])
-    {
-        ksort($features);
-
-        $this->features = [];
-        foreach ($features as $key => $feature) {
-            $this->features[$key] = new Feature($key, $feature['enabled'], $feature['description'] ?? '');
-        }
+    public function __construct(
+        private array $features = [],
+    ) {
     }
 
     /**
@@ -43,7 +48,7 @@ class ArrayStorage implements Storage
     /**
      * {@inheritdoc}
      */
-    public function get(string $feature): FeatureInterface
+    public function get(string $feature): Feature
     {
         if (!isset($this->features[$feature])) {
             throw new FeatureUndefinedException("Feature '$feature' not exists.");
