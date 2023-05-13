@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
          bootstrap="vendor/autoload.php"
-         convertDeprecationsToExceptions="true"
          failOnRisky="true"
          failOnWarning="true"
-         colors="true">
+         colors="true"
+         cacheDirectory=".phpunit.cache">
     <testsuites>
         <testsuite name="unit">
             <directory>tests/Unit</directory>
@@ -16,9 +16,11 @@
         </testsuite>
     </testsuites>
 
-    <coverage ignoreDeprecatedCodeUnits="true">
+    <coverage ignoreDeprecatedCodeUnits="true"/>
+
+    <source>
         <include>
             <directory suffix=".php">src</directory>
         </include>
-    </coverage>
+    </source>
 </phpunit>

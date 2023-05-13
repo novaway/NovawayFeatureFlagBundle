@@ -13,6 +13,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Command;
 
 use Novaway\Bundle\FeatureFlagBundle\Command\ListFeatureCommand;
 use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -107,9 +108,7 @@ Invalid format: invalid
 OUTPUT, $commandTester->getDisplay());
     }
 
-    /**
-     * @dataProvider featuresProvider
-     */
+    #[DataProvider('featuresProvider')]
     public function testConfiguredFeaturesAreDisplayedInAskedFormat(array $features, string $outputFormat, string $expectedOutput): void
     {
         $commandTester = $this->createCommandTester($features);
@@ -119,7 +118,7 @@ OUTPUT, $commandTester->getDisplay());
         static::assertSame($expectedOutput, $commandTester->getDisplay());
     }
 
-    public function featuresProvider(): iterable
+    public static function featuresProvider(): iterable
     {
         foreach (self::TEST_DATA as $caseDescription => $testData) {
             foreach ($testData['output'] as $format => $expectedOutput) {
