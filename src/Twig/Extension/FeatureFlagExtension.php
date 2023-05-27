@@ -16,15 +16,15 @@ use Twig\TwigFunction;
 class FeatureFlagExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly ChainedFeatureManager $storage,
+        private readonly ChainedFeatureManager $manager,
     ) {
     }
 
     public function getFunctions()
     {
         return [
-            new TwigFunction('isFeatureEnabled', $this->storage->isEnabled(...)),
-            new TwigFunction('isFeatureDisabled', $this->storage->isDisabled(...)),
+            new TwigFunction('isFeatureEnabled', $this->manager->isEnabled(...)),
+            new TwigFunction('isFeatureDisabled', $this->manager->isDisabled(...)),
         ];
     }
 

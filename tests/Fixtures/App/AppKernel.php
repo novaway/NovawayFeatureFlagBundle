@@ -67,18 +67,6 @@ class AppKernel extends Kernel
                     ],
                 ],
             ]);
-
-            // override some previous features
-            //            $container->loadFromExtension('novaway_feature_flag', [
-            //                'managers' => [
-            //                    'default' => [
-            //                        'storage' => ArrayStorage::class,
-            //                        'features' => [
-            //                            'override' => false,
-            //                        ],
-            //                    ],
-            //                ],
-            //            ]);
         });
     }
 
