@@ -10,11 +10,18 @@
     {% endset %}
 
     {% set text %}
-        {% for feature in collector.features %}
-        <div class="sf-toolbar-info-piece">
-            <b>{{ feature.key }}</b>
-            <span class="sf-toolbar-status">{{ isFeatureEnabled(feature.key) ? '✅' : '❌' }}</span>
-        </div>
+        {% for managerName, features in collector.features %}
+            {% if not loop.first %}<hr>{% endif %}
+            <div class="sf-toolbar-info-piece">
+                <b style="text-decoration: underline;">{{ managerName }}</b>
+            </div>
+
+            {% for feature in features %}
+                <div class="sf-toolbar-info-piece">
+                    <b>{{ feature.key }}</b>
+                    <span class="sf-toolbar-status">{{ isFeatureEnabled(feature.key) ? '✅' : '❌' }}</span>
+                </div>
+            {% endfor %}
         {% endfor %}
     {% endset %}
 
@@ -30,28 +37,35 @@
 
 {% block panel %}
     <h2>Feature flags</h2>
-    <table>
-        <thead>
-        <tr>
-            <th style="width: 80%;">Feature</th>
-            <th style="width: 20%;">Flag</th>
-        </tr>
-        </thead>
 
-        {% for feature in collector.features %}
-            <tr>
-                <th>{{ feature.key }}
-                    {% if feature.description is not empty %}
-                        <br>
-                        <span style="font-style: italic">{{ feature.description }}</span>
-                    {% endif %}
-                </th>
-                <td>{{ isFeatureEnabled(feature.key) ? 'On' : 'Off' }}</td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="2" style="text-align: center;">No feature declared.</td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% for managerName, features in collector.features %}
+        <h3>{{ managerName }}</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 80%;">Feature</th>
+                    <th style="width: 20%;">Flag</th>
+                </tr>
+            </thead>
+
+            {% for feature in features %}
+                <tr>
+                    <th>{{ feature.key }}
+                        {% if feature.description is not empty %}
+                            <br>
+                            <span style="font-style: italic">{{ feature.description }}</span>
+                        {% endif %}
+                    </th>
+                    <td>{{ isFeatureEnabled(feature.key) ? 'On' : 'Off' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2" style="text-align: center;">No feature declared.</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        No manager registered.
+    {% endfor %}
 {% endblock %}

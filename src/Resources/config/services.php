@@ -31,6 +31,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set(ChainedFeatureManager::class)
         ->args([tagged_iterator('novaway_feature_flag.manager')]);
+    $services->alias('novaway_feature_flag.manager', ChainedFeatureManager::class);
 
     $services->set(ListFeatureCommand::class)
         ->autowire()
