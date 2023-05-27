@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Command;
 
 use Novaway\Bundle\FeatureFlagBundle\Command\ListFeatureCommand;
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -24,60 +26,64 @@ final class ListFeatureCommandTest extends TestCase
             'features' => [],
             'output' => [
                 'table' => <<<OUTPUT
-
-Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage
-=====================================================
-
-+------+---------+-------------+
-| Name | Enabled | Description |
-+------+---------+-------------+
+No feature declared.
 
 OUTPUT,
                 'json' => <<<JSON
-{
-    "Novaway\\\\Bundle\\\\FeatureFlagBundle\\\\Storage\\\\ArrayStorage": []
-}
+[]
 
 JSON,
                 'csv' => <<<CSV
-Storage,Name,Enabled,Description
+Manager,Name,Enabled,Description
 
 CSV,
             ],
         ],
         'with-features' => [
             'features' => [
-                'feature1' => [
-                    'enabled' => true,
-                    'description' => 'Feature 1 description',
+                'manager1' => [
+                    'feature1' => [
+                        'enabled' => true,
+                        'description' => 'Feature 1 description',
+                    ],
+                    'feature2' => [
+                        'enabled' => false,
+                        'description' => 'Feature 2 description',
+                    ],
                 ],
-                'feature2' => [
-                    'enabled' => false,
-                    'description' => 'Feature 2 description',
-                ],
-                'feature3' => [
-                    'enabled' => true,
-                    'description' => 'Feature 3 description',
+                'manager2' => [
+                    'feature3' => [
+                        'enabled' => true,
+                        'description' => 'Feature 3 description',
+                    ],
                 ],
             ],
             'output' => [
                 'table' => <<<OUTPUT
 
-Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage
-=====================================================
+manager1
+========
 
 +----------+---------+-----------------------+
 | Name     | Enabled | Description           |
 +----------+---------+-----------------------+
 | feature1 | Yes     | Feature 1 description |
 | feature2 | No      | Feature 2 description |
++----------+---------+-----------------------+
+
+manager2
+========
+
++----------+---------+-----------------------+
+| Name     | Enabled | Description           |
++----------+---------+-----------------------+
 | feature3 | Yes     | Feature 3 description |
 +----------+---------+-----------------------+
 
 OUTPUT,
                 'json' => <<<JSON
 {
-    "Novaway\\\\Bundle\\\\FeatureFlagBundle\\\\Storage\\\\ArrayStorage": {
+    "manager1": {
         "feature1": {
             "key": "feature1",
             "enabled": true,
@@ -87,7 +93,9 @@ OUTPUT,
             "key": "feature2",
             "enabled": false,
             "description": "Feature 2 description"
-        },
+        }
+    },
+    "manager2": {
         "feature3": {
             "key": "feature3",
             "enabled": true,
@@ -98,10 +106,10 @@ OUTPUT,
 
 JSON,
                 'csv' => <<<CSV
-Storage,Name,Enabled,Description
-"Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage",feature1,1,"Feature 1 description"
-"Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage",feature2,,"Feature 2 description"
-"Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage",feature3,1,"Feature 3 description"
+Manager,Name,Enabled,Description
+manager1,feature1,1,"Feature 1 description"
+manager1,feature2,,"Feature 2 description"
+manager2,feature3,1,"Feature 3 description"
 
 CSV,
             ],
@@ -126,7 +134,7 @@ OUTPUT, $commandTester->getDisplay());
         $commandTester = $this->createCommandTester($features);
         $commandTester->execute(['--format' => $outputFormat]);
 
-        //        static::assertSame(0, $commandTester->getStatusCode());
+        static::assertSame(0, $commandTester->getStatusCode());
         static::assertSame($expectedOutput, $commandTester->getDisplay());
     }
 
@@ -139,9 +147,14 @@ OUTPUT, $commandTester->getDisplay());
         }
     }
 
-    private function createCommandTester(array $features = []): CommandTester
+    private function createCommandTester(array $managersDefinition = []): CommandTester
     {
-        $command = new ListFeatureCommand([ArrayStorage::fromArray($features)]);
+        $managers = [];
+        foreach ($managersDefinition as $managerName => $featuresDefinition) {
+            $managers[] = new DefaultFeatureManager($managerName, ArrayStorage::fromArray($featuresDefinition));
+        }
+
+        $command = new ListFeatureCommand(new ChainedFeatureManager($managers));
 
         return new CommandTester($command);
     }

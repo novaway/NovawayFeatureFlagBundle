@@ -13,9 +13,20 @@ namespace Novaway\Bundle\FeatureFlagBundle\Manager;
 
 final class ChainedFeatureManager
 {
+    /**
+     * @param iterable<FeatureManager> $featureManagers
+     */
     public function __construct(
         private readonly iterable $featureManagers,
     ) {
+    }
+
+    /**
+     * @return iterable<FeatureManager>
+     */
+    public function getManagers(): iterable
+    {
+        return $this->featureManagers;
     }
 
     public function isEnabled(string $feature): bool

@@ -41,7 +41,7 @@ class NovawayFeatureFlagExtension extends Extension
             $storageDefinition->addTag('novaway_feature_flag.storage');
             $container->setDefinition("novaway_feature_flag.manager.$name.storage", $storageDefinition);
 
-            $managerDefinition = new Definition(DefaultFeatureManager::class, [new Reference("novaway_feature_flag.manager.$name.storage")]);
+            $managerDefinition = new Definition(DefaultFeatureManager::class, [$name, new Reference("novaway_feature_flag.manager.$name.storage")]);
             $managerDefinition->addTag('novaway_feature_flag.manager');
             $container->setDefinition("novaway_feature_flag.manager.$name", $managerDefinition);
         }

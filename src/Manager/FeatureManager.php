@@ -9,8 +9,22 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Manager;
 
+use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
+
 interface FeatureManager
 {
+    /**
+     * Get manager name
+     */
+    public function getName(): string;
+
+    /**
+     * Return all available features
+     *
+     * @return iterable<Feature>
+     */
+    public function all(): iterable;
+
     /**
      * Check if feature is enabled
      */

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Command;
 
-use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +26,7 @@ final class ListFeatureCommand extends Command
     private const FORMAT_TABLE = 'table';
 
     public function __construct(
-        private readonly iterable $storages,
+        private readonly ChainedFeatureManager $manager,
     ) {
         parent::__construct('novaway:feature-flag:list');
     }
@@ -40,11 +40,11 @@ final class ListFeatureCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $storagesFeatures = [];
-        foreach ($this->storages as $storage) {
-            $storagesFeatures[$storage::class] = array_map(
-                static fn (FeatureFlag $feature): array => $feature->toArray(),
-                $storage->all(),
-            );
+        foreach ($this->manager->getManagers() as $manager) {
+            $storagesFeatures[$manager->getName()] = [];
+            foreach ($manager->all() as $feature) {
+                $storagesFeatures[$manager->getName()][$feature->getKey()] = $feature->toArray();
+            }
         }
 
         try {
@@ -66,6 +66,12 @@ final class ListFeatureCommand extends Command
 
     private function renderTable(SymfonyStyle $output, array $storagesFeatures): void
     {
+        if (empty($storagesFeatures)) {
+            $output->writeln('<info>No feature declared.</info>');
+
+            return;
+        }
+
         foreach ($storagesFeatures as $storage => $features) {
             $output->title($storage);
 
@@ -92,7 +98,7 @@ final class ListFeatureCommand extends Command
 
     private function renderCsv(OutputInterface $output, array $storagesFeatures): void
     {
-        $output->writeln($this->getCsvLine(['Storage', 'Name', 'Enabled', 'Description']));
+        $output->writeln($this->getCsvLine(['Manager', 'Name', 'Enabled', 'Description']));
 
         foreach ($storagesFeatures as $storage => $features) {
             foreach ($features as $feature) {

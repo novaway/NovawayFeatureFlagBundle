@@ -13,9 +13,7 @@ use Novaway\Bundle\FeatureFlagBundle\Command\ListFeatureCommand;
 use Novaway\Bundle\FeatureFlagBundle\EventListener\ControllerListener;
 use Novaway\Bundle\FeatureFlagBundle\EventListener\FeatureListener;
 use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -35,16 +33,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->args([tagged_iterator('novaway_feature_flag.manager')]);
 
     $services->set(ListFeatureCommand::class)
-        ->args([tagged_iterator('novaway_feature_flag.storage')])
+        ->autowire()
         ->tag('console.command');
-
-    //    $services->set(DefaultFeatureManager::class)
-    //        ->args([service(Storage::class)]);
-    //    $services->alias(FeatureManager::class, DefaultFeatureManager::class);
-    //
-    //    $services->set(ArrayStorage::class)
-    //        ->factory([null, 'fromArray'])
-    //        ->args(['%novaway_feature_flag.features%']);
 
     $services->set(ControllerListener::class)
         ->tag('kernel.event_subscriber');

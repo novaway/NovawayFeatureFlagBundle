@@ -16,14 +16,20 @@ use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 class DefaultFeatureManager implements FeatureManager
 {
     public function __construct(
+        private readonly string $name,
         private readonly Storage $storage,
     ) {
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     /**
-     * @return Feature[]
+     * @return iterable<Feature>
      */
-    public function all(): array
+    public function all(): iterable
     {
         return $this->storage->all();
     }
