@@ -37,17 +37,11 @@ class ArrayStorage implements Storage
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function all(): array
     {
         return $this->features;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(string $feature): Feature
     {
         if (!isset($this->features[$feature])) {

@@ -24,9 +24,6 @@ class FeatureCollector extends DataCollector
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         $features = $this->storage->all();
@@ -69,17 +66,11 @@ class FeatureCollector extends DataCollector
         return is_countable($this->data['features']) ? count($this->data['features']) : 0;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'novaway_feature_flag.feature_collector';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function reset(): void
     {
         $this->data = [];
