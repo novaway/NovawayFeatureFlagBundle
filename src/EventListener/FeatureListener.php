@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\EventListener;
 
-use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class FeatureListener implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly FeatureManager $manager,
+        private readonly ChainedFeatureManager $manager,
     ) {
     }
 

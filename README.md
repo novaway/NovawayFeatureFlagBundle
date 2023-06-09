@@ -3,13 +3,11 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fnovaway%2FNovawayFeatureFlagBundle%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/Novaway/NovawayFeatureFlagBundle/goto?ref=master)
 [![Latest Stable Version](https://poser.pugx.org/novaway/feature-flag-bundle/v/stable.png)](https://packagist.org/packages/novaway/feature-flag-bundle)
 
-The FeatureFlagBundle is a very KISS bundle to manage features flags in your Symfony applications.
-
-Just allow to know if a feature is enabled or not. If you have more complex needs, please considers using another solution like [Qandidate\Toggle](https://github.com/qandidate-labs/qandidate-toggle-bundle).
+The FeatureFlagBundle is a bundle to manage features flags in your Symfony applications.
 
 ## Compatibility
 
-This bundle is tested with all maintained Symfony version.
+This bundle is tested with at least all maintained Symfony version.
 
 ## Documentation
 
@@ -41,32 +39,79 @@ First you have to configure the bundle and define your feature flags in the `con
 ```yaml
 # ...
 novaway_feature_flag:
-    features:
-        my_feature_1: false
-        my_feature_2: true
-        my_feature3: '%env(bool:FEATURE_ENVVAR)%'
+    default_manager: default
+    managers:
+        default:
+            storage: 'Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage'
+            options:
+                features:
+                    my_feature_1: false
+                    my_feature_2: true
+                    my_feature3: '%env(bool:FEATURE_ENVVAR)%'
 ```
 
-You can also define feature flags in an extended way:
+The `Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage` allows you to define your feature flags in an extended way:
 
 ```yaml
 # ...
 novaway_feature_flag:
-    features:
-        my_feature_1:
-            enabled: false
-            description: MyFeature1 description text
-        my_feature_2:
-            enabled: true
-            description: MyFeature2 description text
-        my_feature3:
-            enabled: '%env(bool:FEATURE_ENVVAR)%'
-            description: MyFeature3 description text
+    default_manager: default
+    managers:
+        default:
+            storage: 'Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage'
+            options:
+                features:
+                    my_feature_1:
+                        enabled: false
+                        description: MyFeature1 description text
+                    my_feature_2:
+                        enabled: true
+                        description: MyFeature2 description text
+                    my_feature3:
+                        enabled: '%env(bool:FEATURE_ENVVAR)%'
+                        description: MyFeature3 description text
 ```
 
-#### As a service
+You can declare multiple managers. Multiple providers is useful if you want to use different storage providers or to isolate your features flags.
 
-The bundle adds a `Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager` service you can use in your  PHP classes.
+```yaml
+# ...
+novaway_feature_flag:
+    default_manager: manager_foo
+    managers:
+        manager_foo:
+            storage: 'Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage'
+            options:
+                features:
+                    my_feature_1:
+                        enabled: false
+                        description: MyFeature1 description text
+                    my_feature_2:
+                        enabled: true
+                        description: MyFeature2 description text
+                    my_feature3:
+                        enabled: '%env(bool:FEATURE_ENVVAR)%'
+                        description: MyFeature3 description text
+        manager_bar:
+            storage: 'Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage'
+            options:
+                features:
+                    my_feature_4:
+                        enabled: false
+                        description: MyFeature4 description text
+```
+
+When several managers are defined, they are registered in the Symfony dependency injection container as services with the following naming convention: `novaway_feature_flag.manager.<manager_name>`.
+
+For example, the `manager_bar` is accessible with the following service name: `novaway_feature_flag.manager.manager_bar`.
+
+Manager storage are also registered in the Symfony dependency injection container as services with the following naming convention: `novaway_feature_flag.storage.<manager_name>`.
+
+#### Use it as a service
+
+The bundle adds a global `novaway_feature_flag.manager` service you can use in your PHP classes.
+
+In the case you have defined several managers, the service use the `ChainedFeatureManager` class to chain all declared managers.
 
 ```php
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
@@ -74,10 +119,8 @@ use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 
 class MyController extends Controller
 {
-    public function myAction()
+    public function myAction(FeatureManager $featureManager): Response
     {
-        $featureManager = $this->get(FeatureManager::class);
-
         if ($featureManager->isEnabled('my_feature_1')) {
             // my_feature_1 is enabled
         }
@@ -85,6 +128,8 @@ class MyController extends Controller
         if ($featureManager->isDisabled('my_feature_2')) {
             // my_feature_2 is not enabled
         }
+
+        // ...
     }
 }
 ```
@@ -125,64 +170,28 @@ my_second_route:
             - { feature: bar, enabled: true } # ... and "bar" feature is also enabled
 ```
 
-#### As a controller annotation
-
-You can also restrict a controller access with annotations :
-
-```php
-/**
- * @Feature("foo", enable=true)
- */
-class MyController extends Controller
-{
-    /**
-     * @Feature("foo")
-     */
-    public function annotationFooEnabledAction()
-    {
-        return new Response('MyController::annotationFooEnabledAction');
-    }
-
-    /**
-     * @Feature("foo", enabled=true)
-     */
-    public function annotationFooEnabledBisAction()
-    {
-        return new Response('MyController::annotationFooEnabledAction');
-    }
-
-    /**
-     * @Feature("foo", enabled=false)
-     */
-    public function annotationFooDisabledAction()
-    {
-        return new Response('MyController::annotationFooDisabledAction');
-    }
-}
-```
-
 #### As a controller attribute
 
-You can also restrict a controller access with annotations :
+You can also restrict a controller access with attributes :
 
 ```php
 #[Feature(name: "foo", enabled: true)]
 class MyController extends Controller
 {
     #[Feature(name: "foo")]
-    public function annotationFooEnabledAction()
+    public function annotationFooEnabledAction(): Response
     {
         return new Response('MyController::annotationFooEnabledAction');
     }
 
     #[Feature(name: "foo", enabled: true)]
-    public function annotationFooEnabledBisAction()
+    public function annotationFooEnabledBisAction(): Response
     {
         return new Response('MyController::annotationFooEnabledAction');
     }
 
     #[Feature(name: "foo", enabled: false)]
-    public function annotationFooDisabledAction()
+    public function annotationFooDisabledAction(): Response
     {
         return new Response('MyController::annotationFooDisabledAction');
     }
@@ -192,12 +201,19 @@ class MyController extends Controller
 ### Implement your own storage provider
 
 1. First your need to create your storage provider class which implement the `Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface` interface
-2. Declare your storage provider as a service
+2. Register it in the Symfony dependency injection container
+3. Specify the storage you want to use in a manager configuration
 
 ```yaml
 novaway_feature_flag:
-    storage: your.custom.service.name
+    manager:
+        manager_name:
+            storage: your.custom.service.name
+            options:
+                # arguments need to create the storage service
 ```
+
+When you create a storage, the static method `create` is called to create the storage instance.
 
 ## License
 

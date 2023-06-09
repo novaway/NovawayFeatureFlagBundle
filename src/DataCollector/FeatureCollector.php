@@ -9,9 +9,8 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\DataCollector;
 
-use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
-use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -19,23 +18,32 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 class FeatureCollector extends DataCollector
 {
     public function __construct(
-        private readonly FeatureManager $manager,
-        private readonly Storage $storage,
+        private readonly ChainedFeatureManager $manager,
     ) {
     }
 
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
-        $features = $this->storage->all();
-        $activeFeatureCount = count(
-            array_filter(
-                $features,
-                fn (Feature $feature): bool => $this->manager->isEnabled($feature->getKey())
-            )
-        );
+        $totalFeatureCount = 0;
+        $activeFeatureCount = 0;
+
+        $features = [];
+        foreach ($this->manager->getManagers() as $manager) {
+            $features[$manager->getName()] = [];
+            foreach ($manager->all() as $feature) {
+                $features[$manager->getName()][] = $feature->toArray();
+
+                if ($feature->isEnabled()) {
+                    ++$activeFeatureCount;
+                }
+            }
+
+            $totalFeatureCount += count($features[$manager->getName()]);
+        }
 
         $this->data = [
             'features' => $features,
+            'totalFeatureCount' => $totalFeatureCount,
             'activeFeaturesCount' => $activeFeatureCount,
         ];
     }
@@ -51,7 +59,7 @@ class FeatureCollector extends DataCollector
     }
 
     /**
-     * Get collected features
+     * Get collected active features
      */
     public function getActiveFeatureCount(): int
     {
@@ -63,7 +71,7 @@ class FeatureCollector extends DataCollector
      */
     public function getFeatureCount(): int
     {
-        return is_countable($this->data['features']) ? count($this->data['features']) : 0;
+        return $this->data['totalFeatureCount'];
     }
 
     public function getName(): string

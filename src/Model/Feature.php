@@ -25,4 +25,9 @@ interface Feature
      * Check if flag is enabled
      */
     public function isEnabled(): bool;
+
+    /**
+     * @return array{key: string, enabled: bool, description: string}
+     */
+    public function toArray(): array;
 }

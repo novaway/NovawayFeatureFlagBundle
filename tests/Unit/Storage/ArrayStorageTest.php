@@ -13,6 +13,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Storage;
 
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
+use Novaway\Bundle\FeatureFlagBundle\Storage\FeatureUndefinedException;
 use PHPUnit\Framework\TestCase;
 
 final class ArrayStorageTest extends TestCase
@@ -42,5 +43,14 @@ final class ArrayStorageTest extends TestCase
             new FeatureFlag('bar', true, 'Feature bar description'),
             $features['bar'],
         );
+    }
+
+    public function testAnExceptionThrowsIfAccessUndefinedFeature(): void
+    {
+        $storage = new ArrayStorage();
+
+        $this->expectException(FeatureUndefinedException::class);
+
+        $storage->get('unknown-feature');
     }
 }
