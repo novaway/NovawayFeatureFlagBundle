@@ -5,6 +5,8 @@
 
 The FeatureFlagBundle is a bundle to manage features flags in your Symfony applications.
 
+⚠️ You're currently reading the documentation for the next major version. Refer to the [2.x documentation](https://github.com/novaway/NovawayFeatureFlagBundle/tree/2.x) to read the stable version documentation.
+
 ## Compatibility
 
 This bundle is tested with at least all maintained Symfony version.
