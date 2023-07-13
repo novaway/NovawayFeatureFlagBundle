@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
-class FeatureCollector extends DataCollector
+final class FeatureCollector extends DataCollector
 {
     public function __construct(
         private readonly ChainedFeatureManager $manager,
@@ -49,7 +49,7 @@ class FeatureCollector extends DataCollector
     }
 
     /**
-     * Get collected features
+     * Get collected features.
      *
      * @return Feature[]
      */
@@ -59,7 +59,7 @@ class FeatureCollector extends DataCollector
     }
 
     /**
-     * Get collected active features
+     * Get collected active features.
      */
     public function getActiveFeatureCount(): int
     {
@@ -67,7 +67,7 @@ class FeatureCollector extends DataCollector
     }
 
     /**
-     * Get collected features
+     * Get collected features.
      */
     public function getFeatureCount(): int
     {

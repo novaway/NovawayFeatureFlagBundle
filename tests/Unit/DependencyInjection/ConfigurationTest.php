@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace units\DependencyInjection;
+namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\DependencyInjection;
 
 use Novaway\Bundle\FeatureFlagBundle\DependencyInjection\NovawayFeatureFlagExtension;
 use Novaway\Bundle\FeatureFlagBundle\Tests\FixturePath;
@@ -24,9 +24,9 @@ final class ConfigurationTest extends TestCase
     {
         $configuration = $this->getConfiguration();
 
-        static::assertArrayHasKey('features', $configuration);
-        static::assertTrue($configuration['features']['foo']);
-        static::assertFalse($configuration['features']['bar']);
+        $this->assertArrayHasKey('features', $configuration);
+        $this->assertTrue($configuration['features']['foo']);
+        $this->assertFalse($configuration['features']['bar']);
     }
 
     private function getConfiguration(): array

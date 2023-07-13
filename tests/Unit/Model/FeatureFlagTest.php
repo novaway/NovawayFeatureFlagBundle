@@ -20,10 +20,6 @@ final class FeatureFlagTest extends TestCase
     {
         $feature = new FeatureFlag('foo', true, 'bar');
 
-        static::assertSame([
-            'key' => 'foo',
-            'enabled' => true,
-            'description' => 'bar',
-        ], $feature->toArray());
+        $this->assertSame(['name' => 'foo', 'enabled' => true, 'description' => 'bar'], $feature->toArray());
     }
 }

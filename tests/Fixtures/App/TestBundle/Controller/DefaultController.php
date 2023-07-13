@@ -42,6 +42,13 @@ class DefaultController extends AbstractController
     }
 
     #[Feature(name: 'foo')]
+    #[Feature(name: 'foo', enabled: false)]
+    public function attributeFooError()
+    {
+        return new Response('DefaultController::attributeFooErrorAction');
+    }
+
+    #[Feature(name: 'foo')]
     public function attributeFooEnabled()
     {
         return new Response('DefaultController::attributeFooEnabledAction');

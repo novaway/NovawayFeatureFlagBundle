@@ -17,15 +17,15 @@ final class DefaultControllerTest extends WebTestCase
 {
     public function testFeatureEnabled(): void
     {
-        $crawler = static::$client->request('GET', '/features');
-        static::assertTrue(static::$client->getResponse()->isSuccessful());
+        $crawler = self::$client->request('GET', '/features');
+        $this->assertTrue(self::$client->getResponse()->isSuccessful());
 
-        static::assertGreaterThan(
+        $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("Foo feature is enabled from controller")')->count(),
         );
 
-        static::assertSame(
+        $this->assertSame(
             0,
             $crawler->filter('html:contains("Bar feature is enabled from controller")')->count(),
         );
@@ -33,15 +33,15 @@ final class DefaultControllerTest extends WebTestCase
 
     public function testFeatureDisabled(): void
     {
-        $crawler = static::$client->request('GET', '/features');
-        static::assertTrue(static::$client->getResponse()->isSuccessful());
+        $crawler = self::$client->request('GET', '/features');
+        $this->assertTrue(self::$client->getResponse()->isSuccessful());
 
-        static::assertSame(
+        $this->assertSame(
             0,
             $crawler->filter('html:contains("Foo feature is disabled from controller")')->count(),
         );
 
-        static::assertGreaterThan(
+        $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("Bar feature is disabled from controller")')->count(),
         );
@@ -49,10 +49,10 @@ final class DefaultControllerTest extends WebTestCase
 
     public function testRequestFooEnabled()
     {
-        $crawler = static::$client->request('GET', '/request/enabled');
+        $crawler = self::$client->request('GET', '/request/enabled');
 
-        static::assertSame(200, static::$client->getResponse()->getStatusCode());
-        static::assertGreaterThan(
+        $this->assertSame(200, self::$client->getResponse()->getStatusCode());
+        $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("DefaultController::requestFooEnabledAction")')->count(),
         );
@@ -60,32 +60,37 @@ final class DefaultControllerTest extends WebTestCase
 
     public function testRequestFooDisabled()
     {
-        static::$client->request('GET', '/request/disabled');
+        self::$client->request('GET', '/request/disabled');
 
-        static::assertSame(404, static::$client->getResponse()->getStatusCode());
+        $this->assertSame(404, self::$client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @requires PHP >= 8.0
-     */
-    public function testAttributeFooEnabledAction()
+    public function testAttributeFooErrorAction()
     {
-        $crawler = static::$client->request('GET', '/attribute/enabled');
+        $crawler = self::$client->request('GET', '/attribute/error');
 
-        static::assertSame(200, static::$client->getResponse()->getStatusCode());
-        static::assertGreaterThan(
+        $this->assertSame(500, self::$client->getResponse()->getStatusCode());
+        $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("DefaultController::attributeFooEnabledAction")')->count(),
         );
     }
 
-    /**
-     * @requires PHP >= 8.0
-     */
+    public function testAttributeFooEnabledAction()
+    {
+        $crawler = self::$client->request('GET', '/attribute/enabled');
+
+        $this->assertSame(200, self::$client->getResponse()->getStatusCode());
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("DefaultController::attributeFooEnabledAction")')->count(),
+        );
+    }
+
     public function testAttributeFooDisabledAction()
     {
-        static::$client->request('GET', '/attribute/disabled');
+        self::$client->request('GET', '/attribute/disabled');
 
-        static::assertSame(404, static::$client->getResponse()->getStatusCode());
+        $this->assertSame(404, self::$client->getResponse()->getStatusCode());
     }
 }

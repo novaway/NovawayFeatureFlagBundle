@@ -9,10 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Novaway\Bundle\FeatureFlagBundle\Tests;
+namespace Novaway\Bundle\FeatureFlagBundle\Exception;
 
-final class FixturePath
+class FeatureUndefinedException extends \RuntimeException
 {
-    public const APP_TEST_KERNEL_FILE = __DIR__.'/Fixtures/App/AppKernel.php';
-    public const CONFIG_FILE = __DIR__.'/Fixtures/config_sample.yml';
 }

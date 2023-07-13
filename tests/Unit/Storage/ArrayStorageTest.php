@@ -11,35 +11,37 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Storage;
 
+use Novaway\Bundle\FeatureFlagBundle\Exception\FeatureUndefinedException;
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
-use Novaway\Bundle\FeatureFlagBundle\Storage\FeatureUndefinedException;
 use PHPUnit\Framework\TestCase;
 
 final class ArrayStorageTest extends TestCase
 {
     public function testAllReturnEmptyArrayIfNoFeatureDefined(): void
     {
-        $storage = new ArrayStorage();
+        $storage = new ArrayStorage(['features' => []]);
 
-        static::assertEmpty($storage->all());
+        $this->assertEmpty($storage->all());
     }
 
     public function testAllReturnDefinedFeatures(): void
     {
-        $storage = ArrayStorage::fromArray([
-            'foo' => ['enabled' => false],
-            'bar' => ['enabled' => true, 'description' => 'Feature bar description'],
+        $storage = new ArrayStorage([
+            'features' => [
+                'foo' => ['name' => 'foo', 'enabled' => false],
+                'bar' => ['name' => 'bar', 'enabled' => true, 'description' => 'Feature bar description'],
+            ],
         ]);
 
         $features = $storage->all();
 
-        static::assertCount(2, $features);
-        static::assertEquals(
+        $this->assertCount(2, $features);
+        $this->assertEquals(
             new FeatureFlag('foo', false),
             $features['foo'],
         );
-        static::assertEquals(
+        $this->assertEquals(
             new FeatureFlag('bar', true, 'Feature bar description'),
             $features['bar'],
         );
@@ -47,7 +49,7 @@ final class ArrayStorageTest extends TestCase
 
     public function testAnExceptionThrowsIfAccessUndefinedFeature(): void
     {
-        $storage = new ArrayStorage();
+        $storage = new ArrayStorage(['features' => []]);
 
         $this->expectException(FeatureUndefinedException::class);
 

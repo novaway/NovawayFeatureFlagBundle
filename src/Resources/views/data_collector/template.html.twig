@@ -18,8 +18,8 @@
 
             {% for feature in features %}
                 <div class="sf-toolbar-info-piece">
-                    <b>{{ feature.key }}</b>
-                    <span class="sf-toolbar-status">{{ isFeatureEnabled(feature.key) ? '✅' : '❌' }}</span>
+                    <b>{{ feature.name }}</b>
+                    <span class="sf-toolbar-status">{{ isFeatureEnabled(feature.name) ? '✅' : '❌' }}</span>
                 </div>
             {% endfor %}
         {% endfor %}
@@ -51,13 +51,13 @@
 
             {% for feature in features %}
                 <tr>
-                    <th>{{ feature.key }}
+                    <th>{{ feature.name }}
                         {% if feature.description is not empty %}
                             <br>
                             <span style="font-style: italic">{{ feature.description }}</span>
                         {% endif %}
                     </th>
-                    <td>{{ isFeatureEnabled(feature.key) ? 'On' : 'Off' }}</td>
+                    <td>{{ isFeatureEnabled(feature.name) ? 'On' : 'Off' }}</td>
                 </tr>
             {% else %}
                 <tr>

@@ -9,10 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Novaway\Bundle\FeatureFlagBundle\Tests;
+namespace Novaway\Bundle\FeatureFlagBundle\Factory;
 
-final class FixturePath
+use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
+
+interface StorageFactoryInterface
 {
-    public const APP_TEST_KERNEL_FILE = __DIR__.'/Fixtures/App/AppKernel.php';
-    public const CONFIG_FILE = __DIR__.'/Fixtures/config_sample.yml';
+    public function createStorage(string $storageName, array $options = []): Storage;
+
+    public function validate(string $storageName, array $options): array;
 }

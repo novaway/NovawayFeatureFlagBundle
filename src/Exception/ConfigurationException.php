@@ -9,8 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Novaway\Bundle\FeatureFlagBundle\Storage;
+namespace Novaway\Bundle\FeatureFlagBundle\Exception;
 
-class FeatureUndefinedException extends \RuntimeException
+class ConfigurationException extends \Exception
 {
 }
