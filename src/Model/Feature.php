@@ -12,22 +12,22 @@ namespace Novaway\Bundle\FeatureFlagBundle\Model;
 interface Feature
 {
     /**
-     * Get key
+     * Get name.
      */
-    public function getKey(): string;
+    public function getName(): string;
 
     /**
-     * Get description
-     */
-    public function getDescription(): string;
-
-    /**
-     * Check if flag is enabled
+     * Check if flag is enabled.
      */
     public function isEnabled(): bool;
 
     /**
-     * @return array{key: string, enabled: bool, description: string}
+     * Get description.
+     */
+    public function getDescription(): string;
+
+    /**
+     * @return array{name: string, enabled: bool, description: string}
      */
     public function toArray(): array;
 }

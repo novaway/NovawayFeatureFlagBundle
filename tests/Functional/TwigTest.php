@@ -17,27 +17,27 @@ final class TwigTest extends WebTestCase
     {
         $content = $this->twigRender('index.html.twig');
 
-        static::assertStringContainsString('Foo is activated', $content);
-        static::assertStringNotContainsString('Bar is activated', $content);
+        $this->assertStringContainsString('Foo is activated', $content);
+        $this->assertStringNotContainsString('Bar is activated', $content);
     }
 
     public function testTwigRenderWithFeatureDisabled(): void
     {
         $content = $this->twigRender('index.html.twig');
 
-        static::assertStringContainsString('Bar is disabled', $content);
-        static::assertStringNotContainsString('Foo is disabled', $content);
+        $this->assertStringContainsString('Bar is disabled', $content);
+        $this->assertStringNotContainsString('Foo is disabled', $content);
     }
 
     public function testTwigRenderWithNonExistentFeatureIsConsideredAsDisabled(): void
     {
         $content = $this->twigRender('index.html.twig');
 
-        static::assertStringContainsString('Non existent feature is considered as disabled', $content);
+        $this->assertStringContainsString('Non existent feature is considered as disabled', $content);
     }
 
     private function twigRender(string $template): string
     {
-        return static::getContainer()->get('twig')->render($template);
+        return $this->getContainer()->get('twig')->render($template);
     }
 }

@@ -14,24 +14,24 @@ use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 interface FeatureManager
 {
     /**
-     * Get manager name
+     * Get manager name.
      */
     public function getName(): string;
 
     /**
-     * Return all available features
+     * Return all available features.
      *
      * @return iterable<Feature>
      */
     public function all(): iterable;
 
     /**
-     * Check if feature is enabled
+     * Check if feature is enabled.
      */
     public function isEnabled(string $feature): bool;
 
     /**
-     * Check if feature is disabled
+     * Check if feature is disabled.
      */
     public function isDisabled(string $feature): bool;
 }

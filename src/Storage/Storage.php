@@ -9,21 +9,20 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
+use Novaway\Bundle\FeatureFlagBundle\Exception\FeatureUndefinedException;
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 
 interface Storage
 {
-    public static function create(array $options): self;
-
     /**
-     * Return all features
+     * Return all features.
      *
      * @return Feature[]
      */
     public function all(): array;
 
     /**
-     * Return feature flag
+     * Return feature flag.
      *
      * @throws FeatureUndefinedException If the feature doesn't exist
      */

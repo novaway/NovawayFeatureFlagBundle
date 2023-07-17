@@ -9,44 +9,19 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Storage;
 
+use Novaway\Bundle\FeatureFlagBundle\Exception\FeatureUndefinedException;
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 
-class ArrayStorage implements Storage
+final class ArrayStorage implements Storage
 {
-    public static function create(array $options): self
+    private array $features;
+
+    public function __construct(array $options = [])
     {
-        return self::fromArray($options['features'] ?? []);
-    }
-
-    /**
-     * @param array<string, bool|array{enabled: bool, description: ?string}> $data
-     */
-    public static function fromArray(array $data): self
-    {
-        ksort($data);
-
-        $features = [];
-        foreach ($data as $key => $feature) {
-            if (is_bool($feature)) {
-                $feature = [
-                    'enabled' => $feature,
-                    'description' => '',
-                ];
-            }
-
-            $features[$key] = new FeatureFlag($key, $feature['enabled'], $feature['description'] ?? '');
-        }
-
-        return new self($features);
-    }
-
-    /**
-     * @param Feature[] $features
-     */
-    public function __construct(
-        private array $features = [],
-    ) {
+        $this->features = array_map(function (array $feature) {
+            return new FeatureFlag($feature['name'], $feature['enabled'], $feature['description'] ?? '');
+        }, $options['features']);
     }
 
     public function all(): array
@@ -57,7 +32,7 @@ class ArrayStorage implements Storage
     public function get(string $feature): Feature
     {
         if (!isset($this->features[$feature])) {
-            throw new FeatureUndefinedException("Feature '$feature' not exists.");
+            throw new FeatureUndefinedException(sprintf('Feature \'%s\' not exists.', $feature));
         }
 
         return $this->features[$feature];

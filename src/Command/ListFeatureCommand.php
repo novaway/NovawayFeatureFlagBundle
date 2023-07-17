@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Command;
 
 use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,22 +20,23 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'novaway:feature-flag:list', description: 'List all features with their state')]
 final class ListFeatureCommand extends Command
 {
     private const FORMAT_CSV = 'csv';
     private const FORMAT_JSON = 'json';
     private const FORMAT_TABLE = 'table';
 
-    public function __construct(
-        private readonly ChainedFeatureManager $manager,
-    ) {
-        parent::__construct('novaway:feature-flag:list');
+    public function __construct(private readonly ChainedFeatureManager $manager)
+    {
+        parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this->setDescription('List all features with their state');
-        $this->addOption('format', 'f', InputOption::VALUE_OPTIONAL, 'Output format', self::FORMAT_TABLE);
+        $this
+            ->addOption('format', 'f', InputOption::VALUE_OPTIONAL, 'Output format', self::FORMAT_TABLE)
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -43,7 +45,7 @@ final class ListFeatureCommand extends Command
         foreach ($this->manager->getManagers() as $manager) {
             $storagesFeatures[$manager->getName()] = [];
             foreach ($manager->all() as $feature) {
-                $storagesFeatures[$manager->getName()][$feature->getKey()] = $feature->toArray();
+                $storagesFeatures[$manager->getName()][$feature->getName()] = $feature->toArray();
             }
         }
 
@@ -53,10 +55,10 @@ final class ListFeatureCommand extends Command
                 self::FORMAT_JSON => $this->renderJson($output, $storagesFeatures),
                 self::FORMAT_TABLE => $this->renderTable(new SymfonyStyle($input, $output), $storagesFeatures),
                 /* @phpstan-ignore-next-line */
-                default => throw new \InvalidArgumentException("Invalid format: {$input->getOption('format')}"),
+                default => throw new \InvalidArgumentException(sprintf('Invalid format: %s', $input->getOption('format'))),
             };
         } catch (\Throwable $e) {
-            $output->writeln("<error>{$e->getMessage()}</error>");
+            $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
 
             return Command::FAILURE;
         }
@@ -79,7 +81,7 @@ final class ListFeatureCommand extends Command
             $table->setHeaders(['Name', 'Enabled', 'Description']);
             foreach ($features as $feature) {
                 $table->addRow([
-                    $feature['key'],
+                    $feature['name'],
                     $feature['enabled'] ? 'Yes' : 'No',
                     $feature['description'],
                 ]);

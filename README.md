@@ -32,11 +32,9 @@ return [
 ];
 ```
 
-###  Use it
+###  Configuration
 
-#### Define your features
-
-First you have to configure the bundle and define your feature flags in the `config.yml`.
+To configure and register a feature manager you need a factory service. You may also need to change some options to the factory.
 
 ```yaml
 # ...
@@ -44,7 +42,7 @@ novaway_feature_flag:
     default_manager: default
     managers:
         default:
-            storage: 'Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage'
+            factory: 'novaway_feature_flag.factory.array'
             options:
                 features:
                     my_feature_1: false
@@ -52,7 +50,13 @@ novaway_feature_flag:
                     my_feature3: '%env(bool:FEATURE_ENVVAR)%'
 ```
 
-The `Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage` allows you to define your feature flags in an extended way:
+The factories that come with this bundle can be found in the table below.
+
+| Factory service id                 | Options    |
+|------------------------------------|------------|
+| novaway_feature_flag.factory.array | `features` |
+
+#### Example configuration
 
 ```yaml
 # ...
@@ -60,47 +64,21 @@ novaway_feature_flag:
     default_manager: default
     managers:
         default:
-            storage: 'Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage'
+            factory: novaway_feature_flag.factory.array
             options:
                 features:
-                    my_feature_1:
-                        enabled: false
-                        description: MyFeature1 description text
-                    my_feature_2:
-                        enabled: true
-                        description: MyFeature2 description text
-                    my_feature3:
-                        enabled: '%env(bool:FEATURE_ENVVAR)%'
-                        description: MyFeature3 description text
-```
-
-You can declare multiple managers. Multiple providers is useful if you want to use different storage providers or to isolate your features flags.
-
-```yaml
-# ...
-novaway_feature_flag:
-    default_manager: manager_foo
-    managers:
-        manager_foo:
-            storage: 'Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage'
-            options:
-                features:
-                    my_feature_1:
-                        enabled: false
-                        description: MyFeature1 description text
-                    my_feature_2:
-                        enabled: true
-                        description: MyFeature2 description text
-                    my_feature3:
-                        enabled: '%env(bool:FEATURE_ENVVAR)%'
-                        description: MyFeature3 description text
-        manager_bar:
-            storage: 'Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage'
+                    my_feature_1: []
+                    my_feature_2: ~
+                    my_feature_3: false
+        default2:
+            factory: novaway_feature_flag.factory.array
             options:
                 features:
                     my_feature_4:
-                        enabled: false
-                        description: MyFeature4 description text
+                        enabled: true
+                        description: 'Lorem Ipsum'
+                    my_feature_5:
+                        enabled: '%env(bool:FEATURE_ENVVAR)%'
 ```
 
 When several managers are defined, they are registered in the Symfony dependency injection container as services with the following naming convention: `novaway_feature_flag.manager.<manager_name>`.
@@ -210,7 +188,7 @@ class MyController extends Controller
 novaway_feature_flag:
     manager:
         manager_name:
-            storage: your.custom.service.name
+            factory: your.custom.service.name
             options:
                 # arguments need to create the storage service
 ```

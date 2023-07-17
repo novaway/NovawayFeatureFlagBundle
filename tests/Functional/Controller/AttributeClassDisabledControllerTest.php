@@ -15,15 +15,12 @@ use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\WebTestCase;
 
 final class AttributeClassDisabledControllerTest extends WebTestCase
 {
-    /**
-     * @requires PHP >= 8.0
-     */
     public function testAttributeFooDisabledAction(): void
     {
-        static::$client->request('GET', '/attribute/class/disabled');
-        $response = static::$client->getResponse();
+        self::$client->request('GET', '/attribute/class/disabled');
+        $response = self::$client->getResponse();
 
-        static::assertFalse($response->isSuccessful());
-        static::assertSame(404, $response->getStatusCode());
+        $this->assertFalse($response->isSuccessful());
+        $this->assertSame(404, $response->getStatusCode());
     }
 }

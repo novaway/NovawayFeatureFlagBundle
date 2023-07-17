@@ -9,6 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App;
 
+use Novaway\Bundle\FeatureFlagBundle\Factory\ArrayStorageFactory;
 use Novaway\Bundle\FeatureFlagBundle\NovawayFeatureFlagBundle;
 use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -52,7 +53,7 @@ class AppKernel extends Kernel
                 'default_manager' => 'default',
                 'managers' => [
                     'default' => [
-                        'storage' => ArrayStorage::class,
+                        'factory' => 'novaway_feature_flag.factory.array',
                         'options' => [
                             'features' => [
                                 'override' => true,

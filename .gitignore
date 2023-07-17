@@ -1,4 +1,5 @@
 .phpunit.cache/
+coverage
 tools/
 vendor/
 .php-cs-fixer.cache

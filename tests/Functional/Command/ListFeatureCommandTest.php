@@ -19,9 +19,9 @@ final class ListFeatureCommandTest extends WebTestCase
 {
     public function testCommandIsAvailable(): void
     {
-        $application = new Application(static::bootKernel());
+        $application = new Application(ListFeatureCommandTest::bootKernel());
         $command = $application->find('novaway:feature-flag:list');
 
-        static::assertInstanceOf(Command::class, $command);
+        ListFeatureCommandTest::assertInstanceOf(Command::class, $command);
     }
 }

@@ -31,7 +31,7 @@ final class FeatureFlagExtensionTest extends TestCase
     {
         $twigFunctionCallable = $this->getTwigFunctionCallable('isFeatureEnabled');
 
-        static::assertSame($isEnabled, $twigFunctionCallable($feature));
+        $this->assertSame($isEnabled, $twigFunctionCallable($feature));
     }
 
     #[DataProvider('features')]
@@ -39,13 +39,18 @@ final class FeatureFlagExtensionTest extends TestCase
     {
         $twigFunctionCallable = $this->getTwigFunctionCallable('isFeatureDisabled');
 
-        static::assertNotSame($isEnabled, $twigFunctionCallable($feature));
+        $this->assertNotSame($isEnabled, $twigFunctionCallable($feature));
     }
 
     public static function features(): iterable
     {
         yield 'existing feature' => ['foo', true];
         yield 'non existing feature' => ['bar', false];
+    }
+
+    public function testShouldValidateName()
+    {
+        $this->assertSame('feature_flag_extension', $this->extension->getName());
     }
 
     private function createChainedFeatureManager(): ChainedFeatureManager

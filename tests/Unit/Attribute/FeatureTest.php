@@ -20,17 +20,17 @@ final class FeatureTest extends TestCase
     {
         $feature = new Feature('foo', false);
 
-        static::assertSame([
+        $this->assertSame([
             'feature' => 'foo',
             'enabled' => false,
         ], $feature->toArray());
     }
 
-    public function testFeatureIsEnabledByDefault()
+    public function testFeatureIsEnabledByDefault(): void
     {
         $feature = new Feature('bar');
 
-        static::assertSame([
+        $this->assertSame([
             'feature' => 'bar',
             'enabled' => true,
         ], $feature->toArray());

@@ -16,6 +16,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ControllerListener implements EventSubscriberInterface
 {
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            KernelEvents::CONTROLLER => 'onKernelController',
+        ];
+    }
+
     /**
      * Update the request object to apply attributes configuration
      */
@@ -49,13 +56,6 @@ class ControllerListener implements EventSubscriberInterface
             (array) $request->attributes->get('_features', []),
             $features
         ));
-    }
-
-    public static function getSubscribedEvents(): array
-    {
-        return [
-            KernelEvents::CONTROLLER => 'onKernelController',
-        ];
     }
 
     /**

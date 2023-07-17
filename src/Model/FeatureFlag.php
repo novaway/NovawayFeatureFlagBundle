@@ -9,26 +9,34 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Model;
 
-/**
- * @immutable
- */
 class FeatureFlag implements Feature
 {
+    protected string $name = '';
+    protected bool $enabled = true;
+    protected string $description = '';
+
     public function __construct(
-        private readonly string $key,
-        private readonly bool $enabled,
-        private readonly string $description = ''
+        string $name = '',
+        bool $enabled = true,
+        string $description = ''
     ) {
+        $this->name = $name;
+        $this->enabled = $enabled;
+        $this->description = $description;
     }
 
-    public function getKey(): string
+    public function toArray(): array
     {
-        return $this->key;
+        return [
+            'name' => $this->name,
+            'enabled' => $this->enabled,
+            'description' => $this->description,
+        ];
     }
 
-    public function getDescription(): string
+    public function getName(): string
     {
-        return $this->description;
+        return $this->name;
     }
 
     public function isEnabled(): bool
@@ -36,12 +44,8 @@ class FeatureFlag implements Feature
         return $this->enabled;
     }
 
-    public function toArray(): array
+    public function getDescription(): string
     {
-        return [
-            'key' => $this->key,
-            'enabled' => $this->enabled,
-            'description' => $this->description,
-        ];
+        return $this->description;
     }
 }

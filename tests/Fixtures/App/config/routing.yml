@@ -24,6 +24,10 @@ attribute_class_disabled:
     path: /attribute/class/disabled
     defaults: { _controller:  Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\AttributeClassDisabledController }
 
+attribute_configuration_error:
+    path: /attribute/error
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::attributeFooError }
+
 attribute_configuration_enabled:
     path: /attribute/enabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::attributeFooEnabled }

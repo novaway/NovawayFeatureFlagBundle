@@ -9,9 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Attribute;
 
-use Attribute;
-
-#[Attribute]
+#[\Attribute(flags: \Attribute::TARGET_ALL|\Attribute::IS_REPEATABLE)]
 class Feature
 {
     public function __construct(
