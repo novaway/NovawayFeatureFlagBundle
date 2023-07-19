@@ -9,11 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Novaway\Bundle\FeatureFlagBundle\Factory;
+namespace Novaway\Bundle\FeatureFlagBundle\Exception;
 
-use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
-
-interface StorageFactory
+class ConfigurationException extends \Exception
 {
-    public function createStorage(string $storageName, array $options = []): Storage;
 }

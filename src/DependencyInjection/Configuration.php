@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('default_manager')->defaultValue('default')->end()
                 ->arrayNode('managers')
+                    ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('name')
                     ->prototype('array')
                         ->children()
