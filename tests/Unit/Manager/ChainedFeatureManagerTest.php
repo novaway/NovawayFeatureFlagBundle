@@ -19,11 +19,13 @@ use PHPUnit\Framework\TestCase;
 final class ChainedFeatureManagerTest extends TestCase
 {
     private const FEATURES_MANAGER1 = [
-        'feature_1' => true,
-        'feature_2' => false,
+        'features' => [
+            'feature_1' => ['name' => 'feature_1', 'enabled' => true],
+            'feature_2' => ['name' => 'feature_2', 'enabled' => false],
+        ],
     ];
     private const FEATURES_MANAGER2 = [
-        'feature_3' => true,
+        'features' => ['feature_3' => ['name' => 'feature_3', 'enabled' => true]],
     ];
 
     private ChainedFeatureManager $manager;
@@ -33,8 +35,8 @@ final class ChainedFeatureManagerTest extends TestCase
     protected function setUp(): void
     {
         $this->manager = new ChainedFeatureManager([
-            $this->managerFoo = new DefaultFeatureManager('foo', ArrayStorage::fromArray(self::FEATURES_MANAGER1)),
-            $this->managerBar = new DefaultFeatureManager('bar', ArrayStorage::fromArray(self::FEATURES_MANAGER2)),
+            $this->managerFoo = new DefaultFeatureManager('foo', new ArrayStorage(self::FEATURES_MANAGER1)),
+            $this->managerBar = new DefaultFeatureManager('bar', new ArrayStorage(self::FEATURES_MANAGER2)),
         ]);
     }
 
