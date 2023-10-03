@@ -32,17 +32,11 @@ class ArrayStorage extends AbstractStorage
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function all(): array
     {
         return $this->features;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function get(string $feature): FeatureInterface
     {
         if (!isset($this->features[$feature])) {

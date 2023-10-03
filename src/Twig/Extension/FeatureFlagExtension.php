@@ -26,9 +26,6 @@ class FeatureFlagExtension extends AbstractExtension
         $this->storage = $storage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
         return [
@@ -37,9 +34,6 @@ class FeatureFlagExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'feature_flag_extension';

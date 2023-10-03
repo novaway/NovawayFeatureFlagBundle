@@ -15,25 +15,16 @@ namespace Novaway\Bundle\FeatureFlagBundle\Storage;
  */
 abstract class AbstractStorage implements StorageInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function isEnabled(string $feature): bool
     {
         return true === $this->check($feature);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isDisabled(string $feature): bool
     {
         return false === $this->check($feature);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function check(string $feature): bool
     {
         try {
