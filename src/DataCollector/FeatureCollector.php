@@ -32,9 +32,6 @@ class FeatureCollector extends DataCollector
         $this->storage = $storage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function collect(Request $request, Response $response, \Throwable $exception = null): void
     {
         $features = $this->storage->all();
@@ -79,17 +76,11 @@ class FeatureCollector extends DataCollector
         return count($this->data['features']);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'novaway_feature_flag.feature_collector';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function reset(): void
     {
         $this->data = [];
