@@ -12,7 +12,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Model;
 /**
  * @immutable
  */
-class FeatureFlag implements Feature
+final class FeatureFlag implements Feature
 {
     public function __construct(
         private readonly string $key,

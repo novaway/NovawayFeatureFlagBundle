@@ -42,19 +42,30 @@ CSV,
         'with-features' => [
             'features' => [
                 'manager1' => [
-                    'feature1' => [
-                        'enabled' => true,
-                        'description' => 'Feature 1 description',
-                    ],
-                    'feature2' => [
-                        'enabled' => false,
-                        'description' => 'Feature 2 description',
+                    'options' => [
+                        'features' => [
+                            'feature1' => [
+                                'name' => 'feature1',
+                                'enabled' => true,
+                                'description' => 'Feature 1 description',
+                            ],
+                            'feature2' => [
+                                'name' => 'feature2',
+                                'enabled' => false,
+                                'description' => 'Feature 2 description',
+                            ],
+                        ],
                     ],
                 ],
                 'manager2' => [
-                    'feature3' => [
-                        'enabled' => true,
-                        'description' => 'Feature 3 description',
+                    'options' => [
+                        'features' => [
+                            'feature3' => [
+                                'name' => 'feature3',
+                                'enabled' => true,
+                                'description' => 'Feature 3 description',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -151,7 +162,7 @@ OUTPUT, $commandTester->getDisplay());
     {
         $managers = [];
         foreach ($managersDefinition as $managerName => $featuresDefinition) {
-            $managers[] = new DefaultFeatureManager($managerName, ArrayStorage::fromArray($featuresDefinition));
+            $managers[] = new DefaultFeatureManager($managerName, new ArrayStorage($featuresDefinition['options']));
         }
 
         $command = new ListFeatureCommand(new ChainedFeatureManager($managers));

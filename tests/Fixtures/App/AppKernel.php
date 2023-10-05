@@ -52,7 +52,7 @@ class AppKernel extends Kernel
                 'default_manager' => 'default',
                 'managers' => [
                     'default' => [
-                        'storage' => ArrayStorage::class,
+                        'factory' => 'novaway_feature_flag.factory.array',
                         'options' => [
                             'features' => [
                                 'override' => true,

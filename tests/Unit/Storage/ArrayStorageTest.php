@@ -20,16 +20,18 @@ final class ArrayStorageTest extends TestCase
 {
     public function testAllReturnEmptyArrayIfNoFeatureDefined(): void
     {
-        $storage = new ArrayStorage();
+        $storage = new ArrayStorage(['features' => []]);
 
         static::assertEmpty($storage->all());
     }
 
     public function testAllReturnDefinedFeatures(): void
     {
-        $storage = ArrayStorage::fromArray([
-            'foo' => ['enabled' => false],
-            'bar' => ['enabled' => true, 'description' => 'Feature bar description'],
+        $storage = new ArrayStorage([
+            'features' => [
+                'foo' => ['name' => 'foo', 'enabled' => false],
+                'bar' => ['name' => 'bar', 'enabled' => true, 'description' => 'Feature bar description'],
+            ],
         ]);
 
         $features = $storage->all();
@@ -47,10 +49,9 @@ final class ArrayStorageTest extends TestCase
 
     public function testAnExceptionThrowsIfAccessUndefinedFeature(): void
     {
-        $storage = new ArrayStorage();
-
         $this->expectException(FeatureUndefinedException::class);
 
+        $storage = new ArrayStorage(['features' => []]);
         $storage->get('unknown-feature');
     }
 }

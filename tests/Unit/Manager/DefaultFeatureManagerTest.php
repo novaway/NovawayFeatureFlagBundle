@@ -19,8 +19,10 @@ use PHPUnit\Framework\TestCase;
 final class DefaultFeatureManagerTest extends TestCase
 {
     private const FEATURES = [
-        'feature_1' => true,
-        'feature_2' => false,
+        'features' => [
+            'feature_1' => ['name' => 'feature_1', 'enabled' => true],
+            'feature_2' => ['name' => 'feature_2', 'enabled' => false],
+        ],
     ];
 
     private DefaultFeatureManager $manager;
@@ -28,7 +30,7 @@ final class DefaultFeatureManagerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->storage = ArrayStorage::fromArray(self::FEATURES);
+        $this->storage = new ArrayStorage(self::FEATURES);
         $this->manager = new DefaultFeatureManager('foo', $this->storage);
     }
 
