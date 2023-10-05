@@ -10,7 +10,6 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App;
 
 use Novaway\Bundle\FeatureFlagBundle\NovawayFeatureFlagBundle;
-use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
