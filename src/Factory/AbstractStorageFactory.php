@@ -28,8 +28,7 @@ abstract class AbstractStorageFactory implements StorageFactory
             return $resolver->resolve($options);
         } catch (\Exception $e) {
             $message = sprintf(
-                'Error while configure storage %s. Verify your configuration at "novaway_feature_flag.storages.%s.options". %s',
-                $storageName,
+                'Error while configure storage %1$s. Verify your configuration at "novaway_feature_flag.storages.%1$s.options". %2$s',
                 $storageName,
                 $e->getMessage()
             );
