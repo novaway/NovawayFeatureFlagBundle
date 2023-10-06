@@ -15,9 +15,6 @@ use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\WebTestCase;
 
 final class AttributeClassDisabledControllerTest extends WebTestCase
 {
-    /**
-     * @requires PHP >= 8.0
-     */
     public function testAttributeFooDisabledAction(): void
     {
         static::$client->request('GET', '/attribute/class/disabled');

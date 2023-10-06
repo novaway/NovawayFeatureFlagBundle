@@ -65,9 +65,6 @@ final class DefaultControllerTest extends WebTestCase
         static::assertSame(404, static::$client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @requires PHP >= 8.0
-     */
     public function testAttributeFooEnabledAction()
     {
         $crawler = static::$client->request('GET', '/attribute/enabled');
@@ -75,13 +72,10 @@ final class DefaultControllerTest extends WebTestCase
         static::assertSame(200, static::$client->getResponse()->getStatusCode());
         static::assertGreaterThan(
             0,
-            $crawler->filter('html:contains("DefaultController::attributeFooEnabledAction")')->count(),
+            $crawler->filter('html:contains("DefaultController::attributeRouteIsAccessibleIfFeatureIsEnabled")')->count(),
         );
     }
 
-    /**
-     * @requires PHP >= 8.0
-     */
     public function testAttributeFooDisabledAction()
     {
         static::$client->request('GET', '/attribute/disabled');

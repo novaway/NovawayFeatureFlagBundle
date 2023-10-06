@@ -11,28 +11,18 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Attribute;
 
-use Novaway\Bundle\FeatureFlagBundle\Attribute\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureDisabled;
 use PHPUnit\Framework\TestCase;
 
-final class FeatureTest extends TestCase
+final class IsFeatureDisabledTest extends TestCase
 {
-    public function testToArrayResult(): void
+    public function testIsFeatureDisabledToArrayTransformation()
     {
-        $feature = new Feature('foo', false);
-
-        static::assertSame([
-            'feature' => 'foo',
-            'enabled' => false,
-        ], $feature->toArray());
-    }
-
-    public function testFeatureIsEnabledByDefault()
-    {
-        $feature = new Feature('bar');
+        $feature = new IsFeatureDisabled('bar');
 
         static::assertSame([
             'feature' => 'bar',
-            'enabled' => true,
+            'enabled' => false,
         ], $feature->toArray());
     }
 }
