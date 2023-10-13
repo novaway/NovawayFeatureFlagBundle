@@ -10,6 +10,8 @@
 namespace Novaway\Bundle\FeatureFlagBundle\EventListener;
 
 use Novaway\Bundle\FeatureFlagBundle\Attribute\Feature;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureDisabled;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureEnabled;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -63,15 +65,15 @@ class ControllerListener implements EventSubscriberInterface
      */
     private function resolveFeatures(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {
-        foreach ($class->getAttributes(Feature::class) as $attribute) {
-            /** @var Feature $feature */
-            $feature = $attribute->newInstance();
+        $attributes = [
+            ...$class->getAttributes(IsFeatureEnabled::class),
+            ...$class->getAttributes(IsFeatureDisabled::class),
+            ...$method->getAttributes(IsFeatureEnabled::class),
+            ...$method->getAttributes(IsFeatureDisabled::class),
+        ];
 
-            yield $feature->name => $feature->toArray();
-        }
-
-        foreach ($method->getAttributes(Feature::class) as $attribute) {
-            /** @var Feature $feature */
+        foreach ($attributes as $attribute) {
+            /** @var IsFeatureEnabled|IsFeatureDisabled $feature */
             $feature = $attribute->newInstance();
 
             yield $feature->name => $feature->toArray();
