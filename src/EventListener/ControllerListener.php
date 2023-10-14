@@ -61,7 +61,7 @@ class ControllerListener implements EventSubscriberInterface
     }
 
     /**
-     * @return array<string, array{feature: string, enabled: bool}>
+     * @return array<string, array{feature: string, enabled: bool, exceptionClass: class-string<\Throwable>|null}>
      */
     private function resolveFeatures(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {

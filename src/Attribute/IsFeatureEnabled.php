@@ -12,21 +12,10 @@ namespace Novaway\Bundle\FeatureFlagBundle\Attribute;
 use Attribute;
 
 #[Attribute]
-final class IsFeatureEnabled
+final class IsFeatureEnabled extends FeatureAttribute
 {
-    public function __construct(
-        public readonly string $name,
-    ) {
-    }
-
-    /**
-     * @return array{feature: string, enabled: bool}
-     */
-    public function toArray(): array
+    protected function shouldBeEnabled(): bool
     {
-        return [
-            'feature' => $this->name,
-            'enabled' => true,
-        ];
+        return true;
     }
 }

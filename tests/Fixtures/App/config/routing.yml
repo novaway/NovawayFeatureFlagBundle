@@ -31,3 +31,20 @@ attribute_configuration_enabled:
 attribute_configuration_disabled:
     path: /attribute/disabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::attributeRouteIsAccessibleIfFeatureIsDisabled }
+
+route_custom_exception:
+    path: /configuration/custom_exception/disabled
+    defaults:
+        _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\CustomExceptionController::routeWithExceptionInConfiguration
+        _features:
+            - feature: foo
+              enabled: false
+              exceptionClass: Symfony\Component\HttpKernel\Exception\GoneHttpException
+
+attribute_custom_exception_isdisabled:
+    path: /attribute/custom_exception/disabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\CustomExceptionController::disableWithCustomException }
+
+attribute_custom_exception_isenabled:
+    path: /attribute/custom_exception/enabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\CustomExceptionController::enableWithCustomException }

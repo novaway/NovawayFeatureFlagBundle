@@ -12,17 +12,22 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Attribute;
 
 use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureEnabled;
-use PHPUnit\Framework\TestCase;
 
-final class IsFeatureEnabledTest extends TestCase
+final class IsFeatureEnabledTest extends FeatureAttributeTestCase
 {
     public function testIsFeatureEnabledToArrayTransformation()
     {
-        $feature = new IsFeatureEnabled('bar');
+        $feature = $this->createAttribute('bar');
 
         static::assertSame([
             'feature' => 'bar',
             'enabled' => true,
+            'exceptionClass' => null,
         ], $feature->toArray());
+    }
+
+    protected function createAttribute(string $name, string $exceptionClass = null)
+    {
+        return new IsFeatureEnabled($name, $exceptionClass);
     }
 }

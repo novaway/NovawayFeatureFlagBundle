@@ -34,7 +34,7 @@ class FeatureListener implements EventSubscriberInterface
 
         foreach ($features as $featureConfiguration) {
             if ($featureConfiguration['enabled'] !== $this->manager->isEnabled($featureConfiguration['feature'])) {
-                throw new NotFoundHttpException();
+                throw $this->createFeatureException($featureConfiguration);
             }
         }
     }
@@ -44,5 +44,17 @@ class FeatureListener implements EventSubscriberInterface
         return [
             KernelEvents::CONTROLLER => 'onKernelController',
         ];
+    }
+
+    /**
+     * @param array{feature: string, enabled: bool, exceptionClass: class-string<\Throwable>|null} $featureConfiguration
+     */
+    public function createFeatureException(array $featureConfiguration): \Throwable
+    {
+        if (($featureConfiguration['exceptionClass'] ?? null) !== null) {
+            return new $featureConfiguration['exceptionClass']();
+        }
+
+        return new NotFoundHttpException();
     }
 }
