@@ -177,6 +177,7 @@ my_second_route:
         _features:
             - { feature: foo } # The action is accessible if "foo" is enabled ...
             - { feature: bar, enabled: true } # ... and "bar" feature is also enabled
+            - { feature: feature-42, enabled: true, exceptionClass: Symfony\Component\HttpKernel\Exception\BadRequestHttpException } # will throw a BadRequestHttpException if "feature-42" is disabled
 ```
 
 #### As a controller attribute
@@ -190,13 +191,13 @@ You can also restrict a controller access with attributes, two attributes are av
 #[IsFeatureEnabled(name: "foo")]
 class MyController extends Controller
 {
-    #[IsFeatureEnabled(name: "foo")]
+    #[IsFeatureEnabled(name: "foo", exceptionClass: BadRequestHttpException::class)]
     public function annotationFooEnabledAction(): Response
     {
         return new Response('MyController::annotationFooEnabledAction');
     }
 
-    #[IsFeatureDisabled(name: "foo")]
+    #[IsFeatureDisabled(name: "foo", exceptionClass: NotFoundHttpException::class)]
     public function annotationFooDisabledAction(): Response
     {
         return new Response('MyController::annotationFooDisabledAction');
