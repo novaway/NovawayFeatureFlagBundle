@@ -23,6 +23,7 @@ final class IsFeatureDisabledTest extends FeatureAttributeTestCase
             'feature' => 'bar',
             'enabled' => false,
             'exceptionClass' => null,
+            'exceptionFactory' => null,
         ], $feature->toArray());
     }
 

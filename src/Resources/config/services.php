@@ -12,15 +12,17 @@ declare(strict_types=1);
 use Novaway\Bundle\FeatureFlagBundle\EventListener\ControllerListener;
 use Novaway\Bundle\FeatureFlagBundle\EventListener\FeatureListener;
 use Novaway\Bundle\FeatureFlagBundle\Factory\ArrayStorageFactory;
+use Novaway\Bundle\FeatureFlagBundle\Factory\ExceptionFactory;
 use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
-use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $services = $containerConfigurator->services();
+
+    $services->set(ExceptionFactory::class)->autoconfigure();
 
     $services->set('novaway_feature_flag.factory.array', ArrayStorageFactory::class);
 
@@ -35,6 +37,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->tag('kernel.event_subscriber');
 
     $services->set(FeatureListener::class)
-        ->args([service(ChainedFeatureManager::class)])
+        ->autowire()
         ->tag('kernel.event_subscriber');
 };

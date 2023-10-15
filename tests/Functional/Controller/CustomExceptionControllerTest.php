@@ -33,4 +33,18 @@ final class CustomExceptionControllerTest extends WebTestCase
 
         static::assertSame(409, static::$client->getResponse()->getStatusCode());
     }
+
+    public function testIsFeatureDisableAttributeWithCustomExceptionFactory(): void
+    {
+        static::$client->request('GET', '/attribute/custom_exception_factory/disabled');
+
+        static::assertSame(423, static::$client->getResponse()->getStatusCode());
+    }
+
+    public function testIsFeatureEnableAttributeWithCustomExceptionFactory(): void
+    {
+        static::$client->request('GET', '/attribute/custom_exception_factory/enabled');
+
+        static::assertSame(411, static::$client->getResponse()->getStatusCode());
+    }
 }

@@ -7,6 +7,9 @@ services:
         Symfony\Bundle\FrameworkBundle\Controller\AbstractController:
             tags: ['controller.service_arguments']
 
+    Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Exception\Http411ExceptionFactory: ~
+    Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Exception\Http423ExceptionFactory: ~
+
     Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\AttributeClassDisabledController: ~
     Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\CustomExceptionController: ~
     Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController: ~
