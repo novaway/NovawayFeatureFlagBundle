@@ -8,4 +8,5 @@ services:
             tags: ['controller.service_arguments']
 
     Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\AttributeClassDisabledController: ~
+    Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\CustomExceptionController: ~
     Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController: ~
