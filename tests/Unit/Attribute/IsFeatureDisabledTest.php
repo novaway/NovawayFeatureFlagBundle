@@ -11,11 +11,12 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Attribute;
 
+use Novaway\Bundle\FeatureFlagBundle\Attribute\FeatureAttribute;
 use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureDisabled;
 
 final class IsFeatureDisabledTest extends FeatureAttributeTestCase
 {
-    public function testIsFeatureDisabledToArrayTransformation()
+    public function testIsFeatureDisabledToArrayTransformation(): void
     {
         $feature = $this->createAttribute('bar');
 
@@ -26,7 +27,7 @@ final class IsFeatureDisabledTest extends FeatureAttributeTestCase
         ], $feature->toArray());
     }
 
-    protected function createAttribute(string $name, string $exceptionClass = null)
+    protected function createAttribute(string $name, string $exceptionClass = null): FeatureAttribute
     {
         return new IsFeatureDisabled($name, $exceptionClass);
     }

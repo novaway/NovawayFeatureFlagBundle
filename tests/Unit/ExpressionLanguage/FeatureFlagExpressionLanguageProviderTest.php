@@ -40,7 +40,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
     /**
      * @dataProvider isFeatureEnabled
      */
-    public function testIsFeatureEnabledFunctionForwardCallToManager(string $featureName, bool $expectedValue)
+    public function testIsFeatureEnabledFunctionForwardCallToManager(string $featureName, bool $expectedValue): void
     {
         $this->featureManager->expects(self::once())
             ->method('isEnabled')
@@ -53,7 +53,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
     /**
      * @dataProvider isFeatureDisabled
      */
-    public function testIsFeatureDisabledFunctionForwardCallToManager(string $featureName, bool $expectedValue)
+    public function testIsFeatureDisabledFunctionForwardCallToManager(string $featureName, bool $expectedValue): void
     {
         $this->featureManager->expects(self::once())
             ->method('isDisabled')
@@ -63,7 +63,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
         static::assertSame($expectedValue, $this->expressionLanguage->evaluate('is_feature_disabled("'.$featureName.'")'));
     }
 
-    public static function isFeatureEnabled()
+    public static function isFeatureEnabled(): iterable
     {
         yield ['foo', true];
         yield ['foo', false];
@@ -71,7 +71,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
         yield ['bar', false];
     }
 
-    public static function isFeatureDisabled()
+    public static function isFeatureDisabled(): iterable
     {
         yield ['foo', true];
         yield ['foo', false];
