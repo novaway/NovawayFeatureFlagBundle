@@ -10,9 +10,10 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Factory;
 
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 
 #[AutoconfigureTag]
 interface ExceptionFactory
 {
-    public function create(): \Throwable;
+    public function create(string $feature, ControllerEvent $event): \Throwable;
 }

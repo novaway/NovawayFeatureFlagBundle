@@ -42,7 +42,7 @@ class FeatureListener implements EventSubscriberInterface
 
         foreach ($features as $featureConfiguration) {
             if ($featureConfiguration['enabled'] !== $this->manager->isEnabled($featureConfiguration['feature'])) {
-                throw $this->createFeatureException($featureConfiguration);
+                throw $this->createFeatureException($featureConfiguration, $event);
             }
         }
     }
@@ -62,7 +62,7 @@ class FeatureListener implements EventSubscriberInterface
      *     exceptionFactory: class-string<ExceptionFactory>|null,
      * } $featureConfiguration
      */
-    public function createFeatureException(array $featureConfiguration): \Throwable
+    public function createFeatureException(array $featureConfiguration, ControllerEvent $event): \Throwable
     {
         if (($featureConfiguration['exceptionClass'] ?? null) !== null) {
             return new $featureConfiguration['exceptionClass']();
@@ -71,7 +71,7 @@ class FeatureListener implements EventSubscriberInterface
         if (($featureConfiguration['exceptionFactory'] ?? null) !== null) {
             $factory = $this->factories->get($featureConfiguration['exceptionFactory']);
 
-            return $factory->create();
+            return $factory->create($featureConfiguration['feature'], $event);
         }
 
         return new NotFoundHttpException();
