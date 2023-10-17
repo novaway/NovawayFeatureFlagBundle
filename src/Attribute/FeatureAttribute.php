@@ -9,14 +9,18 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Attribute;
 
+use Novaway\Bundle\FeatureFlagBundle\Factory\ExceptionFactory;
+
 abstract class FeatureAttribute
 {
     /**
-     * @param class-string<\Throwable>|null $exceptionClass
+     * @param class-string<\Throwable>|null       $exceptionClass
+     * @param class-string<ExceptionFactory>|null $exceptionFactory
      */
     public function __construct(
         public readonly string $name,
         public readonly ?string $exceptionClass = null,
+        public readonly ?string $exceptionFactory = null,
     ) {
         if ($this->exceptionClass) {
             if (!class_exists($this->exceptionClass)) {
@@ -30,7 +34,12 @@ abstract class FeatureAttribute
     }
 
     /**
-     * @return array{feature: string, enabled: bool, exceptionClass: class-string<\Throwable>|null}
+     * @return array{
+     *     feature: string,
+     *     enabled: bool,
+     *     exceptionClass: class-string<\Throwable>|null,
+     *     exceptionFactory: class-string<ExceptionFactory>|null
+     * }
      */
     public function toArray(): array
     {
@@ -38,6 +47,7 @@ abstract class FeatureAttribute
             'feature' => $this->name,
             'enabled' => $this->shouldBeEnabled(),
             'exceptionClass' => $this->exceptionClass,
+            'exceptionFactory' => $this->exceptionFactory,
         ];
     }
 

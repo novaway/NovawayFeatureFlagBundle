@@ -48,3 +48,11 @@ attribute_custom_exception_isdisabled:
 attribute_custom_exception_isenabled:
     path: /attribute/custom_exception/enabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\CustomExceptionController::enableWithCustomException }
+
+attribute_custom_exception_factory_isdisabled:
+    path: /attribute/custom_exception_factory/disabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\CustomExceptionController::disableWithCustomExceptionFactory }
+
+attribute_custom_exception_factory_isenabled:
+    path: /attribute/custom_exception_factory/enabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\CustomExceptionController::enableWithCustomExceptionFactory }

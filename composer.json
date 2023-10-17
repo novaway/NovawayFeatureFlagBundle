@@ -51,5 +51,10 @@
             "phpstan/extension-installer": true
         },
         "sort-packages": true
+    },
+    "conflict": {
+        "symfony/dependency-injection": "<5.4",
+        "symfony/dom-crawler": "<5.4",
+        "symfony/routing": "<5.4"
     }
 }

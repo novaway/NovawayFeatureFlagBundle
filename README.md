@@ -178,6 +178,7 @@ my_second_route:
             - { feature: foo } # The action is accessible if "foo" is enabled ...
             - { feature: bar, enabled: true } # ... and "bar" feature is also enabled
             - { feature: feature-42, enabled: true, exceptionClass: Symfony\Component\HttpKernel\Exception\BadRequestHttpException } # will throw a BadRequestHttpException if "feature-42" is disabled
+            - { feature: feature-44, enabled: true, exceptionFactory: Symfony\Component\HttpKernel\Exception\BadRequestHttpExceptionFactory } # will use the BadRequestHttpExceptionFactory registered factory class to create the exception to be thrown
 ```
 
 #### As a controller attribute
@@ -197,7 +198,7 @@ class MyController extends Controller
         return new Response('MyController::annotationFooEnabledAction');
     }
 
-    #[IsFeatureDisabled(name: "foo", exceptionClass: NotFoundHttpException::class)]
+    #[IsFeatureDisabled(name: "foo", exceptionFactory: MyExceptionFactory::class)]
     public function annotationFooDisabledAction(): Response
     {
         return new Response('MyController::annotationFooDisabledAction');
