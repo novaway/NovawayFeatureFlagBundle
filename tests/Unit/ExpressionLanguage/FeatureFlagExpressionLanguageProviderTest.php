@@ -10,6 +10,7 @@
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\ExpressionLanguage;
 
 use Novaway\Bundle\FeatureFlagBundle\ExpressionLanguage\FeatureFlagExpressionLanguageProvider;
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -26,8 +27,9 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
     protected function setUp(): void
     {
         $this->featureManager = $this->createMock(FeatureManager::class);
+        $chainedFeatureManager = new ChainedFeatureManager([$this->featureManager]);
 
-        $this->expressionLanguage = new class($this->featureManager) extends ExpressionLanguage {
+        $this->expressionLanguage = new class($chainedFeatureManager) extends ExpressionLanguage {
             public function __construct($featureManager, CacheItemPoolInterface $cache = null, array $providers = [])
             {
                 array_unshift($providers, new FeatureFlagExpressionLanguageProvider($featureManager));
@@ -42,10 +44,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
      */
     public function testIsFeatureEnabledFunctionForwardCallToManager(string $featureName, bool $expectedValue): void
     {
-        $this->featureManager->expects(self::once())
-            ->method('isEnabled')
-            ->with($featureName)
-            ->willReturn($expectedValue);
+        $this->setupFeatureValue($featureName, $expectedValue);
 
         static::assertSame($expectedValue, $this->expressionLanguage->evaluate('is_feature_enabled("'.$featureName.'")'));
     }
@@ -55,10 +54,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
      */
     public function testIsFeatureDisabledFunctionForwardCallToManager(string $featureName, bool $expectedValue): void
     {
-        $this->featureManager->expects(self::once())
-            ->method('isDisabled')
-            ->with($featureName)
-            ->willReturn($expectedValue);
+        $this->setupFeatureValue($featureName, !$expectedValue);
 
         static::assertSame($expectedValue, $this->expressionLanguage->evaluate('is_feature_disabled("'.$featureName.'")'));
     }
@@ -77,5 +73,11 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
         yield ['foo', false];
         yield ['bar', true];
         yield ['bar', false];
+    }
+
+    private function setupFeatureValue(string $featureName, bool $isEnabled): void
+    {
+        $this->featureManager->method('isEnabled')->with($featureName)->willReturn($isEnabled);
+        $this->featureManager->method('isDisabled')->with($featureName)->willReturn(!$isEnabled);
     }
 }

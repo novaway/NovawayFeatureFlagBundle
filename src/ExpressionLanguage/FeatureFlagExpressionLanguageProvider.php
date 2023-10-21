@@ -9,18 +9,15 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\ExpressionLanguage;
 
-use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
 final class FeatureFlagExpressionLanguageProvider implements ExpressionFunctionProviderInterface
 {
-    /** @var FeatureManager */
-    private $featureManager;
-
-    public function __construct(FeatureManager $featureManager)
-    {
-        $this->featureManager = $featureManager;
+    public function __construct(
+        private readonly ChainedFeatureManager $featureManager,
+    ) {
     }
 
     public function getFunctions(): array
@@ -28,21 +25,13 @@ final class FeatureFlagExpressionLanguageProvider implements ExpressionFunctionP
         return [
             new ExpressionFunction(
                 'is_feature_enabled',
-                function ($str) {
-                    return sprintf('$this->isFeatureEnabled(%s)', $str);
-                },
-                function ($arguments, $str) {
-                    return $this->featureManager->isEnabled($str);
-                }
+                fn ($str) => sprintf('$this->isFeatureEnabled(%s)', $str),
+                fn ($arguments, $str) => $this->featureManager->isEnabled($str),
             ),
             new ExpressionFunction(
                 'is_feature_disabled',
-                function ($str) {
-                    return sprintf('$this->isFeatureDisabled(%s)', $str);
-                },
-                function ($arguments, $str) {
-                    return $this->featureManager->isDisabled($str);
-                },
+                fn ($str) => sprintf('$this->isFeatureDisabled(%s)', $str),
+                fn ($arguments, $str) => $this->featureManager->isDisabled($str),
             ),
         ];
     }
