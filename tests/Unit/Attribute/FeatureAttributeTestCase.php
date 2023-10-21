@@ -9,6 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Attribute;
 
+use Novaway\Bundle\FeatureFlagBundle\Attribute\FeatureAttribute;
 use PHPUnit\Framework\TestCase;
 
 abstract class FeatureAttributeTestCase extends TestCase
@@ -27,5 +28,5 @@ abstract class FeatureAttributeTestCase extends TestCase
         $this->createAttribute('foo', \stdClass::class);
     }
 
-    abstract protected function createAttribute(string $name, string $exceptionClass = null);
+    abstract protected function createAttribute(string $name, string $exceptionClass = null): FeatureAttribute;
 }

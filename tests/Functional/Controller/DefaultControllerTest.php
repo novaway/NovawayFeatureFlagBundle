@@ -47,7 +47,7 @@ final class DefaultControllerTest extends WebTestCase
         );
     }
 
-    public function testRequestFooEnabled()
+    public function testRequestFooEnabled(): void
     {
         $crawler = static::$client->request('GET', '/request/enabled');
 
@@ -58,14 +58,14 @@ final class DefaultControllerTest extends WebTestCase
         );
     }
 
-    public function testRequestFooDisabled()
+    public function testRequestFooDisabled(): void
     {
         static::$client->request('GET', '/request/disabled');
 
         static::assertSame(404, static::$client->getResponse()->getStatusCode());
     }
 
-    public function testAttributeFooEnabledAction()
+    public function testAttributeFooEnabledAction(): void
     {
         $crawler = static::$client->request('GET', '/attribute/enabled');
 
@@ -76,7 +76,7 @@ final class DefaultControllerTest extends WebTestCase
         );
     }
 
-    public function testAttributeFooDisabledAction()
+    public function testAttributeFooDisabledAction(): void
     {
         static::$client->request('GET', '/attribute/disabled');
 

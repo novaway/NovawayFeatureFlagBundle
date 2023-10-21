@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[IsFeatureDisabled(name: 'foo')]
 class AttributeClassDisabledController extends AbstractController
 {
-    public function __invoke()
+    public function __invoke(): Response
     {
         return new Response('AttributeClassDisabledController::response');
     }

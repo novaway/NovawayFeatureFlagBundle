@@ -22,7 +22,7 @@ class DefaultController extends AbstractController
     ) {
     }
 
-    public function features()
+    public function features(): Response
     {
         return $this->render('default/features.html.twig', [
             'feature_foo_enabled' => $this->manager->isEnabled('foo'),
@@ -32,24 +32,24 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    public function requestFooEnabled()
+    public function requestFooEnabled(): Response
     {
         return new Response('DefaultController::requestFooEnabledAction');
     }
 
-    public function requestFooDisabled()
+    public function requestFooDisabled(): Response
     {
         return new Response('DefaultController::requestFooDisabledAction');
     }
 
     #[IsFeatureEnabled(name: 'foo')]
-    public function attributeRouteIsAccessibleIfFeatureIsEnabled()
+    public function attributeRouteIsAccessibleIfFeatureIsEnabled(): Response
     {
         return new Response('DefaultController::attributeRouteIsAccessibleIfFeatureIsEnabled');
     }
 
     #[IsFeatureDisabled(name: 'foo')]
-    public function attributeRouteIsAccessibleIfFeatureIsDisabled()
+    public function attributeRouteIsAccessibleIfFeatureIsDisabled(): Response
     {
         return new Response('DefaultController::attributeRouteIsAccessibleIfFeatureIsDisabled');
     }
