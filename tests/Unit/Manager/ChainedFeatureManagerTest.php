@@ -45,6 +45,19 @@ final class ChainedFeatureManagerTest extends TestCase
         static::assertEquals([$this->managerFoo, $this->managerBar], $this->manager->getManagers());
     }
 
+    public function testGetAll(): void
+    {
+        $features = [];
+        foreach ($this->manager->all() as $featureName => $featureData) {
+            $features[] = $featureName;
+        }
+
+        static::assertCount(3, $features);
+        static::assertContainsEquals('feature_1', $features);
+        static::assertContainsEquals('feature_2', $features);
+        static::assertContainsEquals('feature_3', $features);
+    }
+
     public function testIsFeatureEnabled(): void
     {
         static::assertTrue($this->manager->isEnabled('feature_1'));
@@ -57,5 +70,10 @@ final class ChainedFeatureManagerTest extends TestCase
         static::assertTrue($this->manager->isDisabled('feature_2'));
         static::assertFalse($this->manager->isDisabled('feature_1'));
         static::assertFalse($this->manager->isDisabled('feature_3'));
+    }
+
+    public function testGetName(): void
+    {
+        static::assertSame(ChainedFeatureManager::class, $this->manager->getName());
     }
 }

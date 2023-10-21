@@ -26,11 +26,10 @@ return static function (ContainerConfigurator $containerConfigurator): void {
 
     $services->set('novaway_feature_flag.factory.array', ArrayStorageFactory::class);
 
-    $services->instanceof(FeatureManager::class)
-        ->tag('novaway_feature_flag.manager');
-
     $services->set(ChainedFeatureManager::class)
         ->args([tagged_iterator('novaway_feature_flag.manager')]);
+
+    $services->alias(FeatureManager::class, ChainedFeatureManager::class);
     $services->alias('novaway_feature_flag.manager', ChainedFeatureManager::class);
 
     $services->set(ControllerListener::class)
