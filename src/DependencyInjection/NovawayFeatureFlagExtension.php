@@ -51,7 +51,7 @@ class NovawayFeatureFlagExtension extends Extension
                 ->setFactory([new Reference($managerConfiguration['factory']), 'createStorage'])
                 ->addArgument($name)
                 ->addArgument($managerConfiguration['options'])
-                ->setPublic(false)
+                ->addTag('novaway_feature_flag.storage')
             ;
 
             $container

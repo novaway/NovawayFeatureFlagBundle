@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Manager;
 
-final class ChainedFeatureManager
+final class ChainedFeatureManager implements FeatureManager
 {
     /**
      * @param iterable<FeatureManager> $featureManagers
@@ -29,6 +29,13 @@ final class ChainedFeatureManager
         return $this->featureManagers;
     }
 
+    public function all(): iterable
+    {
+        foreach ($this->featureManagers as $featureManager) {
+            yield from $featureManager->all();
+        }
+    }
+
     public function isEnabled(string $feature): bool
     {
         foreach ($this->featureManagers as $featureManager) {
@@ -43,5 +50,10 @@ final class ChainedFeatureManager
     public function isDisabled(string $feature): bool
     {
         return false === $this->isEnabled($feature);
+    }
+
+    public function getName(): string
+    {
+        return ChainedFeatureManager::class;
     }
 }

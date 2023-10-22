@@ -118,7 +118,7 @@ Manager storage are also registered in the Symfony dependency injection containe
 
 #### Use it as a service
 
-The bundle adds a global `novaway_feature_flag.manager` service you can use in your PHP classes.
+The bundle adds a global `novaway_feature_flag.manager` (also bind to `FeatureManager`) service you can use in your PHP classes.
 
 In the case you have defined several managers, the service use the `ChainedFeatureManager` class to chain all declared managers.
 
