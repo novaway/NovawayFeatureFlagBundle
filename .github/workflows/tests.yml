@@ -85,4 +85,10 @@ jobs:
               env:
                   COMPOSER_FLAGS: ${{ matrix.flags }}
             - name: Run PHPUnit
-              run: vendor/bin/phpunit
+              run: vendor/bin/phpunit --coverage-clover=coverage.xml
+            - name: Analyze code coverage
+              uses: timkrase/phpunit-coverage-badge@v1.2.0
+              with:
+                  report: coverage.xml
+                  push_badge: true
+                  repo_token: ${{ secrets.GITHUB_TOKEN }}

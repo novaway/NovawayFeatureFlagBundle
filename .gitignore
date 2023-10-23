@@ -3,3 +3,4 @@ tools/
 vendor/
 .php-cs-fixer.cache
 composer.lock
+coverage.xml
