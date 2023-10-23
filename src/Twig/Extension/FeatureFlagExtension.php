@@ -30,9 +30,4 @@ class FeatureFlagExtension extends AbstractExtension
             new TwigFunction('isFeatureDisabled', $this->manager->isDisabled(...)),
         ];
     }
-
-    public function getName(): string
-    {
-        return 'feature_flag_extension';
-    }
 }
