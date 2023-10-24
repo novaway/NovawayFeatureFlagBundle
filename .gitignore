@@ -1,5 +1,6 @@
 .phpunit.cache/
-tools/
+tools/vendor/
+tools/composer.lock
 vendor/
 .php-cs-fixer.cache
 composer.lock
