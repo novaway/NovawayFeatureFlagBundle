@@ -6,6 +6,11 @@
          failOnWarning="true"
          colors="true"
          cacheDirectory=".phpunit.cache">
+    <php>
+        <env name="KERNEL_CLASS" value="Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\AppKernel"/>
+        <env name="APP_ENV" value="test"/>
+    </php>
+
     <testsuites>
         <testsuite name="unit">
             <directory>tests/Unit</directory>

@@ -11,14 +11,15 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional\Controller;
 
-use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class DefaultControllerTest extends WebTestCase
 {
     public function testFeatureEnabled(): void
     {
-        $crawler = static::$client->request('GET', '/features');
-        static::assertTrue(static::$client->getResponse()->isSuccessful());
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/features');
+        static::assertTrue($client->getResponse()->isSuccessful());
 
         static::assertGreaterThan(
             0,
@@ -33,8 +34,9 @@ final class DefaultControllerTest extends WebTestCase
 
     public function testFeatureDisabled(): void
     {
-        $crawler = static::$client->request('GET', '/features');
-        static::assertTrue(static::$client->getResponse()->isSuccessful());
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/features');
+        static::assertTrue($client->getResponse()->isSuccessful());
 
         static::assertSame(
             0,
@@ -49,9 +51,10 @@ final class DefaultControllerTest extends WebTestCase
 
     public function testRequestFooEnabled(): void
     {
-        $crawler = static::$client->request('GET', '/request/enabled');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/request/enabled');
 
-        static::assertSame(200, static::$client->getResponse()->getStatusCode());
+        static::assertSame(200, $client->getResponse()->getStatusCode());
         static::assertGreaterThan(
             0,
             $crawler->filter('html:contains("DefaultController::requestFooEnabledAction")')->count(),
@@ -60,16 +63,18 @@ final class DefaultControllerTest extends WebTestCase
 
     public function testRequestFooDisabled(): void
     {
-        static::$client->request('GET', '/request/disabled');
+        $client = static::createClient();
+        $client->request('GET', '/request/disabled');
 
-        static::assertSame(404, static::$client->getResponse()->getStatusCode());
+        static::assertSame(404, $client->getResponse()->getStatusCode());
     }
 
     public function testAttributeFooEnabledAction(): void
     {
-        $crawler = static::$client->request('GET', '/attribute/enabled');
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/attribute/enabled');
 
-        static::assertSame(200, static::$client->getResponse()->getStatusCode());
+        static::assertSame(200, $client->getResponse()->getStatusCode());
         static::assertGreaterThan(
             0,
             $crawler->filter('html:contains("DefaultController::attributeRouteIsAccessibleIfFeatureIsEnabled")')->count(),
@@ -78,8 +83,9 @@ final class DefaultControllerTest extends WebTestCase
 
     public function testAttributeFooDisabledAction(): void
     {
-        static::$client->request('GET', '/attribute/disabled');
+        $client = static::createClient();
+        $client->request('GET', '/attribute/disabled');
 
-        static::assertSame(404, static::$client->getResponse()->getStatusCode());
+        static::assertSame(404, $client->getResponse()->getStatusCode());
     }
 }

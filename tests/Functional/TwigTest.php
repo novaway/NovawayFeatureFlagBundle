@@ -11,6 +11,8 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional;
 
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+
 final class TwigTest extends WebTestCase
 {
     public function testTwigRenderWithFeatureEnable(): void

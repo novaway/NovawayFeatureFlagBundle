@@ -11,14 +11,15 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional\Controller;
 
-use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class AttributeClassDisabledControllerTest extends WebTestCase
 {
     public function testAttributeFooDisabledAction(): void
     {
-        static::$client->request('GET', '/attribute/class/disabled');
-        $response = static::$client->getResponse();
+        $client = static::createClient();
+        $client->request('GET', '/attribute/class/disabled');
+        $response = $client->getResponse();
 
         static::assertFalse($response->isSuccessful());
         static::assertSame(404, $response->getStatusCode());
