@@ -9,6 +9,8 @@ services:
         arguments: ['@Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage']
     novaway_feature_flag.manager:
         alias: 'Novaway\Bundle\FeatureFlagBundle\Manager\LegacyFeatureManager'
+    Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager:
+        alias: novaway_feature_flag.manager
 
     Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage:
         arguments:
