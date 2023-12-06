@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Command;
 
 use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,10 +42,12 @@ final class ListFeatureCommand extends Command
     {
         $storagesFeatures = [];
         foreach ($this->manager->getManagers() as $manager) {
-            $storagesFeatures[$manager->getName()] = [];
+            $features = [];
             foreach ($manager->all() as $feature) {
-                $storagesFeatures[$manager->getName()][$feature->getKey()] = $feature->toArray();
+                $features[$feature->getKey()] = $feature->toArray();
             }
+
+            $storagesFeatures[$manager->getName()] = $features;
         }
 
         try {
