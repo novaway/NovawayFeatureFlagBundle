@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the NovawayFeatureFlagBundle package.
+ * (c) Novaway <https://github.com/novaway/NovawayFeatureFlagBundle>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Novaway\Bundle\FeatureFlagBundle\Checker;
 
 use Psr\Log\LoggerInterface;
@@ -27,8 +34,12 @@ class ExpressionLanguageChecker
 
     public function isGranted(string $expression): bool
     {
-        if (null === $this->tokenStorage || null === $this->authenticationTrustResolver) {
-            throw new \LogicException('The "symfony/security-bundle" library must be installed to use the "security" attribute.');
+        if (
+            null === $this->expressionLanguage
+            || null === $this->tokenStorage
+            || null === $this->authenticationTrustResolver
+        ) {
+            throw new \LogicException('The "symfony/security-bundle" library must be installed.');
         }
 
         if (null === $token = $this->tokenStorage->getToken()) {

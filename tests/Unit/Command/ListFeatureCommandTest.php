@@ -22,23 +22,23 @@ use Symfony\Component\Console\Tester\CommandTester;
 final class ListFeatureCommandTest extends TestCase
 {
     private const TEST_DATA = [
-//        'empty-features' => [
-//            'features' => [],
-//            'output' => [
-//                'table' => <<<OUTPUT
-//No feature declared.
-//
-//OUTPUT,
-//                'json' => <<<JSON
-//[]
-//
-//JSON,
-//                'csv' => <<<CSV
-//Manager,Name,Enabled,Description
-//
-//CSV,
-//            ],
-//        ],
+        'empty-features' => [
+            'features' => [],
+            'output' => [
+                'table' => <<<OUTPUT
+No feature declared.
+
+OUTPUT,
+                'json' => <<<JSON
+[]
+
+JSON,
+                'csv' => <<<CSV
+Manager,Name,Enabled,Description
+
+CSV,
+            ],
+        ],
         'with-features' => [
             'features' => [
                 'manager1' => [
@@ -167,15 +167,17 @@ OUTPUT, $commandTester->getDisplay());
         foreach ($managersDefinition as $managerName => $featuresDefinition) {
             $manager = $this->createMock(FeatureManager::class);
             $manager->expects($this->exactly(1))->method('getName')->willReturn($managerName);
-            $manager->expects($this->once())->method('all')->willReturn(array_map(function (array $feature) {
-                return new FeatureFlag(
-                    key: $feature['name'],
-                    enabled: $feature['enabled'] ?? true,
-                    expression: $feature['expression'] ?? null,
-                    description: $feature['description'] ?? ''
-                );
-            },
-            $featuresDefinition['options']['features']));
+            $manager->expects($this->once())->method('all')->willReturn(array_map(
+                function (array $feature) {
+                    return new FeatureFlag(
+                        key: $feature['name'],
+                        enabled: $feature['enabled'] ?? true,
+                        expression: $feature['expression'] ?? null,
+                        description: $feature['description'] ?? ''
+                    );
+                },
+                $featuresDefinition['options']['features']
+            ));
 
             $managers[] = $manager;
         }

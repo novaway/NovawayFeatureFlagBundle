@@ -2,6 +2,13 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the NovawayFeatureFlagBundle package.
+ * (c) Novaway <https://github.com/novaway/NovawayFeatureFlagBundle>
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Checker;
 
 use Novaway\Bundle\FeatureFlagBundle\Checker\ExpressionLanguageChecker;
@@ -15,7 +22,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
 
 final class ExpressionLanguageCheckerTest extends TestCase
 {
@@ -36,10 +42,34 @@ final class ExpressionLanguageCheckerTest extends TestCase
         $this->logger = $this->createMock(LoggerInterface::class);
     }
 
+    public function testShouldThrowExceptionBecauseExpressionLanguageIsNotSet()
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('The "symfony/security-bundle" library must be installed.');
+
+        $this->roleHierarchy->expects($this->never())->method('getReachableRoleNames')->with([]);
+
+        $this->tokenStorage->expects($this->never())->method('getToken');
+
+        $this->logger->expects($this->never())->method('info');
+
+        $this->expressionLanguage->expects($this->never())->method('evaluate');
+
+        $checker = new ExpressionLanguageChecker(
+            null,
+            $this->authenticationTrustResolver,
+            $this->roleHierarchy,
+            $this->tokenStorage,
+            $this->authorizationChecker,
+            $this->logger
+        );
+        $checker->isGranted('is_granted(\'ROLE_ADMIN\')');
+    }
+
     public function testShouldThrowExceptionBecauseTokenStorageIsNotSet()
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('The "symfony/security-bundle" library must be installed to use the "security" attribute.');
+        $this->expectExceptionMessage('The "symfony/security-bundle" library must be installed.');
 
         $this->roleHierarchy->expects($this->never())->method('getReachableRoleNames')->with([]);
 
@@ -63,7 +93,7 @@ final class ExpressionLanguageCheckerTest extends TestCase
     public function testShouldThrowExceptionBecauseAuthenticationTrustResolverIsNotSet()
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('The "symfony/security-bundle" library must be installed to use the "security" attribute.');
+        $this->expectExceptionMessage('The "symfony/security-bundle" library must be installed.');
 
         $this->roleHierarchy->expects($this->never())->method('getReachableRoleNames')->with([]);
 
@@ -72,7 +102,6 @@ final class ExpressionLanguageCheckerTest extends TestCase
         $this->logger->expects($this->never())->method('info');
 
         $this->expressionLanguage->expects($this->never())->method('evaluate');
-
 
         $checker = new ExpressionLanguageChecker(
             $this->expressionLanguage,
@@ -141,7 +170,6 @@ final class ExpressionLanguageCheckerTest extends TestCase
             })
         ;
 
-
         $checker = new ExpressionLanguageChecker(
             $this->expressionLanguage,
             $this->authenticationTrustResolver,
@@ -185,7 +213,6 @@ final class ExpressionLanguageCheckerTest extends TestCase
                 return 0;
             })
         ;
-
 
         $checker = new ExpressionLanguageChecker(
             $this->expressionLanguage,

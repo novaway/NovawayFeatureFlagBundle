@@ -12,10 +12,8 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Manager;
 
 use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
-use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use PHPUnit\Framework\TestCase;
 
 final class ChainedFeatureManagerTest extends TestCase
