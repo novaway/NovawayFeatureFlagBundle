@@ -133,6 +133,7 @@ final class ExpressionLanguageCheckerTest extends TestCase
                 $this->assertArrayHasKey('expression', $context);
                 $this->assertSame('is_granted(\'ROLE_ADMIN\')', $context['expression']);
                 $this->assertArrayHasKey('variable', $context);
+
                 $variables = $context['variable'];
                 $this->assertIsArray($variables);
                 $this->assertCount(5, $variables);
@@ -143,7 +144,7 @@ final class ExpressionLanguageCheckerTest extends TestCase
                 $this->assertArrayHasKey('token', $variables);
                 $this->assertInstanceOf(NullToken::class, $variables['token']);
                 $this->assertArrayHasKey('user', $variables);
-                $this->assertNull($variables['user']);
+                $this->assertEmpty($variables['user']);
                 $this->assertArrayHasKey('roles', $variables);
                 $this->assertSame([], $variables['roles']);
             })
@@ -162,7 +163,7 @@ final class ExpressionLanguageCheckerTest extends TestCase
                 $this->assertArrayHasKey('token', $variables);
                 $this->assertInstanceOf(NullToken::class, $variables['token']);
                 $this->assertArrayHasKey('user', $variables);
-                $this->assertNull($variables['user']);
+                $this->assertEmpty($variables['user']);
                 $this->assertArrayHasKey('roles', $variables);
                 $this->assertSame([], $variables['roles']);
 
@@ -206,7 +207,7 @@ final class ExpressionLanguageCheckerTest extends TestCase
                 $this->assertArrayHasKey('token', $variables);
                 $this->assertInstanceOf(NullToken::class, $variables['token']);
                 $this->assertArrayHasKey('user', $variables);
-                $this->assertNull($variables['user']);
+                $this->assertEmpty($variables['user']);
                 $this->assertArrayHasKey('roles', $variables);
                 $this->assertSame([], $variables['roles']);
 
