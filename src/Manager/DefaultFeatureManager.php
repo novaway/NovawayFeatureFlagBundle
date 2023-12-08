@@ -9,6 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Manager;
 
+use Novaway\Bundle\FeatureFlagBundle\Checker\ExpressionLanguageChecker;
 use Novaway\Bundle\FeatureFlagBundle\Model\Feature;
 use Novaway\Bundle\FeatureFlagBundle\Storage\FeatureUndefinedException;
 use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
@@ -18,6 +19,7 @@ class DefaultFeatureManager implements FeatureManager
     public function __construct(
         private readonly string $name,
         private readonly Storage $storage,
+        private readonly ExpressionLanguageChecker $expressionLanguageChecker,
     ) {
     }
 
@@ -37,7 +39,17 @@ class DefaultFeatureManager implements FeatureManager
     public function isEnabled(string $feature): bool
     {
         try {
-            return $this->storage->get($feature)->isEnabled();
+            $featureObject = $this->storage->get($feature);
+
+            if ($featureObject->isEnabled()) {
+                if (!empty($featureObject->getExpression())) {
+                    return $this->expressionLanguageChecker->isGranted($featureObject->getExpression());
+                }
+
+                return true;
+            }
+
+            return false;
         } catch (FeatureUndefinedException) {
             return false;
         }

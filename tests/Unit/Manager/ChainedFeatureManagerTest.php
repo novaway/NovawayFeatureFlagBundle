@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Manager;
 
 use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
-use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
+use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
+use Novaway\Bundle\FeatureFlagBundle\Model\FeatureFlag;
 use PHPUnit\Framework\TestCase;
 
 final class ChainedFeatureManagerTest extends TestCase
@@ -29,24 +29,39 @@ final class ChainedFeatureManagerTest extends TestCase
     ];
 
     private ChainedFeatureManager $manager;
-    private DefaultFeatureManager $managerFoo;
-    private DefaultFeatureManager $managerBar;
+    private FeatureManager $managerFoo;
+    private FeatureManager $managerBar;
 
     protected function setUp(): void
     {
-        $this->manager = new ChainedFeatureManager([
-            $this->managerFoo = new DefaultFeatureManager('foo', new ArrayStorage(self::FEATURES_MANAGER1)),
-            $this->managerBar = new DefaultFeatureManager('bar', new ArrayStorage(self::FEATURES_MANAGER2)),
-        ]);
+        $this->managerFoo = $this->createMock(FeatureManager::class);
+        $this->managerBar = $this->createMock(FeatureManager::class);
+
+        $this->manager = new ChainedFeatureManager(new \ArrayObject([$this->managerFoo, $this->managerBar]));
     }
 
     public function testAllFeaturesCanBeRetrievedFromAttachedStorage(): void
     {
-        static::assertEquals([$this->managerFoo, $this->managerBar], $this->manager->getManagers());
+        static::assertEquals([$this->managerFoo, $this->managerBar], (array) $this->manager->getManagers());
     }
 
     public function testGetAll(): void
     {
+        $this->managerFoo
+            ->expects($this->once())
+            ->method('all')
+            ->willReturn(array_map(function (array $data) {
+                return new FeatureFlag(key: $data['name'], enabled: $data['enabled']);
+            }, self::FEATURES_MANAGER1['features']))
+        ;
+        $this->managerBar
+            ->expects($this->once())
+            ->method('all')
+            ->willReturn(array_map(function (array $data) {
+                return new FeatureFlag(key: $data['name'], enabled: $data['enabled']);
+            }, self::FEATURES_MANAGER2['features']))
+        ;
+
         $features = [];
         foreach ($this->manager->all() as $featureName => $featureData) {
             $features[] = $featureName;
@@ -60,6 +75,25 @@ final class ChainedFeatureManagerTest extends TestCase
 
     public function testIsFeatureEnabled(): void
     {
+        $matcher = $this->exactly(3);
+        $this->managerFoo
+            ->expects($matcher)
+            ->method('isEnabled')
+            ->willReturnCallback(function (string $name) use ($matcher) {
+                match ($matcher->numberOfInvocations()) {
+                    1 => $this->assertSame('feature_1', $name),
+                    2 => $this->assertSame('feature_3', $name),
+                    3 => $this->assertSame('feature_2', $name),
+                };
+
+                return match ($matcher->numberOfInvocations()) {
+                    1, 2 => true,
+                    3 => false,
+                };
+            })
+        ;
+        $this->managerBar->expects($this->once())->method('isEnabled')->with('feature_2')->willReturn(false);
+
         static::assertTrue($this->manager->isEnabled('feature_1'));
         static::assertTrue($this->manager->isEnabled('feature_3'));
         static::assertFalse($this->manager->isEnabled('feature_2'));
@@ -67,9 +101,28 @@ final class ChainedFeatureManagerTest extends TestCase
 
     public function testIsFeatureDisabled(): void
     {
-        static::assertTrue($this->manager->isDisabled('feature_2'));
+        $matcher = $this->exactly(3);
+        $this->managerFoo
+            ->expects($matcher)
+            ->method('isEnabled')
+            ->willReturnCallback(function (string $name) use ($matcher) {
+                match ($matcher->numberOfInvocations()) {
+                    1 => $this->assertSame('feature_1', $name),
+                    2 => $this->assertSame('feature_3', $name),
+                    3 => $this->assertSame('feature_2', $name),
+                };
+
+                return match ($matcher->numberOfInvocations()) {
+                    1, 2 => true,
+                    3 => false,
+                };
+            })
+        ;
+        $this->managerBar->expects($this->once())->method('isEnabled')->with('feature_2')->willReturn(false);
+
         static::assertFalse($this->manager->isDisabled('feature_1'));
         static::assertFalse($this->manager->isDisabled('feature_3'));
+        static::assertTrue($this->manager->isDisabled('feature_2'));
     }
 
     public function testGetName(): void

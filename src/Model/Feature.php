@@ -26,6 +26,8 @@ interface Feature
      */
     public function isEnabled(): bool;
 
+    public function getExpression(): ?string;
+
     /**
      * @return array{key: string, enabled: bool, description: string}
      */

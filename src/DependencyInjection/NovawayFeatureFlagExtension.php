@@ -58,6 +58,7 @@ class NovawayFeatureFlagExtension extends Extension
                 ->register(sprintf('novaway_feature_flag.manager.%s', $name), DefaultFeatureManager::class)
                 ->addArgument($name)
                 ->addArgument(new Reference('novaway_feature_flag.storage.'.$name))
+                ->addArgument(new Reference('novaway_feature_flag.checker.expression_language'))
                 ->addTag('novaway_feature_flag.manager')
             ;
         }
