@@ -38,11 +38,11 @@ final class ArrayStorageTest extends TestCase
 
         static::assertCount(2, $features);
         static::assertEquals(
-            new FeatureFlag('foo', false),
+            new FeatureFlag(key: 'foo', enabled: false),
             $features['foo'],
         );
         static::assertEquals(
-            new FeatureFlag('bar', true, 'Feature bar description'),
+            new FeatureFlag('bar', true, description: 'Feature bar description'),
             $features['bar'],
         );
     }

@@ -41,10 +41,12 @@ final class ListFeatureCommand extends Command
     {
         $storagesFeatures = [];
         foreach ($this->manager->getManagers() as $manager) {
-            $storagesFeatures[$manager->getName()] = [];
+            $features = [];
             foreach ($manager->all() as $feature) {
-                $storagesFeatures[$manager->getName()][$feature->getKey()] = $feature->toArray();
+                $features[$feature->getKey()] = $feature->toArray();
             }
+
+            $storagesFeatures[$manager->getName()] = $features;
         }
 
         try {

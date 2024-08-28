@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Manager;
 
+use Novaway\Bundle\FeatureFlagBundle\Checker\ExpressionLanguageChecker;
 use Novaway\Bundle\FeatureFlagBundle\Manager\DefaultFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Storage\ArrayStorage;
 use Novaway\Bundle\FeatureFlagBundle\Storage\Storage;
@@ -22,32 +23,54 @@ final class DefaultFeatureManagerTest extends TestCase
         'features' => [
             'feature_1' => ['name' => 'feature_1', 'enabled' => true],
             'feature_2' => ['name' => 'feature_2', 'enabled' => false],
+            'feature_3' => ['name' => 'feature_3', 'enabled' => true, 'expression' => 'foo'],
         ],
     ];
 
-    private DefaultFeatureManager $manager;
     private Storage $storage;
+    private ExpressionLanguageChecker $expressionLanguageChecker;
 
     protected function setUp(): void
     {
         $this->storage = new ArrayStorage(self::FEATURES);
-        $this->manager = new DefaultFeatureManager('foo', $this->storage);
+        $this->expressionLanguageChecker = $this->createMock(ExpressionLanguageChecker::class);
     }
 
     public function testAllFeaturesCanBeRetrieved(): void
     {
-        static::assertEquals($this->storage->all(), $this->manager->all());
+        $this->expressionLanguageChecker->expects($this->never())->method('isGranted');
+
+        $manager = $this->getManager();
+
+        static::assertEquals($this->storage->all(), $manager->all());
     }
 
     public function testIsFeatureEnabled(): void
     {
-        static::assertTrue($this->manager->isEnabled('feature_1'));
-        static::assertFalse($this->manager->isEnabled('feature_2'));
+        $this->expressionLanguageChecker->expects($this->once())->method('isGranted')->with('foo')->willReturn(true);
+
+        $manager = $this->getManager();
+
+        static::assertSame('foo', $manager->getName());
+        static::assertTrue($manager->isEnabled('feature_1'));
+        static::assertFalse($manager->isEnabled('feature_2'));
+        static::assertTrue($manager->isEnabled('feature_3'));
     }
 
-    public function isFeatureDisabled(): void
+    public function testIsFeatureDisabled(): void
     {
-        static::assertTrue($this->manager->isDisabled('feature_2'));
-        static::assertFalse($this->manager->isDisabled('feature_1'));
+        $this->expressionLanguageChecker->expects($this->once())->method('isGranted')->with('foo')->willReturn(true);
+
+        $manager = $this->getManager();
+
+        static::assertSame('foo', $manager->getName());
+        static::assertFalse($manager->isDisabled('feature_1'));
+        static::assertTrue($manager->isDisabled('feature_2'));
+        static::assertFalse($manager->isDisabled('feature_3'));
+    }
+
+    private function getManager(): DefaultFeatureManager
+    {
+        return new DefaultFeatureManager('foo', $this->storage, $this->expressionLanguageChecker);
     }
 }
