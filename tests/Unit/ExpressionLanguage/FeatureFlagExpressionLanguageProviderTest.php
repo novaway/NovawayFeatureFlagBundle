@@ -28,7 +28,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
         $this->featureManager = $this->createMock(FeatureManager::class);
 
         $this->expressionLanguage = new class($this->featureManager) extends ExpressionLanguage {
-            public function __construct($featureManager, CacheItemPoolInterface $cache = null, array $providers = [])
+            public function __construct($featureManager, ?CacheItemPoolInterface $cache = null, array $providers = [])
             {
                 array_unshift($providers, new FeatureFlagExpressionLanguageProvider($featureManager));
 
