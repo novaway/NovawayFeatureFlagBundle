@@ -15,7 +15,7 @@ use Doctrine\Common\Annotations\Annotation\NamedArgumentConstructor;
  * @Annotation
  * @NamedArgumentConstructor()
  */
-#[\Attribute]
+#[\Attribute(\Attribute::TARGET_ALL | \Attribute::IS_REPEATABLE)]
 class Feature
 {
     /** @var string */

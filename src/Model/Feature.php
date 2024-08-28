@@ -26,7 +26,7 @@ class Feature implements FeatureInterface
     /**
      * Constructor
      */
-    public function __construct(string $key, bool $enabled, string $description = null)
+    public function __construct(string $key, bool $enabled, ?string $description = null)
     {
         $this->key = $key;
         $this->enabled = $enabled;

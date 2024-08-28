@@ -32,6 +32,15 @@ annotation_configuration_disabled:
     path:     /annotation/disabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::annotationFooDisabled }
 
+annotation_configuration_bar_enabled_foo_enabled:
+    path:     /annotation/bar/enabled/foo/enabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::annotationFooEnabledBarEnabled }
+
+annotation_configuration_bar_enabled_foo_disabled:
+    path:     /annotation/bar/enabled/foo/disabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::annotationFooEnabledBarDisabled }
+
+
 attribute_class_disabled:
     path:     /attribute/class/disabled
     defaults: { _controller:  Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\AttributeClassDisabledController }
@@ -43,3 +52,11 @@ attribute_configuration_enabled:
 attribute_configuration_disabled:
     path:     /attribute/disabled
     defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::attributeFooDisabled }
+
+attribute_configuration_bar_enabled_foo_enabled:
+    path:     /attribute/bar/enabled/foo/enabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::attributeFooEnabledBarEnabled }
+
+attribute_configuration_bar_enabled_foo_disabled:
+    path:     /attribute/bar/enabled/foo/disabled
+    defaults: { _controller: Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::attributeFooEnabledBarDisabled }

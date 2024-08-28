@@ -32,7 +32,7 @@ class FeatureCollector extends DataCollector
         $this->storage = $storage;
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $features = $this->storage->all();
         $activeFeatureCount = count(
