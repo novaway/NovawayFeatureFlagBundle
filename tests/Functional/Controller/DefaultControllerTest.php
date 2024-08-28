@@ -86,6 +86,30 @@ final class DefaultControllerTest extends WebTestCase
     /**
      * @requires PHP >= 8.0
      */
+    public function testTwoAnnotationsFooEnabledBarEnabledHasNoAccessBecauseFeatureFooIsEnabledButFeatureBarIsDisabled()
+    {
+        static::$client->request('GET', '/annotation/bar/enabled/foo/enabled');
+
+        static::assertSame(404, static::$client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
+    public function testTwoAnnotationsFooEnabledBarDisabledHasAccessBecauseFeatureFooIsEnabledAndFeatureBarIsDisabled()
+    {
+        $crawler = static::$client->request('GET', '/annotation/bar/enabled/foo/disabled');
+
+        static::assertSame(200, static::$client->getResponse()->getStatusCode());
+        static::assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("DefaultController::annotationFooEnabledBarDisabledAction")')->count(),
+        );
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
     public function testAttributeFooEnabledAction()
     {
         $crawler = static::$client->request('GET', '/attribute/enabled');
@@ -105,5 +129,29 @@ final class DefaultControllerTest extends WebTestCase
         static::$client->request('GET', '/attribute/disabled');
 
         static::assertSame(404, static::$client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
+    public function testTwoAttributesFooEnabledBarEnabledHasNoAccessBecauseFeatureFooIsEnabledButFeatureBarIsDisabled()
+    {
+        static::$client->request('GET', '/attribute/bar/enabled/foo/enabled');
+
+        static::assertSame(404, static::$client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @requires PHP >= 8.0
+     */
+    public function testTwoAttributesFooEnabledBarDisabledHasAccessBecauseFeatureFooIsEnabledAndFeatureBarIsDisabled()
+    {
+        $crawler = static::$client->request('GET', '/attribute/bar/enabled/foo/disabled');
+
+        static::assertSame(200, static::$client->getResponse()->getStatusCode());
+        static::assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("DefaultController::attributeFooEnabledBarDisabledAction")')->count(),
+        );
     }
 }

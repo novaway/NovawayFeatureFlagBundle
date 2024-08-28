@@ -62,6 +62,24 @@ class DefaultController extends AbstractController
         return new Response('DefaultController::annotationFooDisabledAction');
     }
 
+    /**
+     * @Feature("foo", enabled=true)
+     * @Feature("bar", enabled=true)
+     */
+    public function annotationFooEnabledBarEnabled()
+    {
+        return new Response('DefaultController::annotationFooEnabledBarEnabledAction');
+    }
+
+    /**
+     * @Feature("foo", enabled=true)
+     * @Feature("bar", enabled=false)
+     */
+    public function annotationFooEnabledBarDisabled()
+    {
+        return new Response('DefaultController::annotationFooEnabledBarDisabledAction');
+    }
+
     #[Feature(name: 'foo')]
     public function attributeFooEnabled()
     {
@@ -72,5 +90,19 @@ class DefaultController extends AbstractController
     public function attributeFooDisabled()
     {
         return new Response('DefaultController::attributeFooDisabledAction');
+    }
+
+    #[Feature(name: 'foo', enabled: true)]
+    #[Feature(name: 'bar', enabled: true)]
+    public function attributeFooEnabledBarEnabled()
+    {
+        return new Response('DefaultController::attributeFooEnabledBarEnabledAction');
+    }
+
+    #[Feature(name: 'foo', enabled: true)]
+    #[Feature(name: 'bar', enabled: false)]
+    public function attributeFooEnabledBarDisabled()
+    {
+        return new Response('DefaultController::attributeFooEnabledBarDisabledAction');
     }
 }
