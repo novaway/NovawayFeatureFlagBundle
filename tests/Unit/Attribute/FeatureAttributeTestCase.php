@@ -28,5 +28,5 @@ abstract class FeatureAttributeTestCase extends TestCase
         $this->createAttribute('foo', \stdClass::class);
     }
 
-    abstract protected function createAttribute(string $name, string $exceptionClass = null): FeatureAttribute;
+    abstract protected function createAttribute(string $name, ?string $exceptionClass = null): FeatureAttribute;
 }

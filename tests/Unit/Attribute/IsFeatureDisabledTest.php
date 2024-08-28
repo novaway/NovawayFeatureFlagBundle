@@ -28,7 +28,7 @@ final class IsFeatureDisabledTest extends FeatureAttributeTestCase
         ], $feature->toArray());
     }
 
-    protected function createAttribute(string $name, string $exceptionClass = null): FeatureAttribute
+    protected function createAttribute(string $name, ?string $exceptionClass = null): FeatureAttribute
     {
         return new IsFeatureDisabled($name, $exceptionClass);
     }

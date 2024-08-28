@@ -30,7 +30,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
         $chainedFeatureManager = new ChainedFeatureManager([$this->featureManager]);
 
         $this->expressionLanguage = new class($chainedFeatureManager) extends ExpressionLanguage {
-            public function __construct($featureManager, CacheItemPoolInterface $cache = null, array $providers = [])
+            public function __construct($featureManager, ?CacheItemPoolInterface $cache = null, array $providers = [])
             {
                 array_unshift($providers, new FeatureFlagExpressionLanguageProvider($featureManager));
 
