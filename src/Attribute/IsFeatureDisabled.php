@@ -11,7 +11,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Attribute;
 
 use Attribute;
 
-#[Attribute]
+#[Attribute(Attribute::TARGET_ALL | Attribute::IS_REPEATABLE)]
 final class IsFeatureDisabled extends FeatureAttribute
 {
     protected function shouldBeEnabled(): bool
