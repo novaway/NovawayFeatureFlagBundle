@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller;
 
-use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureDisabled;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\FeatureDisabled;
 use Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Exception\Http411ExceptionFactory;
 use Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Exception\Http423ExceptionFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,25 +24,25 @@ class CustomExceptionController extends AbstractController
         return new Response('OK');
     }
 
-    #[IsFeatureDisabled('foo', exceptionClass: BadRequestHttpException::class)]
+    #[FeatureDisabled('foo', exceptionClass: BadRequestHttpException::class)]
     public function disableWithCustomException(): Response
     {
         return new Response('OK');
     }
 
-    #[IsFeatureDisabled('foo', exceptionClass: ConflictHttpException::class)]
+    #[FeatureDisabled('foo', exceptionClass: ConflictHttpException::class)]
     public function enableWithCustomException(): Response
     {
         return new Response('OK');
     }
 
-    #[IsFeatureDisabled('foo', exceptionFactory: Http423ExceptionFactory::class)]
+    #[FeatureDisabled('foo', exceptionFactory: Http423ExceptionFactory::class)]
     public function disableWithCustomExceptionFactory(): Response
     {
         return new Response('OK');
     }
 
-    #[IsFeatureDisabled('foo', exceptionFactory: Http411ExceptionFactory::class)]
+    #[FeatureDisabled('foo', exceptionFactory: Http411ExceptionFactory::class)]
     public function enableWithCustomExceptionFactory(): Response
     {
         return new Response('OK');

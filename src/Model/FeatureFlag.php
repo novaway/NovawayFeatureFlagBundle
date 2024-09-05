@@ -17,7 +17,7 @@ final class FeatureFlag implements Feature
     public function __construct(
         private readonly string $key,
         private readonly bool $enabled,
-        private readonly string $description = ''
+        private readonly string $description = '',
     ) {
     }
 

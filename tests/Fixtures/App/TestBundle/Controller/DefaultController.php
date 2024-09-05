@@ -9,7 +9,7 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller;
 
-use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureDisabled;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\FeatureDisabled;
 use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureEnabled;
 use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,7 +48,7 @@ class DefaultController extends AbstractController
         return new Response('DefaultController::attributeRouteIsAccessibleIfFeatureIsEnabled');
     }
 
-    #[IsFeatureDisabled(name: 'foo')]
+    #[FeatureDisabled(name: 'foo')]
     public function attributeRouteIsAccessibleIfFeatureIsDisabled(): Response
     {
         return new Response('DefaultController::attributeRouteIsAccessibleIfFeatureIsDisabled');

@@ -11,11 +11,11 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller;
 
-use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureDisabled;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\FeatureDisabled;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-#[IsFeatureDisabled(name: 'foo')]
+#[FeatureDisabled(name: 'foo')]
 class AttributeClassDisabledController extends AbstractController
 {
     public function __invoke(): Response
