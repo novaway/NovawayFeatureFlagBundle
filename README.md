@@ -186,20 +186,20 @@ my_second_route:
 
 You can also restrict a controller access with attributes, two attributes are available:
 
-* `Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureEnabled`
-* `Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureDisabled`
+* `Novaway\Bundle\FeatureFlagBundle\Attribute\FeatureEnabled`
+* `Novaway\Bundle\FeatureFlagBundle\Attribute\FeatureDisabled`
 
 ```php
-#[IsFeatureEnabled(name: "foo")]
+#[FeatureEnabled(name: "foo")]
 class MyController extends Controller
 {
-    #[IsFeatureEnabled(name: "foo", exceptionClass: BadRequestHttpException::class)]
+    #[FeatureEnabled(name: "foo", exceptionClass: BadRequestHttpException::class)]
     public function annotationFooEnabledAction(): Response
     {
         return new Response('MyController::annotationFooEnabledAction');
     }
 
-    #[IsFeatureDisabled(name: "foo", exceptionFactory: MyExceptionFactory::class)]
+    #[FeatureDisabled(name: "foo", exceptionFactory: MyExceptionFactory::class)]
     public function annotationFooDisabledAction(): Response
     {
         return new Response('MyController::annotationFooDisabledAction');
