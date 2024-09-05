@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\Attribute;
 
 use Novaway\Bundle\FeatureFlagBundle\Attribute\FeatureAttribute;
-use Novaway\Bundle\FeatureFlagBundle\Attribute\IsFeatureEnabled;
+use Novaway\Bundle\FeatureFlagBundle\Attribute\FeatureEnabled;
 
 final class IsFeatureEnabledTest extends FeatureAttributeTestCase
 {
@@ -30,6 +30,6 @@ final class IsFeatureEnabledTest extends FeatureAttributeTestCase
 
     protected function createAttribute(string $name, ?string $exceptionClass = null): FeatureAttribute
     {
-        return new IsFeatureEnabled($name, $exceptionClass);
+        return new FeatureEnabled($name, $exceptionClass);
     }
 }
