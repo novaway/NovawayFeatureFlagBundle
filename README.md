@@ -1,8 +1,11 @@
 # FeatureFlagBundle
 
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fnovaway%2FNovawayFeatureFlagBundle%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/Novaway/NovawayFeatureFlagBundle/goto?ref=master)
-[![Latest Stable Version](https://poser.pugx.org/novaway/feature-flag-bundle/v/stable.png)](https://packagist.org/packages/novaway/feature-flag-bundle)
+[![Build Status](https://github.com/novaway/NovawayFeatureFlagBundle/actions/workflows/tests.yml/badge.svg)](https://actions-badge.atrox.dev/novaway/NovawayFeatureFlagBundle/goto?ref=master)
 ![Coverage](coverage_badge.svg)
+[![License](https://poser.pugx.org/novaway/feature-flag-bundle/license)](https://packagist.org/packages/novaway/feature-flag-bundle)
+[![Latest Stable Version](https://poser.pugx.org/novaway/feature-flag-bundle/v/stable)](https://packagist.org/packages/novaway/feature-flag-bundle)
+[![Latest Unstable Version](https://poser.pugx.org/novaway/feature-flag-bundle/v/unstable)](https://packagist.org/packages/novaway/feature-flag-bundle)
+[![Total Downloads](https://poser.pugx.org/novaway/feature-flag-bundle/downloads)](https://packagist.org/packages/novaway/feature-flag-bundle)
 
 The FeatureFlagBundle is a bundle to manage features flags in your Symfony applications.
 
