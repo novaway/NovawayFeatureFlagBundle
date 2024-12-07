@@ -21,7 +21,7 @@ services:
     novaway_feature_flag.listener.controller:
         class: Novaway\Bundle\FeatureFlagBundle\EventListener\ControllerListener
         arguments:
-            - "@annotation_reader"
+            - "@?annotation_reader"
         tags:
             - { name: kernel.event_subscriber }
 

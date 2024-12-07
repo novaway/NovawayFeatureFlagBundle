@@ -9,7 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace units\DependencyInjection;
+namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\DependencyInjection;
 
 use Novaway\Bundle\FeatureFlagBundle\DependencyInjection\NovawayFeatureFlagExtension;
 use Novaway\Bundle\FeatureFlagBundle\Tests\FixturePath;

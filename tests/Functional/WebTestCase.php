@@ -14,7 +14,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional;
 use Novaway\Bundle\FeatureFlagBundle\Tests\FixturePath;
 use Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\AppKernel;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container;
 
 abstract class WebTestCase extends BaseWebTestCase
 {
@@ -41,7 +41,7 @@ abstract class WebTestCase extends BaseWebTestCase
         }
     }
 
-    protected static function getContainer(): ContainerInterface
+    protected static function getContainer(): Container
     {
         if (method_exists(BaseWebTestCase::class, 'getContainer')) {
             return parent::getContainer();

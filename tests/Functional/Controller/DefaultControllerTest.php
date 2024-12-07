@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional\Controller;
 
 use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\WebTestCase;
+use Symfony\Component\HttpKernel\Kernel;
 
 final class DefaultControllerTest extends WebTestCase
 {
@@ -67,6 +68,10 @@ final class DefaultControllerTest extends WebTestCase
 
     public function testAnnotationFooEnabledAction()
     {
+        if (Kernel::MAJOR_VERSION >= 7) {
+            static::markTestSkipped('This test is not compatible with Symfony > 7');
+        }
+
         $crawler = static::$client->request('GET', '/annotation/enabled');
 
         static::assertSame(200, static::$client->getResponse()->getStatusCode());
@@ -78,6 +83,10 @@ final class DefaultControllerTest extends WebTestCase
 
     public function testAnnotationFooDisabledAction()
     {
+        if (Kernel::MAJOR_VERSION >= 7) {
+            static::markTestSkipped('This test is not compatible with Symfony > 7');
+        }
+
         static::$client->request('GET', '/annotation/disabled');
 
         static::assertSame(404, static::$client->getResponse()->getStatusCode());
@@ -88,6 +97,10 @@ final class DefaultControllerTest extends WebTestCase
      */
     public function testTwoAnnotationsFooEnabledBarEnabledHasNoAccessBecauseFeatureFooIsEnabledButFeatureBarIsDisabled()
     {
+        if (Kernel::MAJOR_VERSION >= 7) {
+            static::markTestSkipped('This test is not compatible with Symfony > 7');
+        }
+
         static::$client->request('GET', '/annotation/bar/enabled/foo/enabled');
 
         static::assertSame(404, static::$client->getResponse()->getStatusCode());
@@ -98,6 +111,10 @@ final class DefaultControllerTest extends WebTestCase
      */
     public function testTwoAnnotationsFooEnabledBarDisabledHasAccessBecauseFeatureFooIsEnabledAndFeatureBarIsDisabled()
     {
+        if (Kernel::MAJOR_VERSION >= 7) {
+            static::markTestSkipped('This test is not compatible with Symfony > 7');
+        }
+
         $crawler = static::$client->request('GET', '/annotation/bar/enabled/foo/disabled');
 
         static::assertSame(200, static::$client->getResponse()->getStatusCode());
