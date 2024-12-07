@@ -111,7 +111,7 @@ final class ListFeatureCommand extends Command
             throw new \RuntimeException('Unable to open temporary file');
         }
 
-        fputcsv($fp, $columns);
+        fputcsv($fp, $columns, ',', '"', '\\');
 
         rewind($fp);
         $data = fread($fp, 1048576); // 1MB

@@ -17,13 +17,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ControllerListener implements EventSubscriberInterface
 {
-    /** @var Reader */
+    /** @var Reader|null */
     private $annotationReader;
 
     /**
      * Constructor
      */
-    public function __construct(Reader $reader)
+    public function __construct(?Reader $reader = null)
     {
         $this->annotationReader = $reader;
     }
@@ -109,6 +109,10 @@ class ControllerListener implements EventSubscriberInterface
      */
     private function featuresFromAnnotations(\ReflectionClass $class, \ReflectionMethod $method): iterable
     {
+        if (null === $this->annotationReader) {
+            return [];
+        }
+
         foreach ($this->annotationReader->getClassAnnotations($class) as $annotation) {
             if (!$annotation instanceof Feature) {
                 continue;

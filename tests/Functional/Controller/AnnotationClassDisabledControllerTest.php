@@ -12,11 +12,16 @@ declare(strict_types=1);
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional\Controller;
 
 use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\WebTestCase;
+use Symfony\Component\HttpKernel\Kernel;
 
 final class AnnotationClassDisabledControllerTest extends WebTestCase
 {
     public function testAnnotationFooDisabledAction(): void
     {
+        if (Kernel::MAJOR_VERSION >= 7) {
+            static::markTestSkipped('This test is not compatible with Symfony > 7');
+        }
+
         static::$client->request('GET', '/annotation/class/disabled');
         $response = static::$client->getResponse();
 
