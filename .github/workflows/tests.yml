@@ -83,10 +83,14 @@ jobs:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
                   restore-keys: ${{ runner.os }}-composer-
-            - name: Install symfony version from matrix
+            - name: Install Symfony FrameworkBundle version from matrix
               env:
                   SYMFONY_VERSION: ${{ matrix.symfony-version }}
               run: composer require symfony/framework-bundle:$SYMFONY_VERSION --no-update
+            - name: Install symfony/yaml version from matrix (for bundle compatibility)
+              env:
+                  SYMFONY_VERSION: ${{ matrix.symfony-version }}
+              run: composer require symfony/yaml:$SYMFONY_VERSION --no-update
             - name: Install Dependencies
               run: composer update --prefer-dist --no-interaction --optimize-autoloader --no-progress $COMPOSER_FLAGS
               env:
