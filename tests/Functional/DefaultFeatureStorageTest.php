@@ -62,7 +62,10 @@ final class DefaultFeatureStorageTest extends WebTestCase
             [
                 'override' => new Feature('override', false),
                 'foo' => new Feature('foo', true),
-                'bar' => new Feature('bar', false, 'Bar feature description'),
+                'bar' => new Feature('bar', false, 'Bar feature description', [
+                    'foo' => 'bar',
+                    'tableau' => ['test' => 'zaza'],
+                ]),
                 'env_var' => new Feature('env_var', false),
             ],
             $features,

@@ -71,12 +71,13 @@ final class ListFeatureCommand extends Command
     private function renderTable(OutputInterface $output, array $features): void
     {
         $table = new Table($output);
-        $table->setHeaders(['Name', 'Enabled', 'Description']);
+        $table->setHeaders(['Name', 'Enabled', 'Description', 'Options']);
         foreach ($features as $feature) {
             $table->addRow([
                 $feature->getKey(),
                 $feature->isEnabled() ? 'Yes' : 'No',
                 $feature->getDescription(),
+                json_encode($feature->getOptions(), JSON_PRETTY_PRINT),
             ]);
         }
 
@@ -111,6 +112,9 @@ final class ListFeatureCommand extends Command
             throw new \RuntimeException('Unable to open temporary file');
         }
 
+        if (isset($columns['options'])) {
+            $columns['options'] = json_encode($columns['options']);
+        }
         fputcsv($fp, $columns, ',', '"', '\\');
 
         rewind($fp);

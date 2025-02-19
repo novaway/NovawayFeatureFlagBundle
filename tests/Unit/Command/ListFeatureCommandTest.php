@@ -23,9 +23,9 @@ final class ListFeatureCommandTest extends TestCase
             'features' => [],
             'output' => [
                 'table' => <<<OUTPUT
-+------+---------+-------------+
-| Name | Enabled | Description |
-+------+---------+-------------+
++------+---------+-------------+---------+
+| Name | Enabled | Description | Options |
++------+---------+-------------+---------+
 
 OUTPUT,
                 'json' => <<<JSON
@@ -43,25 +43,36 @@ CSV,
                 'feature1' => [
                     'enabled' => true,
                     'description' => 'Feature 1 description',
+                    'options' => [],
                 ],
                 'feature2' => [
                     'enabled' => false,
                     'description' => 'Feature 2 description',
+                    'options' => [],
                 ],
                 'feature3' => [
                     'enabled' => true,
                     'description' => 'Feature 3 description',
+                    'options' => [
+                        'foo' => 'bar',
+                        'farray' => ['fuu' => 'bor'],
+                    ],
                 ],
             ],
             'output' => [
                 'table' => <<<OUTPUT
-+----------+---------+-----------------------+
-| Name     | Enabled | Description           |
-+----------+---------+-----------------------+
-| feature1 | Yes     | Feature 1 description |
-| feature2 | No      | Feature 2 description |
-| feature3 | Yes     | Feature 3 description |
-+----------+---------+-----------------------+
++----------+---------+-----------------------+----------------------+
+| Name     | Enabled | Description           | Options              |
++----------+---------+-----------------------+----------------------+
+| feature1 | Yes     | Feature 1 description | []                   |
+| feature2 | No      | Feature 2 description | []                   |
+| feature3 | Yes     | Feature 3 description | {                    |
+|          |         |                       |     "foo": "bar",    |
+|          |         |                       |     "farray": {      |
+|          |         |                       |         "fuu": "bor" |
+|          |         |                       |     }                |
+|          |         |                       | }                    |
++----------+---------+-----------------------+----------------------+
 
 OUTPUT,
                 'json' => <<<JSON
@@ -69,26 +80,34 @@ OUTPUT,
     "feature1": {
         "key": "feature1",
         "enabled": true,
-        "description": "Feature 1 description"
+        "description": "Feature 1 description",
+        "options": []
     },
     "feature2": {
         "key": "feature2",
         "enabled": false,
-        "description": "Feature 2 description"
+        "description": "Feature 2 description",
+        "options": []
     },
     "feature3": {
         "key": "feature3",
         "enabled": true,
-        "description": "Feature 3 description"
+        "description": "Feature 3 description",
+        "options": {
+            "foo": "bar",
+            "farray": {
+                "fuu": "bor"
+            }
+        }
     }
 }
 
 JSON,
                 'csv' => <<<CSV
 Name,Enabled,Description
-feature1,1,"Feature 1 description"
-feature2,,"Feature 2 description"
-feature3,1,"Feature 3 description"
+feature1,1,"Feature 1 description",[]
+feature2,,"Feature 2 description",[]
+feature3,1,"Feature 3 description","{""foo"":""bar"",""farray"":{""fuu"":""bor""}}"
 
 CSV,
             ],
