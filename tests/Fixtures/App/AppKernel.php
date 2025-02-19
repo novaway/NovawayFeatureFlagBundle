@@ -54,6 +54,10 @@ class AppKernel extends Kernel
                     'bar' => [
                         'enabled' => false,
                         'description' => 'Bar feature description',
+                        'options' => [
+                            'foo' => 'bar',
+                            'tableau' => ['test' => 'zaza'],
+                        ],
                     ],
                     'env_var' => '%env(bool:FEATURE_ENVVAR)%',
                 ],

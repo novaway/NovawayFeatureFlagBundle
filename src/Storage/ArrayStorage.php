@@ -20,7 +20,7 @@ class ArrayStorage extends AbstractStorage
     /**
      * Constructor
      *
-     * @param array<string, array{enabled: bool, description: ?string}> $features
+     * @param array<string, array{enabled: bool, description: ?string, options: ?array<mixed>} > $features
      */
     public function __construct(array $features = [])
     {
@@ -28,7 +28,7 @@ class ArrayStorage extends AbstractStorage
 
         $this->features = [];
         foreach ($features as $key => $feature) {
-            $this->features[$key] = new Feature($key, $feature['enabled'], $feature['description'] ?? '');
+            $this->features[$key] = new Feature($key, $feature['enabled'], $feature['description'] ?? '', $feature['options'] ?? []);
         }
     }
 

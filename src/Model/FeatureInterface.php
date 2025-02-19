@@ -9,6 +9,9 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Model;
 
+/**
+ * @method array getOptions()
+ */
 interface FeatureInterface
 {
     /**

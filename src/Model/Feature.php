@@ -23,14 +23,18 @@ class Feature implements FeatureInterface
     /** @var bool */
     private $enabled;
 
+    /** @var array */
+    private $options;
+
     /**
      * Constructor
      */
-    public function __construct(string $key, bool $enabled, ?string $description = null)
+    public function __construct(string $key, bool $enabled, ?string $description = null, array $options = [])
     {
         $this->key = $key;
         $this->enabled = $enabled;
         $this->description = $description ?? '';
+        $this->options = $options;
     }
 
     public function getKey(): string
@@ -54,6 +58,12 @@ class Feature implements FeatureInterface
             'key' => $this->key,
             'enabled' => $this->enabled,
             'description' => $this->description,
+            'options' => $this->options,
         ];
+    }
+
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 }
