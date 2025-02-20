@@ -33,7 +33,7 @@ OUTPUT,
 
 JSON,
                 'csv' => <<<CSV
-Name,Enabled,Description
+Name,Enabled,Description,Options
 
 CSV,
             ],
@@ -104,7 +104,7 @@ OUTPUT,
 
 JSON,
                 'csv' => <<<CSV
-Name,Enabled,Description
+Name,Enabled,Description,Options
 feature1,1,"Feature 1 description",[]
 feature2,,"Feature 2 description",[]
 feature3,1,"Feature 3 description","{""foo"":""bar"",""farray"":{""fuu"":""bor""}}"
