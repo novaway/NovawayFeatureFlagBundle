@@ -98,7 +98,7 @@ final class ListFeatureCommand extends Command
 
     private function renderCsv(OutputInterface $output, array $features): void
     {
-        $output->writeln($this->getCsvLine(['Name', 'Enabled', 'Description']));
+        $output->writeln($this->getCsvLine(['Name', 'Enabled', 'Description', 'Options']));
 
         foreach ($features as $feature) {
             $output->writeln($this->getCsvLine($feature->toArray()));
