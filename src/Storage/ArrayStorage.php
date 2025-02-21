@@ -18,9 +18,10 @@ class ArrayStorage implements Storage
 
     public function __construct(array $options = [])
     {
-        $this->features = array_map(function (array $feature) {
-            return new FeatureFlag($feature['name'], $feature['enabled'], $feature['description'] ?? '');
-        }, $options['features']);
+        $this->features = array_map(
+            static fn (array $feature) => new FeatureFlag($feature['name'], $feature['enabled'], $feature['description'] ?? '', $feature['options'] ?? []),
+            $options['features'],
+        );
     }
 
     public function all(): array

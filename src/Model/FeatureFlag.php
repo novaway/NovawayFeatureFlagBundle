@@ -14,10 +14,14 @@ namespace Novaway\Bundle\FeatureFlagBundle\Model;
  */
 final class FeatureFlag implements Feature
 {
+    /**
+     * @param array<mixed> $options
+     */
     public function __construct(
         private readonly string $key,
         private readonly bool $enabled,
         private readonly string $description = '',
+        private readonly array $options = [],
     ) {
     }
 
@@ -36,12 +40,21 @@ final class FeatureFlag implements Feature
         return $this->enabled;
     }
 
+    /**
+     * @return array<mixed>
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
     public function toArray(): array
     {
         return [
             'key' => $this->key,
             'enabled' => $this->enabled,
             'description' => $this->description,
+            'options' => $this->options,
         ];
     }
 }

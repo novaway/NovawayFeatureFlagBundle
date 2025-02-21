@@ -18,12 +18,25 @@ final class FeatureFlagTest extends TestCase
 {
     public function testToArrayResult(): void
     {
-        $feature = new FeatureFlag('foo', true, 'bar');
+        $feature = new FeatureFlag('foo', true, 'bar', [
+            'foo' => 'bar',
+            'parray' => [
+                'key1' => 'value1',
+                'key2' => 'value2',
+            ],
+        ]);
 
         static::assertSame([
             'key' => 'foo',
             'enabled' => true,
             'description' => 'bar',
+            'options' => [
+                'foo' => 'bar',
+                'parray' => [
+                    'key1' => 'value1',
+                    'key2' => 'value2',
+                ],
+            ],
         ], $feature->toArray());
     }
 }

@@ -82,6 +82,7 @@ final class ListFeatureCommand extends Command
                     $feature['key'],
                     $feature['enabled'] ? 'Yes' : 'No',
                     $feature['description'],
+                    json_encode($feature['options'], JSON_PRETTY_PRINT),
                 ]);
             }
 
@@ -98,7 +99,7 @@ final class ListFeatureCommand extends Command
 
     private function renderCsv(OutputInterface $output, array $storagesFeatures): void
     {
-        $output->writeln($this->getCsvLine(['Manager', 'Name', 'Enabled', 'Description']));
+        $output->writeln($this->getCsvLine(['Manager', 'Name', 'Enabled', 'Description', 'Options']));
 
         foreach ($storagesFeatures as $storage => $features) {
             foreach ($features as $feature) {
@@ -109,6 +110,10 @@ final class ListFeatureCommand extends Command
 
     private function getCsvLine(array $columns): string
     {
+        if (isset($columns['options'])) {
+            $columns['options'] = json_encode($columns['options'], JSON_PRETTY_PRINT);
+        }
+
         $fp = fopen('php://temp', 'w+') ?: throw new \RuntimeException('Unable to open temporary file');
         fputcsv($fp, $columns);
 
