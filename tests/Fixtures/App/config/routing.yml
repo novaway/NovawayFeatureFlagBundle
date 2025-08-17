@@ -1,3 +1,7 @@
+feature_api:
+    resource: '@NovawayFeatureFlagBundle/Resources/config/routing.yml'
+    prefix: /api
+
 features:
     path:         /features
     defaults:     { _controller: 'Novaway\Bundle\FeatureFlagBundle\Tests\Fixtures\App\TestBundle\Controller\DefaultController::features' }
