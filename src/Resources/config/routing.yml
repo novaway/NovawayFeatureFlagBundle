@@ -1,0 +1,13 @@
+novaway_feature_flag_api_all:
+    path: /features
+    defaults:
+        _controller: Novaway\Bundle\FeatureFlagBundle\Controller\FeatureApiController::all
+    methods: [GET]
+
+novaway_feature_flag_api_get:
+    path: /features/{key}
+    defaults:
+        _controller: Novaway\Bundle\FeatureFlagBundle\Controller\FeatureApiController::get
+    requirements:
+        key: '[a-zA-Z0-9_\-]+'
+    methods: [GET]

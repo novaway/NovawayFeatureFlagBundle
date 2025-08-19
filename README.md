@@ -186,6 +186,40 @@ class MyController extends Controller
 }
 ```
 
+### API Controller
+
+The bundle provides an API controller that exposes feature flags via REST endpoints:
+
+- `GET /features` - Get all feature flags
+- `GET /features/{key}` - Get a specific feature flag by key
+
+To enable the API controller, you need to register its routes in your routing configuration:
+
+```yaml
+# config/routes.yaml (or app/config/routing.yml for older Symfony versions)
+feature_api:
+    resource: '@NovawayFeatureFlagBundle/Resources/config/routing.yml'
+```
+
+You can also register endpoints manually:
+
+```yaml
+features_all:
+    path: /features
+    defaults:
+        _controller: Novaway\Bundle\FeatureFlagBundle\Controller\FeatureApiController::all
+    methods: [GET]
+
+feature_get:
+    path: /features/{key}
+    defaults:
+        _controller: Novaway\Bundle\FeatureFlagBundle\Controller\FeatureApiController::get
+    requirements:
+        key: '[a-zA-Z0-9_\-]+'
+    methods: [GET]
+```
+The API returns JSON responses with feature flag data including key, description, and enabled status.
+
 ### Implement your own storage provider
 
 1. First your need to create your storage provider class which implement the `Novaway\Bundle\FeatureFlagBundle\Storage\StorageInterface` interface
