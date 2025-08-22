@@ -62,12 +62,10 @@ jobs:
             matrix:
                 php: ['8.1', '8.2', '8.3', '8.4']
                 flags: ['--prefer-lowest', '--prefer-stable']
-                symfony-version: ['5.4.*', '6.3.*', '6.4.*']
+                symfony-version: ['5.4.*', '6.4.*']
                 include:
                     - php: '8.2'
-                      symfony-version: '7.1.*'
-                    - php: '8.2'
-                      symfony-version: '7.2.*'
+                      symfony-version: '7.3.*'
             fail-fast: false
         steps:
             - name: Checkout
