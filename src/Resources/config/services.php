@@ -9,6 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+use Novaway\Bundle\FeatureFlagBundle\Controller\FeatureApiController;
 use Novaway\Bundle\FeatureFlagBundle\EventListener\ControllerListener;
 use Novaway\Bundle\FeatureFlagBundle\EventListener\FeatureListener;
 use Novaway\Bundle\FeatureFlagBundle\Factory\ArrayStorageFactory;
@@ -17,6 +18,7 @@ use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -38,4 +40,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->set(FeatureListener::class)
         ->autowire()
         ->tag('kernel.event_subscriber');
+
+    $services->set(FeatureApiController::class)
+        ->args([service(ChainedFeatureManager::class)])
+        ->tag('controller.service_arguments');
 };
