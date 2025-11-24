@@ -17,6 +17,7 @@ return (new PhpCsFixer\Config())
         'phpdoc_summary' => false,
     ])
     ->setUsingCache(true)
+    ->setUnsupportedPhpVersionAllowed(true)
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in(__DIR__)
