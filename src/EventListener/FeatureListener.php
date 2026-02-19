@@ -11,7 +11,7 @@ namespace Novaway\Bundle\FeatureFlagBundle\EventListener;
 
 use Novaway\Bundle\FeatureFlagBundle\Factory\ExceptionFactory;
 use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
-use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireLocator;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -25,7 +25,7 @@ class FeatureListener implements EventSubscriberInterface
      */
     public function __construct(
         private readonly ChainedFeatureManager $manager,
-        #[TaggedLocator(ExceptionFactory::class)]
+        #[AutowireLocator(ExceptionFactory::class)]
         private readonly ServiceLocator $factories,
     ) {
     }
