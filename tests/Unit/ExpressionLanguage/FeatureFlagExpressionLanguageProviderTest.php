@@ -12,21 +12,20 @@ namespace Novaway\Bundle\FeatureFlagBundle\Tests\Unit\ExpressionLanguage;
 use Novaway\Bundle\FeatureFlagBundle\ExpressionLanguage\FeatureFlagExpressionLanguageProvider;
 use Novaway\Bundle\FeatureFlagBundle\Manager\ChainedFeatureManager;
 use Novaway\Bundle\FeatureFlagBundle\Manager\FeatureManager;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 final class FeatureFlagExpressionLanguageProviderTest extends TestCase
 {
-    /** @var ExpressionLanguage */
-    private $expressionLanguage;
-    /** @var FeatureManager&MockObject */
-    private $featureManager;
+    private ExpressionLanguage $expressionLanguage;
+    private FeatureManager&Stub $featureManager;
 
     protected function setUp(): void
     {
-        $this->featureManager = $this->createMock(FeatureManager::class);
+        $this->featureManager = $this->createStub(FeatureManager::class);
         $chainedFeatureManager = new ChainedFeatureManager([$this->featureManager]);
 
         $this->expressionLanguage = new class($chainedFeatureManager) extends ExpressionLanguage {
@@ -39,9 +38,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
         };
     }
 
-    /**
-     * @dataProvider isFeatureEnabled
-     */
+    #[DataProvider('isFeatureEnabled')]
     public function testIsFeatureEnabledFunctionForwardCallToManager(string $featureName, bool $expectedValue): void
     {
         $this->setupFeatureValue($featureName, $expectedValue);
@@ -49,9 +46,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
         static::assertSame($expectedValue, $this->expressionLanguage->evaluate('is_feature_enabled("'.$featureName.'")'));
     }
 
-    /**
-     * @dataProvider isFeatureDisabled
-     */
+    #[DataProvider('isFeatureDisabled')]
     public function testIsFeatureDisabledFunctionForwardCallToManager(string $featureName, bool $expectedValue): void
     {
         $this->setupFeatureValue($featureName, !$expectedValue);
@@ -77,7 +72,7 @@ final class FeatureFlagExpressionLanguageProviderTest extends TestCase
 
     private function setupFeatureValue(string $featureName, bool $isEnabled): void
     {
-        $this->featureManager->method('isEnabled')->with($featureName)->willReturn($isEnabled);
-        $this->featureManager->method('isDisabled')->with($featureName)->willReturn(!$isEnabled);
+        $this->featureManager->method('isEnabled')->willReturnCallback(fn (string $feature): bool => $feature === $featureName && $isEnabled);
+        $this->featureManager->method('isDisabled')->willReturnCallback(fn (string $feature): bool => $feature !== $featureName || !$isEnabled);
     }
 }
