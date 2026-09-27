@@ -11,12 +11,15 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional\Command;
 
+use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\RestoreExceptionHandlerTrait;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Command\Command;
 
 final class ListFeatureCommandTest extends KernelTestCase
 {
+    use RestoreExceptionHandlerTrait;
+
     public function testCommandIsAvailable(): void
     {
         $application = new Application(static::bootKernel());

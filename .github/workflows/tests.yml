@@ -10,13 +10,13 @@ jobs:
         - name: Setup PHP
           uses: shivammathur/setup-php@v2
           with:
-            php-version: 8.4
+            php-version: 8.5
             coverage: xdebug
         - name: Get Composer Cache Directory
           id: composer-cache
-          run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+          run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
         - name: Cache dependencies
-          uses: actions/cache@v3
+          uses: actions/cache@v4
           with:
             path: ${{ steps.composer-cache.outputs.dir }}
             key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -37,13 +37,13 @@ jobs:
             - name: Setup PHP
               uses: shivammathur/setup-php@v2
               with:
-                php-version: 8.4
+                php-version: 8.5
                 coverage: xdebug
             - name: Get Composer Cache Directory
               id: composer-cache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
             - name: Cache dependencies
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                 path: ${{ steps.composer-cache.outputs.dir }}
                 key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -60,14 +60,14 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php: ['8.1', '8.2', '8.3', '8.4']
+                php: ['8.3', '8.4', '8.5']
                 flags: ['--prefer-lowest', '--prefer-stable']
-                symfony-version: ['5.4.*', '6.4.*']
+                symfony-version: ['6.4.*']
                 include:
-                    - php: '8.2'
-                      symfony-version: '7.3.*'
+                    - php: '8.3'
+                      symfony-version: '7.4.*'
                     - php: '8.5'
-                      symfony-version: '7.3.*'
+                      symfony-version: '7.4.*'
             fail-fast: false
         steps:
             - name: Checkout
@@ -79,9 +79,9 @@ jobs:
                   coverage: xdebug
             - name: Get Composer Cache Directory
               id: composer-cache
-              run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+              run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
             - name: Cache dependencies
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: ${{ steps.composer-cache.outputs.dir }}
                   key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}

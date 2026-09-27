@@ -15,6 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class TwigTest extends WebTestCase
 {
+    use RestoreExceptionHandlerTrait;
+
     public function testTwigRenderWithFeatureEnable(): void
     {
         $content = $this->twigRender('index.html.twig');

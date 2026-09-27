@@ -11,10 +11,13 @@ declare(strict_types=1);
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional\Controller;
 
+use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\RestoreExceptionHandlerTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class AttributeClassDisabledControllerTest extends WebTestCase
 {
+    use RestoreExceptionHandlerTrait;
+
     public function testAttributeFooDisabledAction(): void
     {
         $client = static::createClient();

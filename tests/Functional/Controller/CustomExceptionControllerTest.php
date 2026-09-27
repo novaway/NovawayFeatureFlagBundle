@@ -9,10 +9,13 @@
 
 namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional\Controller;
 
+use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\RestoreExceptionHandlerTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class CustomExceptionControllerTest extends WebTestCase
 {
+    use RestoreExceptionHandlerTrait;
+
     public function testFoo(): void
     {
         $client = static::createClient();

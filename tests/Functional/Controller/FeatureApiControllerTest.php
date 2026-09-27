@@ -9,12 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Functional\Controller;
+namespace Novaway\Bundle\FeatureFlagBundle\Tests\Functional\Controller;
 
+use Novaway\Bundle\FeatureFlagBundle\Tests\Functional\RestoreExceptionHandlerTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class FeatureApiControllerTest extends WebTestCase
+final class FeatureApiControllerTest extends WebTestCase
 {
+    use RestoreExceptionHandlerTrait;
+
     public function testApiGetAllFeatures(): void
     {
         $client = static::createClient();

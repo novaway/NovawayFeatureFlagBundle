@@ -50,7 +50,7 @@ final class FeatureFlagExtensionTest extends TestCase
 
     private function createChainedFeatureManager(): ChainedFeatureManager
     {
-        $featureManager = $this->createMock(FeatureManager::class);
+        $featureManager = $this->createStub(FeatureManager::class);
         $featureManager->method('isEnabled')->willReturnCallback(fn (string $feature): bool => 'foo' === $feature);
         $featureManager->method('isDisabled')->willReturnCallback(fn (string $feature): bool => 'foo' !== $feature);
 

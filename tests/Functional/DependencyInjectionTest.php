@@ -16,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class DependencyInjectionTest extends WebTestCase
 {
+    use RestoreExceptionHandlerTrait;
+
     public function testFeatureManagerServiceExists(): void
     {
         static::assertInstanceOf(FeatureManager::class, static::getContainer()->get(FeatureManager::class));
